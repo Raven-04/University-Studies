@@ -1,0 +1,61 @@
+===================================== Excerise #1 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+int main() { 
+ double grade_1 = 5.5, 
+  grade_2 = 8.4, 
+  grade_3 = 6.3, 
+  grade_4 = 10, 
+  grade_5 = 9.5, 
+  sum = 0, 
+  num_of_quizzes = 5; 
+ 
+ cout << "Enter your 5 lab grades (each out of 10): " << endl; 
+ cin >> grade_1 >> grade_2 >> grade_3 >> grade_4 >> grade_5; 
+ sum = sum + grade_1 + grade_2 + grade_3 + grade_4 + grade_5; 
+ cout << "Your average lab grade is " << (double)sum / num_of_quizzes << " out 
+of 10."; 
+ 
+ return 0; 
+}
+
+===================================== Excerise #2 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+int main() { 
+ double height, weight, BMI; 
+ 
+ cout << "Enter your height in in (inches): "; 
+ cin >> height; 
+ cout << "Enter your weight in lb (pounds): "; 
+ cin >> weight; 
+ BMI = (weight * 703) / (height * height); 
+ cout << "Your BMI is " << BMI << endl; 
+ 
+ return 0; 
+} 
+ 
+// In order to solve the problem, we had to convert Kg to lb and cm to in. 
+// The equation slightly changes as well, instead of being BMI = w/h^2, it became BMI 
+= w/h^2 x 703. 
+//weight = 62 kg --> 136.6 lb 
+//height = 160 cm --> 62.9 in 
+
+===================================== Excerise #3 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+int main() { 
+ int length, width, area, perimeter; 
+ cout << "Input the length of the rectangle: "; 
+ cin >> length; 
+ cout << "Input the width of the rectangle: "; 
+ cin >> width; 
+ area = width * length; 
+ cout << "The area of the rectangle is: " << area << endl; 
+ perimeter = 2 * (length + width); 
+ cout << "The perimeter of the rectangle is: " << perimeter << endl; 
+ return 0; 
+}
