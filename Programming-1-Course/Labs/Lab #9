@@ -1,0 +1,128 @@
+========================================= Excerise #1 =========================================
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	const int rowsize = 2;
+	const int colsize = 5;
+
+	int loompa[rowsize][colsize];
+	int wonka[colsize][rowsize];
+
+	for (int i = 0; i < rowsize; i++) {
+		cout << "Enter the number of chocolate bars produced in week " << i+1 << endl;
+		for (int j = 0; j < colsize; j++) {
+			cin >> loompa[i][j];
+			wonka[j][i] = loompa[i][j];
+		}
+	}
+	
+	cout << endl;
+
+	cout << "Generating normal report..." << endl;
+
+	for (int i = 0; i < rowsize; i++)
+	{
+		for (int k = 0; k < colsize; k++)
+		{
+			cout << "week " << i + 1 << " day " << k+1 << " = " << loompa[i][k] << " | ";
+		}
+		cout << endl;
+	}
+
+	cout << endl;
+
+	cout << "Generating report for Mr. Wonka..." << endl;
+
+	for (int i = 0; i < colsize; i++)
+	{
+		for (int k = 0; k < rowsize; k++)
+		{
+			cout << "day " << i + 1 << " week " << k + 1 << " = " << wonka[i][k] << " | ";
+		}
+		cout << endl;
+	}
+
+	cout << endl;
+
+	return 0;
+}
+
+========================================= Excerise #2 =========================================
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+const int colSIZE = 4;
+
+void inputData(int data[][colSIZE], int rowSIZE);
+void printData(int data[][colSIZE], int rowSIZE);
+void diagonalData(int data[][colSIZE], int diagonal[][colSIZE], int rowSIZE);
+void reverseDiagonal(int data[][colSIZE], int reverse[][colSIZE], int rowSIZE);
+
+int main() {
+    const int rowSIZE = 4;
+    int data[rowSIZE][colSIZE], diagonal[rowSIZE][colSIZE], reverse[rowSIZE][colSIZE];
+
+    inputData(data, rowSIZE);
+    diagonalData(data, diagonal, rowSIZE);
+    reverseDiagonal(data, reverse, rowSIZE);
+
+    cout << "Data: \n";     printData(data, rowSIZE); cout << endl;
+    cout << "Diagonal: \n"; printData(diagonal, rowSIZE); cout << endl;
+    cout << "Reverse: \n";  printData(reverse, rowSIZE); cout << endl;
+
+    cout << endl;
+    return 0;
+}
+
+void inputData(int data[][colSIZE], int rowSIZE)
+{
+    cout << "Enter integer values:" << endl;
+    for (int i = 0; i < rowSIZE; i++)
+    {
+        for (int j = 0; j < colSIZE; j++)
+        {
+            cout << " [" << i << "]" << "[" << j << "]: ";
+            cin >> data[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void printData(int data[][colSIZE], int rowSIZE)
+{
+    for (int i = 0; i < rowSIZE; i++)
+    {
+        for (int j = 0; j < colSIZE; j++)
+        {
+            cout << "  " << data[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+void diagonalData(int data[][colSIZE], int diagonal[][colSIZE], int rowSIZE)
+{
+    for (int i = 0; i < rowSIZE; i++)
+    {
+        for (int j = 0; j < colSIZE; j++)
+        {
+            diagonal[i][j] = data[j][i];
+        }
+    }
+}
+
+void reverseDiagonal(int data[][colSIZE], int reverse[][colSIZE], int rowSIZE)
+{
+    for (int i = 0; i < rowSIZE; i++)
+    {
+        for (int j = 0; j < colSIZE; j++)
+        {
+            reverse[i][j] = data[rowSIZE - j - 1][colSIZE - i - 1];
+        }
+    }
+}
