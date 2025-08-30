@@ -1,0 +1,172 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+class TicTacToe
+{
+private:
+	int N;
+	char** Board;
+
+public:
+	TicTacToe();
+	TicTacToe(int _N);
+
+	~TicTacToe(); // Destructor
+	TicTacToe(const TicTacToe& other); // Copy Constructor
+
+	TicTacToe operator=(const TicTacToe& arr);
+
+	friend ostream& operator<<(ostream& outs, const TicTacToe& other);
+	friend istream& operator>>(istream& ins, TicTacToe& other);
+};
+
+TicTacToe::TicTacToe()
+{
+	cout << "Called the default constructor" << endl;
+	N = 3;
+	Board = new char* [3];
+
+	for (int i = 0; i < 3; i++)
+	{
+		Board[i] = new char[3];
+		for (int j = 0; j < 3; j++)
+		{
+			Board[i][j] = '.';
+		}
+	}
+}
+
+TicTacToe::TicTacToe(int _N)
+{
+	cout << "Called the parametrized constructor" << endl;
+	N = _N;
+
+	Board = new char* [N];
+
+	for (int i = 0; i < N; i++)
+	{
+		Board[i] = new char[N];
+		for (int j = 0; j < N; j++)
+		{
+			Board[i][j] = '.';
+		}
+	}
+}
+
+TicTacToe::~TicTacToe()
+{
+	for (int i = 0; i < N; i++)
+	{
+		delete[] Board[i];
+	}
+	
+	delete[] Board;
+	cout << "Called the destructor" << endl;
+}
+
+TicTacToe::TicTacToe(const TicTacToe& other)
+{
+	cout << "Called the copy constructor" << endl;
+	N = other.N;
+
+	Board = new char* [N];
+
+	for (int i = 0; i < N; i++)
+	{
+		Board[i] = new char[N];
+		for (int j = 0; j < N; j++)
+		{
+			Board[i][j] = other.Board[i][j];
+		}
+	}
+}
+
+TicTacToe TicTacToe::operator=(const TicTacToe& rhs)
+{
+	cout << "Called the assignment operator" << endl;
+	
+	if (N != rhs.N) {
+		for (int i = 0; i < N; i++)
+		{
+			delete[] Board[i];
+		}
+		delete[] Board;
+
+		N = rhs.N;
+		Board = new char* [N];
+		for (int i = 0; i < N; i++)
+		{
+			Board[i] = new char[N];
+		}
+	}
+
+	for (int i = 0; i < rhs.N; i++)
+	{
+		for (int j = 0; j < rhs.N; j++)
+		{
+			Board[i][j] = rhs.Board[i][j];
+		}
+	}
+
+	return rhs;
+}
+
+//==========================================================
+/*Friend Function*/
+
+ostream& operator<<(ostream& outs, const TicTacToe& other)
+{
+	for (int i = 0; i < other.N; i++)
+	{
+		for (int j = 0; j < other.N; j++)
+		{
+			outs << "| " << other.Board[i][j] << " |";
+		}
+		cout << endl;
+	}
+
+	return outs;
+}
+
+istream& operator>>(istream& ins, TicTacToe& rhs)
+{
+	int x, y;
+	char c;
+
+	ins >> x >> y >> c;
+
+	rhs.Board[x][y] = c;
+
+	return ins;
+}
+
+//==========================================================
+
+int main() {
+	cout << "Creating a default board t1" << endl;
+	TicTacToe t1;
+	cout << t1 << endl;
+	cout << "Creating a custom board t2\nEnter the size: ";
+	int size;
+	cin >> size;
+	TicTacToe t2(size);
+	cout << t2 << endl;
+	cout << "Creating t3 which is a copy of t2" << endl;
+	TicTacToe t3(t2);
+	cout << t3 << endl;
+	cout << "Assigning t2=t1" << endl;
+	t2 = t1;
+	cout << t2 << endl;
+	cout << "Playing with t2 for 3 turns each:" << endl;
+	for (int i = 0; i < 3; i++) {
+		cout << "Player 1, make your move: ";
+		cin >> t1;
+		cout << t1;
+		cout << "Player 2, make your move: ";
+		cin >> t1;
+		cout << t1;
+	}
+	cout << "Deleting everything" << endl;
+	return 0;
+}
