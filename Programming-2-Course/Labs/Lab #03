@@ -1,0 +1,91 @@
+====================================== Excerise #1 ======================================
+#include <iostream>
+using namespace std;
+
+void print(int** arr, int rows, int cols);
+void addRow(int**& arr, int& rows, int cols);
+void addCol(int** arr, int rows, int& cols);
+
+int main()
+{
+	int row, col;
+	cout << "Enter the number of rows and columns: ";
+	cin >> row >> col;
+	int** arr = new int* [row];
+	for (int i = 0; i < row; i++) {
+		arr[i] = new int[col];
+	}
+	cout << "Enter the values: ";
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
+			cin >> arr[i][j];
+		}
+	}
+	print(arr, row, col);
+	addRow(arr, row, col);
+	cout << "\nThe array after adding a row:" << endl;
+	print(arr, row, col);
+	addCol(arr, row, col);
+	cout << "\nThe array after adding a column:" << endl;
+	print(arr, row, col);
+	return 0;
+}
+
+void print(int** arr, int rows, int cols)
+{
+	for (int r = 0; r < rows; r++)
+	{
+		for (int c = 0; c < cols; c++)
+		{
+			cout << arr[r][c] << " ";
+		}
+		cout << endl;
+	}
+}
+
+void addRow(int**& arr, int& rows, int cols)
+{
+	int** arr1;
+	arr1 = new int* [rows + 1];
+
+	for (int r = 0; r < rows; r++)
+	{
+		arr1[r] = new int[cols]();
+		for (int c = 0; c < cols; c++)
+		{
+			arr1[r][c] = arr[r][c];
+		}
+	}
+	arr1[rows] = new int[cols]();
+
+	for (int r = 0; r < rows; r++)
+	{
+		delete[] arr[r];
+	}
+	delete[] arr;
+	rows++;
+	arr = arr1;
+}
+
+void addCol(int** arr, int rows, int& cols)
+{
+	int** arr1;
+	arr1 = new int* [rows];
+
+	for (int r = 0; r < rows; r++)
+	{
+		arr1[r] = new int[cols + 1]();
+		for (int c = 0; c < cols; c++)
+		{
+			arr1[r][c] = arr[r][c];
+		}
+	}
+
+	for (int r = 0; r < rows; r++)
+	{
+		delete[] arr[r];
+	}
+	delete[] arr;
+	cols++;
+	arr = arr1;
+}
