@@ -1,0 +1,264 @@
+===================================== Excerise #1 =====================================
+#include <iostream> 
+#include <ctime> 
+using namespace std; 
+ 
+void fillArray(int a[], int size) 
+{ 
+ srand(time(NULL)); 
+ for (int i = 0; i < size; i++) 
+ { 
+  a[i] = 1 + (rand() % 50); 
+  cout << a[i] << " "; 
+ } 
+ cout << endl; 
+} 
+ 
+bool uniqueArray(int a[], int size) 
+{ 
+ int count[51] = { 0 }; 
+ for (int i = 0; i < size; i++) 
+ { 
+  if (count[a[i]] != 0) 
+  { 
+   return 0; 
+  } 
+  else 
+  { 
+   count[a[i]]++; 
+  } 
+ } 
+ return 1; 
+} 
+ 
+int main() 
+{ 
+ const int SIZE = 10; 
+ int array[SIZE]; 
+ 
+ cout << "Generated array: "; 
+ fillArray(array, SIZE); 
+ 
+ if (uniqueArray(array, SIZE)) 
+ { 
+  cout << "The array is unique!"; 
+ } 
+ else 
+ { 
+  cout << "The array is not unique!"; 
+ } 
+ 
+ cout << endl; 
+ 
+ return 0; 
+}
+
+===================================== Excerise #2 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+void inputData(double a[], int size); 
+double total(double a[], int size); 
+double average(double a[], int size); 
+double highest(double a[], int size); 
+double lowest(double a[], int size); 
+ 
+int main() 
+{ 
+ const int SIZE = 12; 
+ double a[SIZE]; 
+ 
+ inputData(a, SIZE); 
+ 
+ cout << "The total rainfall for the year is: " << total(a, SIZE) << endl; 
+ cout << "The average monthly rainfall is: " << average(a, SIZE) << endl; 
+ cout << "The highest rainfall amount happened in Month " << highest(a, SIZE) << 
+endl; 
+ cout << "The lowest rainfall amount happened in Month " << lowest(a, SIZE) << 
+endl; 
+ 
+ return 0; 
+} 
+ 
+void inputData(double a[], int size) 
+{ 
+ for (int i = 0; i < 12; i++) 
+ { 
+  cout << "Enter total rainfall in inches for Month " << i + 1 << ": "; 
+  cin >> a[i]; 
+ 
+  if (a[i] < 0) 
+  { 
+   cout << "Invalid input" << endl; 
+   i = i - 1; 
+   continue; 
+  } 
+ } 
+ cout << endl; 
+} 
+ 
+double total(double a[], int size) 
+{ 
+ float total = 0; 
+ 
+ for (int i = 0; i < 12; i++) 
+ { 
+  total = total + a[i]; 
+ } 
+ return total; 
+} 
+ 
+double average(double a[], int size) 
+{ 
+float average; 
+average = total(a, size) / 12; 
+return average; 
+} 
+double highest(double a[], int size) 
+{ 
+int maxMonth = 0; 
+for (int i = 0; i < 12; i++) 
+{ 
+if (a[i] > a[maxMonth]) 
+{ 
+maxMonth = i + 1; 
+} 
+} 
+return maxMonth; 
+} 
+double lowest(double a[], int size) 
+{ 
+int minMonth = 0; 
+for (int i = 0; i < 12; i++) 
+{ 
+if (a[i] < a[minMonth]) 
+{ 
+minMonth = i + 1; 
+} 
+} 
+return minMonth; 
+}
+
+===================================== Excerise #3 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+void inputData(int a[][7], int size); 
+void averagePerTiger(int a[][7], int size); 
+void averagePerDay(int a[][7], int size); 
+int greatest(int a[][7], int size, int tiger); 
+int eatsMost(int a[][7], int size); 
+ 
+int main() 
+{ 
+ int a[3][7]; 
+ int size = 0, tiger; 
+ 
+ inputData(a, size); 
+ averagePerTiger(a, size); 
+ averagePerDay(a, size); 
+ 
+ cout << "Enter a tiger number (1 to 3): "; 
+ cin >> tiger; 
+ 
+ greatest(a, size, tiger); 
+ eatsMost(a, size); 
+ 
+ return 0; 
+} 
+ 
+void inputData(int a[][7], int size) 
+{ 
+ for (int i = 0; i < 3; i++) 
+ { 
+  for (int k = 0; k < 7; k++) 
+  { 
+   cout << "Enter amount of food eaten by tiger " << i + 1 << " on 
+day " << k + 1 << ": "; 
+   cin >> a[i][k]; 
+  } 
+  cout << endl; 
+ } 
+} 
+ 
+void averagePerTiger(int a[][7], int size) 
+{ 
+ for (int i = 0; i < 3; i++) 
+ { 
+  float average = 0; 
+ 
+  for (int j = 0; j < 7; j++) 
+  { 
+   average = average + a[i][j]; 
+  } 
+ 
+  average = average / 7; 
+ 
+  cout << "The average amount of food eaten by tiger " << i + 1 << " 
+during the week is: " << average << endl; 
+ } 
+ cout << endl; 
+} 
+ 
+void averagePerDay(int a[][7], int size) 
+{ 
+ for (int i = 0; i < 7; i++) 
+ { 
+  float average = 0; 
+ 
+  for (int j = 0; j < 3; j++) 
+  { 
+   average = average + a[j][i]; 
+  } 
+ 
+  average = average / 3; 
+ 
+  cout << "The average amount of food eaten by all the tigers on day " << 
+i + 1 << " is: " << average << endl; 
+ } 
+ cout << endl; 
+} 
+ 
+int greatest(int a[][7], int size, int tiger) 
+{ 
+ int day = 0, great = 0; 
+ 
+ for (int i = 0; i < 7; i++) 
+ { 
+  if (a[tiger - 1][i] > great) 
+  { 
+   great = a[tiger - 1][i]; 
+   day = i; 
+  } 
+ }  
+ 
+ cout << "This tiger ate the greatest amount of food in day " << day + 1 << "." 
+<< endl; 
+ 
+ return day; 
+} 
+ 
+int eatsMost(int a[][7], int size) 
+{ 
+ int week = 0, tiger = 0, great = 0; 
+ 
+ for (int i = 0; i < 3; i++) 
+ { 
+  for (int k = 0; k < 7; k++) 
+  { 
+   week = week + a[i][k]; 
+  } 
+ 
+  if (week > great) 
+  { 
+   great = week; 
+   tiger = i; 
+  } 
+ } 
+ cout << endl; 
+ 
+ cout << "The tiger that eats the greatest amount of food during the week is 
+tiger " << tiger << endl; 
+ 
+ return tiger; 
+}
