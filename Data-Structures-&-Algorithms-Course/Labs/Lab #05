@@ -1,0 +1,274 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <string>
+using namespace std;
+
+#include <iostream>
+#include <string>
+
+// Define a structure for a song
+struct Song {
+    string title;
+    string artist;
+    int duration;
+    Song* prev;
+    Song* next;
+    
+    Song(const string& t, const string& a, int d) {
+        title = t;
+        artist = a;
+        duration = d;
+        prev = NULL;
+        next = NULL;
+    }
+};
+
+class MusicPlayer {
+private:
+    Song* head;
+    Song* tail;
+    Song* currentSong;
+
+public:
+    MusicPlayer() {
+        head = tail = nullptr;
+        currentSong = nullptr;
+    }
+
+    // Add a new song to the playlist
+    void addSong(const std::string& title, const std::string& artist, int duration) {
+        Song* newSong = new Song(title, artist, duration);
+        
+        if (tail == NULL) {
+            head = newSong;
+            tail = newSong;
+            currentSong = head;
+        }
+        else {
+            Song* current = head;
+
+            while (current->next != NULL) {
+                current = current->next;
+            }
+            current->next = newSong;
+            newSong->prev = tail;
+            tail = newSong;
+        }
+    }
+
+    //Set Current Song to play
+    void setCurrentSong(const std::string& title, const std::string& artist, int duration)
+    {
+        Song* current = head;
+        bool songStatus = false;
+
+        while (current) {
+            if (current->title == title && current->artist == artist && current->duration == duration) {
+                cout << "Song selected: " << title << " " << artist << " " << duration << endl;
+                currentSong = current;
+                songStatus = true;
+            }
+            current = current->next;
+        }
+        
+        if (!songStatus) {
+            cout << "no song found" << endl;
+        }
+        
+    }
+    // Remove the current song from the playlist
+    void removeCurrentSong() {
+        if (currentSong == NULL) {
+            cout << "No current song exists." << endl;
+        }
+        
+        if (currentSong == head) {
+            head = head->next;
+            
+            if (head != NULL) {
+                head->prev = NULL;
+            }
+
+            delete currentSong;
+
+            currentSong = head;
+        }
+        else if (currentSong == tail) {
+            tail = tail->prev;
+            tail->next = NULL;
+
+            delete currentSong;
+
+            currentSong = NULL;
+        }
+        else {
+            currentSong->prev->next = currentSong->next;
+            currentSong->next->prev = currentSong->prev;
+            
+            Song* temp = currentSong->next;
+
+            delete currentSong;
+
+            currentSong = temp;
+        }
+    }
+
+    // Play the current song
+    void playCurrentSong() {
+        if (currentSong == NULL) {
+            cout << "No song is currently selected." << endl;
+        }
+        else {
+            cout << "Playing... \n" << currentSong->title << " " << currentSong->artist << endl;
+        }
+    }
+
+    // Move to the next song in the playlist
+    void nextSong() {
+        if (tail == NULL) {
+            cout << "End of playlist." << endl;
+        }
+        else {
+            cout << "Next song: " << currentSong->next->title << " " << currentSong->next->artist << endl;
+        }
+    }
+
+    // Move to the previous song in the playlist
+    void previousSong() {
+        if (head == NULL) {
+            cout << "No song exists before this song." << endl;
+        }
+        else {
+            cout << "Previous song: " << currentSong->prev->title << " " << currentSong->prev->artist << endl;
+        }
+    }
+
+    // Display the playlist
+    void displayPlaylist() {
+        Song* current = head;
+
+        cout << "-------------------------------------------------------------------" << endl;
+
+        while (current != NULL) {
+            cout << current->title << " " << current->artist << " " << current->duration << "\t";
+            current = current->next;
+        }
+        cout << endl << "-------------------------------------------------------------------" << endl;
+    }
+
+    // Destructor to free memory
+    ~MusicPlayer() {
+        Song* temp = head;
+        while (temp) {
+            Song* toDelete = temp;
+            temp = temp->next;
+            delete toDelete;
+        }
+    }
+};
+
+int main() {
+    MusicPlayer player;
+
+    player.addSong("Song 1", "Artist 1", 180);
+    player.addSong("Song 2", "Artist 2", 240);
+    player.addSong("Song 3", "Artist 3", 210);
+
+    player.displayPlaylist();
+
+    player.setCurrentSong("Song 2", "Artist 2", 240);
+    player.playCurrentSong();
+
+    player.nextSong();
+    player.playCurrentSong();
+
+    player.removeCurrentSong();
+    player.displayPlaylist();
+
+    player.previousSong();
+    player.playCurrentSong();
+
+    return 0;
+}
+
+txt File:-
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+	int  data;
+	Node* next;
+	Node(int value)
+	{
+		data = value;
+		next = nullptr;
+	}
+};
+
+class SingleLinkedList
+{
+public:
+	SingleLinkedList()
+	{
+		head = nullptr;
+	}
+
+	void append(int value)
+	{
+		Node* newNode = new Node(value);
+
+		if (head == nullptr)
+		{
+			head = newNode;
+			newNode = head; ///// this should be here too.
+		}
+		else
+		{
+			Node* current = head;
+			while (current->next != nullptr)
+			{
+				current = current->next;
+			}
+			current->next = newNode;
+		}
+		newNode = head ///// This should change it to circular.
+	}
+	void print()
+	{
+		Node* current = head;
+		while (current != nullptr)
+		{
+			cout << current->data << "\t";
+			current = current->next;
+		}
+		cout << endl;
+	}
+
+	~SingleLinkedList()
+	{
+		while (head != nullptr)
+		{
+			Node* temp = head;
+			head = head->next;
+			delete temp;
+		}
+	}
+
+private:
+	Node* head;
+};
+
+int main()
+{
+    SingleLinkedList sll;
+
+    int ary[] = { 11,22,44,77,66,88 }, size = 6;
+    for (int i = 0; i < size; i++)
+        sll.append(ary[i]);
+
+    cout << "List is :\n";
+    sll.print();
+
+    return 0;
+}
