@@ -1,0 +1,152 @@
+===================================== Excerise #1 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+bool isPalindrome(int n); 
+ 
+int main() 
+{ 
+ int num; 
+ bool result; 
+ 
+ for (int i = 1; i <= 5; i++) 
+ { 
+  cout << "Enter a positive integer (enter a negative integer to stop): "; 
+  cin >> num; 
+ 
+  result = isPalindrome(num); 
+  
+  
+  if (num < 0) 
+  { 
+   cout << "Thank you!" << endl; 
+   break; 
+  } 
+  else 
+  { 
+   if (result) 
+   { 
+    cout << "This is a palindrome!" << endl; 
+   } 
+   else 
+   { 
+    cout << "This is not a palindrome." << endl; 
+   } 
+  } 
+ } 
+ 
+ cout << endl; 
+ 
+ return 0; 
+} 
+ 
+bool isPalindrome(int n) 
+{ 
+ int value = 0, reverse = 0, n1; 
+ 
+ for (n1 = n; n != 0; n /= 10) 
+ { 
+  value = n % 10; 
+  reverse = reverse * 10 + value;; 
+ } 
+ 
+ if (reverse == n1) 
+ { 
+  return true; 
+ } 
+ else 
+ { 
+  return false; 
+ } 
+}
+
+===================================== Excerise #2 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+void coinToss(int n, int& totalHeads, int& totalTails); 
+ 
+int main() 
+{ 
+ int n, totalHeads = 0, totalTails = 0; 
+ 
+ cout << "Enter how many times the coin should be tossed: "; 
+ cin >> n; 
+ 
+ coinToss(n, totalHeads, totalTails); 
+ 
+ cout << "Number of Heads is " << totalHeads << " and number of Tails is " << 
+totalTails << "--->"; 
+  
+ if (totalHeads > totalTails) 
+ { 
+  cout << "Player 1 wins! Congratulations!" << endl; 
+ } 
+ else if (totalTails > totalHeads) 
+ { 
+  cout << "Player 2 wins! Congratulations!" << endl; 
+ } 
+ else 
+ { 
+  cout << "They are equal." << endl; 
+ } 
+ 
+ 
+ return 0; 
+} 
+ 
+void coinToss(int n, int& totalHeads, int& totalTails) 
+{ 
+ int random_number; 
+ 
+ for (int i = 0; i < n; i++) 
+ { 
+  random_number = rand() % 2; 
+ 
+  if (random_number == 1) 
+  { 
+   totalHeads++; 
+  } 
+  else 
+  { 
+} 
+totalTails++; 
+} 
+}
+}
+
+===================================== Excerise #3 =====================================
+#include <iostream>
+using namespace std;
+
+int generateChangeAmount(); 
+void giveCoins(int changeAmount, int& quarters, int& dimes, int& nickels, int& 
+pennies); 
+
+int main() 
+{ 
+int changeAmount, quarters, dimes, nickels, pennies; 
+for (int i = 1; i <= 5; i++) 
+{ 
+changeAmount = generateChangeAmount(); 
+giveCoins(changeAmount, quarters, dimes, nickels, pennies); 
+} 
+return 0; 
+} 
+int generateChangeAmount() 
+{ 
+int random_number; 
+random_number = rand() % 99 + 1; 
+return random_number; 
+} 
+void giveCoins(int changeAmount, int& quarters, int& dimes, int& nickels, int& 
+pennies) 
+{ 
+quarters = changeAmount / 25; 
+dimes = (changeAmount - quarters * 25) / 10; 
+nickels = (changeAmount - quarters * 25 - dimes * 10) / 5; 
+pennies = (changeAmount - quarters * 25 - dimes * 10 - nickels * 5); 
+cout << changeAmount << " cents can be given as: " << quarters << " quarter(s), 
+" << dimes << " dime(s), " << nickels << " nickel(s), and " << pennies << " 
+penny(pennies)" << endl; 
+}
