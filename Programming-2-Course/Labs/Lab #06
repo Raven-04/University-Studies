@@ -1,0 +1,188 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class House
+{
+private:
+	string houseID;
+	string streetName;
+	vector<string> listOfRooms;
+	bool patio;
+
+public:
+	House();
+	House(string _houseID, string _streetName);
+	void AddRoom(string room);
+	bool AddPatio();
+	bool RemovePatio();
+	void PrintAddress();
+	string get_ID();
+};
+
+House::House()
+{
+	//This is an empty function.
+}
+
+House::House(string _houseID, string _streetName)
+{
+	houseID = _houseID;
+	streetName = _streetName;
+}
+
+void House::AddRoom(string room)
+{
+	listOfRooms.push_back(room);
+}
+
+bool House::AddPatio()
+{
+	return patio = true;
+}
+
+bool House::RemovePatio()
+{
+	return patio = false;
+}
+
+void House::PrintAddress()
+{
+	cout << "This is house " << houseID << " on " << streetName << " street" << endl;
+}
+
+string House::get_ID()
+{
+	return houseID;
+}
+
+class Room
+{
+private:
+	string roomName;
+	double size;
+	string houseID;
+	vector<string> listOfFurniture;
+
+public:
+	Room();
+	Room(string _roomName, double _size, string _houseID);
+	void PrintInfo();
+	void AddFurniture(string furniture);
+	string get_houseID();
+};
+
+Room::Room()
+{
+	//This is an empty function.
+}
+
+Room::Room(string _roomName, double _size, string _houseID)
+{
+	roomName = _roomName;
+	size = _size;
+	houseID = _houseID;
+}
+
+void Room::PrintInfo()
+{
+	cout << "-------The " << roomName << "-------" << endl;
+	cout << "It is " << size << "m^2 in size" << endl;
+	cout << "This room contains the following pieces of furniture:" << endl;
+
+	for (int i = 0; i < listOfFurniture.size(); i++)
+	{
+		cout << listOfFurniture.at(i) << " ";
+	}
+	cout << endl;
+}
+
+void Room::AddFurniture(string furniture)
+{
+	listOfFurniture.push_back(furniture);
+}
+
+string Room::get_houseID()
+{
+	return houseID;
+}
+
+void PrintHouseInfo(House& house, vector<Room>& listOfRooms)
+{
+	house.PrintAddress();
+
+	for (int i = 0; i < listOfRooms.size(); i++)
+	{
+		if (house.get_ID() == listOfRooms.at(i).get_houseID())
+		{
+			listOfRooms.at(i).PrintInfo();
+		}
+	}
+}
+
+int main()
+{
+	string houseID, streetName, roomName, furniture;
+	vector<Room>listOfRooms;
+	char roomAnswer = 'Y', patioAnswer = 'Y';
+	double size;
+
+	cout << "Let's start designing your house!" << endl;
+	cout << "Enter street name and house number: ";
+	cin >> streetName >> houseID;
+
+	House house(houseID, streetName);
+
+	cout << "This is house " << houseID << " on " << streetName << " street" << endl;
+	cout << endl;
+
+	cout << "Let's start designing!" << endl;
+	while (roomAnswer == 'Y' || roomAnswer == 'y')
+	{
+		cout << "Would you like to add a room? (Y/N): ";
+		cin >> roomAnswer;
+
+		if (roomAnswer != 'Y' && roomAnswer != 'y')
+		{
+			break;
+		}
+		else
+		{
+			cout << "Enter room name and size: ";
+			cin >> roomName >> size;
+
+			Room room(roomName, size, houseID);
+
+			cout << "Enter names of furniture pieces followed by \"done\"" << endl;
+			cin >> furniture;
+
+			while (furniture != "done")
+			{
+				room.AddFurniture(furniture);
+				cin >> furniture;
+			}
+
+			listOfRooms.push_back(room);
+		}
+	}
+	cout << "Does the house have a patio? (Y/N) ";
+	cin >> patioAnswer;
+
+	cout << endl;
+
+	PrintHouseInfo(house, listOfRooms);
+
+	if (patioAnswer == 'Y')
+	{
+		house.AddPatio();
+		cout << "The house has a patio." << endl;
+	}
+	else
+	{
+		house.RemovePatio();
+		cout << "The house does not have a patio." << endl;
+	}
+
+	return 0;
+}
