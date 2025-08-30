@@ -1,0 +1,76 @@
+n=20                      #Sample size
+x=rexp(n, rate = 1/5)     #Mu = 5
+x
+hist(x, prob = T)         #If you add prob = T, it gives you R.F
+xbar=mean(x)
+xbar
+
+# Exponential Distribution
+n=100
+m=10000 # number of simulations
+xbar=c() # creating an empty column
+xbar
+for (i in 1:m) {xbar[i]=mean(rexp(n,1/5))} # simulating 1000 samples from exponential
+#distribution with sample size 20 in each simulation 
+xbar
+
+hist(xbar, prob = T)
+mean(xbar) # mean of all sample means
+
+# --------------------------------------------------------
+# Poisson Distribution
+
+n=30
+x = rpois(n, lambda = 3)
+hist(x)
+mean(x)
+sd(x)
+m=1000 # number of simulations
+xbar=c() # creating an empty column
+xbar
+for (i in 1:m) {xbar[i]=mean(rpois(n,lambda = 3))} # simulating 1000 samples from exponential
+#distribution with sample size 20 in each simulation 
+xbar
+
+hist(xbar, prob = T)
+mean(xbar) 
+sd(xbar)
+
+# --------------------------------------------------------
+# Binomial Distribution
+
+n=30
+x = rbinom(n, size = 10, prob = 0.25) # the mean = 10*2.5 = 2.5
+hist(x)
+mean(x)
+sd(x)
+m=1000 # number of simulations
+xbar=c() # creating an empty column
+xbar
+for (i in 1:m) {xbar[i]=mean(rbinom(n,size = 10, prob = 0.25))} # simulating 1000 samples from exponential
+#distribution with sample size 20 in each simulation 
+xbar
+
+hist(xbar, prob = T)
+mean(xbar) 
+sd(xbar)
+
+# --------------------------------------------------------
+# Normal Distribution
+
+n= 5
+x = rnorm(n, mean = 5, sd = 1)
+hist(x)
+mean(x)
+sd(x)
+m=1000 # number of simulations
+xbar=c() # creating an empty column
+xbar
+for (i in 1:m) {xbar[i]=mean(rnorm(n,mean = 5, sd = 1))} # simulating 1000 samples from exponential
+#distribution with sample size 20 in each simulation 
+xbar
+
+hist(xbar, prob = T)
+mean(xbar) 
+sd(xbar)
+1/ sqrt(5)
