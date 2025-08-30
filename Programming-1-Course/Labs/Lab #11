@@ -1,0 +1,137 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+int indexOf(char str[], char target, int start);
+int indexOf(char str[], int size, char target, int start);
+
+int main()
+{
+    const int SIZE = 15;
+    int index, size = 0, start = 0;
+    char str1[SIZE] = { 'i', 'a', 'm', 'w', 'o', 'r', 'k', 'i', 'g', 'a', 't', 'a', 'u', 's', '\0'};
+    char str2[SIZE], target;
+
+    cout << "str1 = " << str1 << endl;
+
+    cout << endl;
+
+    cout << "Enter str2: ";
+    cin >> str2;
+    cout << endl;
+
+    cout << "Enter target: ";
+    cin >> target;
+    cout << endl;
+
+    cout << "Searching str1 ..." << endl;
+    cout << " Target '" << target << "' found at index: ";
+
+    while (indexOf(str1, target, start) != -1)
+    {
+        index = indexOf(str1, target, start);
+
+        cout << index << " ";
+        start = index + 1;
+    }
+
+    cout << endl << endl;
+
+    start = 0;
+    cout << "Searching str2 ..." << endl;
+    cout << " Target '" << target << "' found at index: ";
+
+    while (indexOf(str2, SIZE, target, start) != -1)
+    {
+        index = indexOf(str2, SIZE, target, start);
+
+        cout << index << " ";
+        start = index + 1;
+    }
+
+    cout << endl;
+
+	return 0;
+}
+
+int indexOf(char str[], char target, int start)
+{
+	int i = start;
+
+    while (str[i] != '\0')
+    {
+        if (str[i] == target)
+        {
+            return i;
+        }
+        i++;
+    }
+    return -1;
+}
+
+int indexOf(char str[], int size, char target, int start)
+{
+    int i = start;
+
+    while (i < size)
+    {
+
+        if (str[i] == target)
+        {
+            return i;
+        }
+        i++;
+    }
+    return -1;
+}
+
+======================================= Excerise #2 =======================================
+#include <iostream>
+using namespace std;
+
+void getPlural(char noun[], char plural[]);
+
+int main()
+{
+	const int SIZE = 100;
+	char noun[SIZE], plural[SIZE];
+	char quit[] = "quit";
+
+	cout << "enter noun: ";
+	cin >> noun;
+
+	while (strcmp(noun, "quit") != 0)
+	{
+		getPlural(noun, plural);
+		cout << "plural of " << noun << " is " << plural << endl;
+
+		cout << "enter noun: ";
+		cin >> noun;
+	}
+
+	return 0;
+}
+
+void getPlural(char noun[], char plural[])
+{
+	int size = strlen(noun);
+
+	if (noun[size - 1] == 'y')
+	{
+		strcpy(plural, noun);
+		plural[size - 1] = '\0';
+		strcat(plural, "ies");
+	}
+	else if ((noun[size - 1] == 's') ||
+		    (noun[size - 2] == 's' && noun[size - 1] == 'h') ||
+		    (noun[size - 2] == 'c' && noun[size - 1] == 'h'))
+	{
+		strcpy(plural, noun);
+		strcat(plural, "es");
+	}
+	else
+	{
+		strcpy(plural, noun);
+		strcat(plural, "s");
+	}
+}
