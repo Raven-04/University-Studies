@@ -1,0 +1,128 @@
+======================================= Exercise #1 =======================================
+#include <iostream>
+using namespace std;
+
+int main() {
+
+	double num1, num2, num3;
+
+	cout << "Enter three numbers (x y z): ";
+	cin >> num1 >> num2 >> num3;
+
+	float min = num1;
+	if (min > num2) min = num2;
+	if (min > num3) min = num3;
+
+	float max = num3;
+	if (max < num2) max = num2;
+	if (max < num3) max = num3;
+
+	cout << "minimum = " << min << endl;
+	cout << "maximum = " << max << endl;
+
+	return 0;
+}
+
+======================================= Exercise #2 =======================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	char c;
+
+	cout << "Enter a single character: ";
+	cin >> c;
+	cout << "\tAnswer = ";
+	switch (c) {
+	case 'm':
+		cout << "Male";
+		break;
+	case 'M':
+		cout << "Male";
+		break;
+	case 'f':
+		cout << "Female";
+		break;
+	case 'F':
+		cout << "Female";
+		break;
+	case '1':
+		cout << "Invalid!";
+		break;
+	}
+
+	return 0;
+}
+
+======================================= Exercise #3 =======================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	float grade1, grade2, grade3;
+
+	cout << "enter grade in course #1: ";
+	cin >> grade1;
+	cout << "enter grade in course #2: ";
+	cin >> grade2;
+	cout << "enter grade in course #3: ";
+	cin >> grade3;
+	cout << endl;
+
+	float avg = ( grade1 + grade2 + grade3 ) / 3;
+
+	cout << "percentage average = " << avg << endl;
+
+	if (avg >= 97 && avg <= 100) cout << "GPA = 4.3" << endl << "letter grade = A+" << endl;
+	else if (avg >= 93 && avg < 97) cout << "GPA = 4" << endl << "letter grade = A" << endl;
+	else if (avg >= 90 && avg < 93) cout << "GPA = 3.7" << endl << "letter grade = A-" << endl;
+	else if (avg >= 87 && avg < 90) cout << "GPA = 3.3" << endl << "letter grade = B+" << endl;
+	else if (avg >= 83 && avg < 87) cout << "GPA = 3" << endl << "letter grade = B" << endl;
+	else if (avg >= 80 && avg < 83) cout << "GPA = 2.7" << endl << "letter grade = B-" << endl;
+	else if (avg >= 77 && avg < 80) cout << "GPA = 2.3" << endl << "letter grade = C+" << endl;
+	else if (avg >= 73 && avg < 77) cout << "GPA = 2" << endl << "letter grade = C" << endl;
+	else if (avg >= 70 && avg < 73) cout << "GPA = 1.7" << endl << "letter grade = C-" << endl;
+	else if (avg >= 67 && avg < 70) cout << "GPA = 1.3" << endl << "letter grade = D+" << endl;
+	else if (avg >= 63 && avg < 67) cout << "GPA = 1" << endl << "letter grade = D" << endl;
+	else if (avg >= 60 && avg < 63) cout << "GPA = 0.7" << endl << "letter grade = D-" << endl;
+	else if (avg >= 0 && avg < 60) cout << "GPA = 0" << endl << "letter grade = F" <<endl;
+
+	return 0;
+}
+
+======================================= Exercise #4 =======================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	int pin_1, pin_2, pin_3;
+
+	cout << "Enter number of pins out in throw #1: ";
+	cin >> pin_1;
+	cout << "Enter number of pins out in throw #2: ";
+	cin >> pin_2;
+	cout << "Enter number of pins out in throw #3: ";
+	cin >> pin_3;
+	cout << endl;
+
+	if (pin_1 < 0 || pin_1 > 10 ||
+		pin_2 < 0 || pin_2 > 10 ||
+		pin_3 < 0 || pin_3 > 10) cout << "Error: # of pins in each throw must be between 0 and 10";
+
+	else if (pin_1 == 10) {
+		cout << " It is a strike." << endl;
+		cout << " Score = " << pin_1 + pin_2 + pin_3;
+	}
+
+	else if (pin_1 + pin_2 == 10) {
+		cout << " It is a spare." << endl;
+		cout << " Score = " << pin_1 + pin_2 + pin_3;
+	}
+
+	else if (pin_1 + pin_2 < 10) {
+		cout << " It is a blow." << endl;
+		cout << " Score = " << pin_1 + pin_2;
+	}
+
+	return 0;
+}
