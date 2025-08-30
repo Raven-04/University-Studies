@@ -1,0 +1,76 @@
+# *Statistics Midterm Project*
+
+install.packages("lessR")
+library(lessR)
+
+Pulse$Smokes = as.factor(Pulse$Smokes)
+Pulse$Gender = as.factor(Pulse$Gender)
+
+# (A) ----------------------------------------------------
+table(Pulse$Smokes)
+PS = (28/92)*100
+PS                  #Percentage of Smokers
+S = Pulse$Smokes
+PieChart(S, hole = F, main = "Pie Chart for Smokes")
+
+# (B) ----------------------------------------------------
+P = Pulse$Pulse
+Histogram(P, xlab = "Pulse", ylab = "Frequency", main = "Histogram for the Pulse")
+# It is right-skewed.
+
+# (C) ----------------------------------------------------
+boxplot(Pulse~Gender, data = Pulse, horizontal = T, col = rainbow(2), main = "Boxplot for Male and Female (Gender)")
+# The females have a higher median Pulse rate and a higher spread. However, the males have 3 outliers.
+
+# (D) ----------------------------------------------------
+A = Pulse$Activity
+PieChart(A, hole = F, main = "A Pie Chart for Activity Level")
+# Activity level 2 has the highest percentage.
+
+# (E) ----------------------------------------------------
+SummaryStats(P, S)
+
+tapply(Pulse$Pulse, Pulse$Smokes, summary)
+tapply(Pulse$Pulse, Pulse$Smokes, sd)
+tapply(Pulse$Pulse, Pulse$Smokes, IQR)
+
+# Another way:-
+#Sum = tapply(Pulse$Pulse, Pulse$Smokes, summary)
+#stand = tapply(Pulse$Pulse, Pulse$Smokes, sd)
+#IQR = tapply(Pulse$Pulse, Pulse$Smokes, IQR)
+#Sum
+#stand
+#IQR
+
+# The mean, sd, and IQR of sample 1 (Smokers) are higher than sample 2 (Non-smokers). However, the median is the same for both.
+
+# (F) ----------------------------------------------------
+# According to the acquired summary statistics, the smokers have a higher pulse rate as compared to the non smokers.
+
+# (G) ----------------------------------------------------
+mean = mean(P)
+sd = sd(P)
+lower = (mean - 2*sd)
+upper = (mean + 2*sd)
+lower
+upper
+# It agrees with the Empirical Rule, with the intervals being (50.8, 94.8) with an approximation of 95%.
+
+# (H) ----------------------------------------------------
+z_score = function(x)             #\
+{                                 ##|
+  z = (x - mean(x)) / sd(x)       ##| Z-score function
+  return (z)                      ##|
+}                                 #/
+
+Z = tapply(P, S, z_score)
+ZS = Z$"1"
+ZS                                    # Z-score for smokers only
+
+max_score = max(abs(ZS))         
+max_score                             # Maximum absolute value of a z-score
+
+H_SID_L = which.max(abs(ZS))          # which.max basically gives the location of the index of the maximum value in a numeric vector (it's more efficient than writing a longer code to find the index of a max/min value)
+H_SID_L                               # The student ID that has the highest value of z-score.
+
+# According to the location of maximum z-score value, it turns out the student ID is 29 (position 10 of the smokers). Additionally, the highest z-score value is 1.85274630 (absolute value of z-score = 2.000966).
