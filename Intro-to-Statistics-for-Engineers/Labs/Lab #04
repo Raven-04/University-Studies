@@ -1,0 +1,80 @@
+library(lessR)
+
+# p for < or >
+# d for =
+# q is for quantile
+
+# (Q1) ----------------------------------------------
+# x ~ binomial (n = 10, p = 0.5)
+# 1A
+1-pbinom(4, size = 10, p = 0.5)            #Binomial P(x >= 5)
+# 1B
+pbinom(1, size = 10, p = 0.5)              # P(x <= 1)
+
+
+# (Q2) ----------------------------------------------
+# x ~approx. binomial (n = 7, p =0.1) 
+# 2A
+1- dbinom(0, size = 7, p = 0.1)            # P(x >= 1)
+# 2B
+pbinom(3, size = 7, p = 0.1)               # P(x <= 3)
+# 2C
+7*0.1                                      # Mean
+sqrt(7*0.1*0.9)                            # Std
+
+# (Q3) ----------------------------------------------
+# x ~ hypergeometric (M = 2, N = 8, n = 4)
+# 3A
+dhyper(0, m = 2, n = 6, k = 4)                    # m num of black, n num of white, k is sample size
+# 3B
+dhyper(2, m = 2, n = 4, k = 4)
+# 3C
+4*2/8
+
+# (Q4) ----------------------------------------------
+# x ~ geometric (p = 0.9)
+# 4A
+1 - pgeom(3, prob = 0.9)
+# 4B
+1 - pgeom(5, prob = 0.9)
+# 4C
+pgeom(3, prob = 0.9)
+
+# (Q5) ----------------------------------------------
+# x ~ geometric (p = 0.55)
+# 5A
+dgeom(4, prob = 0.55)
+# 5B
+1 - pgeom(9, prob = 0.55)
+
+# (Q6) ----------------------------------------------
+# x ~ poisson (mean = 2)
+# 6A
+dpois(0, lambda = 2)                 # P(x = 0)
+# 6B
+ppois(4, lambda = 2)
+# 6C
+1 - ppois(4, lambda = 4)             # It's lambda = 4 because it's given in 2 weeks
+
+# (Q7) ----------------------------------------------
+# x ~ normal (mean = 64, std = 2.75)
+# 7A
+pnorm(61, mean = 64, sd = 2.75)
+# 7B
+pnorm(70, mean = 64, sd = 2.75) - pnorm(61, mean = 64, sd = 2.75)
+# 7C
+1 - pnorm(70, mean = 64, sd = 2.75)
+# 7D
+gnorm(0.95, mean = 64, sd = 2.75)
+# 7E
+qnorm(0.25, mean = 64, sd = 2.75)
+# 7F (generating random data from a distribution)
+x = rnorm(10, mean = 5, sd = 2)
+x
+
+y = rpois(100, lambda = 10)
+y
+
+z = rbinom(1000, size = 2, prob = 0.5)
+z
+mean(z)
