@@ -1,0 +1,128 @@
+====================================== Excerise #1 ======================================
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Island
+{
+private:
+	string islandName;
+	string color;
+	string oneIslandCaretaker;
+	vector<string>nameOfResidents;
+
+public:
+	void print();
+	Island();
+	Island(string _islandName, string _color, vector<string>_nameOfResidents, string _oneIslandCaretaker);
+};
+
+Island::Island(string _islandName, string _color, vector<string>_nameOfResidents, string _oneIslandCaretaker)
+{
+	islandName = _islandName;
+	color = _color;
+	oneIslandCaretaker = _oneIslandCaretaker;
+	nameOfResidents = _nameOfResidents;
+}
+
+Island::Island()
+{
+	//This is an empty function.
+}
+
+void Island::print()
+{
+	cout << "Island name: " << islandName << endl;
+	cout << "Island color: " << color << endl;
+	cout << "Island Caretaker: " << oneIslandCaretaker << endl;
+	cout << "Residents:" << endl;
+	for (int i = 0; i < nameOfResidents.size(); i++)
+	{
+		cout << nameOfResidents[i] << endl;
+	}
+	cout << endl;
+}
+
+class Caretaker
+{
+private:
+	string name;
+	int age;
+	string islandName;
+	vector<string> groupOfTools;
+
+public:
+	void print();
+	Caretaker();
+	Caretaker(string _name, int _age, vector<string> _groupOfTools,string _islandName);
+};
+
+Caretaker::Caretaker(string _name, int _age, vector<string> _groupOfTools, string _islandName)
+{
+	name = _name;
+	age = _age;
+	islandName = _islandName;
+	groupOfTools = _groupOfTools;
+}
+
+void Caretaker::print()
+{
+	cout << "Caretaker name: " << name << endl;
+	cout << "Caretaker age: " << age << endl;
+	cout << "Lives on: " << islandName << endl;
+	cout << "Tools in their inventory:" << endl;
+	for (int i = 0; i < groupOfTools.size(); i++)
+	{
+		cout << groupOfTools[i] << endl;
+	}
+	cout << endl;
+}
+
+class Resident
+{
+private:
+	string name;
+	int age;
+	string islandName;
+
+public:
+	void print();
+	Resident();
+	Resident(string _name, int _age, string _islandName);
+};
+
+Resident::Resident(string _name, int _age, string _islandName)
+{
+	name = _name;
+	age = _age;
+	islandName = _islandName;
+}
+
+void Resident::print()
+{
+	cout << "Resident name: " << name << endl;
+	cout << "Resident age: " << age << endl;
+	cout << "Lives on: " << islandName << endl;
+}
+
+int main()
+{
+	Caretaker ct("Daisy", 19, vector<string>{"Shovel", "Fishing Rod"}, "Dolphin Bay");
+	vector<Resident> residents{ Resident("K. K. Slider", 23,"Dolphin Bay"), Resident("Flurry", 21,"Dolphin Bay"), Resident("Tom Nook",78,"Dolphin Bay") };
+	Island acnh("Dolphin Bay", "blue", { "K. K. Slider","Flurry","Tom Nook" }, "Daisy");
+
+	cout << "----------- Printing Island information -----------" << endl;
+	acnh.print();
+
+	cout << "----------- Printing Caretaker information -----------" << endl;
+	ct.print();
+
+	cout << "----------- Printing Residents information -----------" << endl;
+	for (int i = 0; i < residents.size(); i++) {
+		residents.at(i).print();
+		cout << endl;
+	}
+
+	return 0;
+}
