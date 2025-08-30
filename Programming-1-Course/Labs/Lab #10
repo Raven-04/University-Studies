@@ -1,0 +1,324 @@
+======================================== Excerise #1 ========================================
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+	int aCount = 0, eCount = 0, iCount = 0, oCount = 0, uCount = 0;
+	char c;
+
+	ifstream fin;
+	ofstream fout;
+
+	fin.open("myText.txt");
+	fout.open("countVowels.txt", ios::app);
+
+	if (fout.fail());
+	if (fin.fail());
+
+
+
+	int i = 0;
+	while (fin.get(c))
+	{
+		switch (c)
+		{
+		case 'a':
+		case 'A':
+			aCount++;
+			break;
+		case 'e':
+		case 'E':
+			eCount++;
+			break;
+		case 'i':
+		case 'I':
+			iCount++;
+			break;
+		case 'o':
+		case 'O':
+			oCount++;
+			break;
+		case 'u':
+		case 'U':
+			uCount++;
+			break;
+		}
+		i++;
+	}
+
+	cout << endl;
+	cout << " Timestamp = " << time(0) << endl;
+	cout << " aCount = " << aCount << endl;
+	cout << " eCount = " << eCount << endl;
+	cout << " iCount = " << iCount << endl;
+	cout << " oCount = " << oCount << endl;
+	cout << " uCount = " << uCount << endl;
+
+	return 0;
+}
+
+======================================== Excerise #2 ========================================
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+	int num1, num2;
+	float result, data[10][3];
+	char op;
+
+	ifstream fin;
+	ofstream fout;
+
+	fin.open("input.txt");
+	fout.open("result.txt");
+
+	if (fin.fail());
+	if (fout.fail());
+
+	fout << "N1   OP   N2 =  Result" << endl;
+
+	int i = 0;
+	while (fin >> num1 >> num2 >> op)
+	{
+		data[i][0] = num1;
+		data[i][1] = num2;
+		data[i][2] = op;
+
+		if (op == '+' || op == '-' || op == '*' || op == '/' || op == '%')
+		{
+			fout << num1 << "    " << op << "    " << num2 << "	 =  ";
+		}
+
+		switch (op)
+		{
+		case '+':
+			result = num1 + num2;
+			fout << result << endl;
+			break;
+		case '-':
+			result = num1 - num2;
+			fout << result << endl;
+			break;
+		case '*':
+			result = num1 * num2;
+			fout << result << endl;
+			break;
+		case '/':
+			result = (float) num1 / num2;
+			fout << result << endl;
+			break;
+		case '%':
+			result = num1 % num2;
+			fout << result << endl;
+			break;
+		default:
+			fout << " invalid operation '" << op << "' detected (" << num1 << ", " << num2 << ", " << op << ")" << endl;
+			break;
+		}
+		i++;
+	}
+
+	fout << endl;
+	fout << "printing array data[][] elements..." << endl;
+
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			fout << data[i][j] << " ";
+		}
+		fout << result;
+		fout << endl;
+	}
+
+	fin.close();
+	fout.close();
+
+	return 0;
+}
+
+======================================== Excerise #3 ========================================
+#include <iostream>
+#include <fstream>
+#include <math.h>
+using namespace std;
+
+int numOfStudents = 3;
+int numOfGrades = 5;
+
+float getGPA(float total) {
+    if (total >= 95)
+        return 4.0;
+    else if (total >= 90 && total < 95)
+        return 3.7;
+    else if (total >= 85 && total < 90)
+        return 3.3;
+    else if (total >= 80 && total < 85)
+        return 3.0;
+    else if (total >= 75 && total < 80)
+        return 2.7;
+    else if (total >= 70 && total < 75)
+        return 2.3;
+    else if (total >= 65 && total < 70)
+        return 2.0;
+    else if (total >= 60 && total < 65)
+        return 1.7;
+    else if (total >= 55 && total < 60)
+        return 1.0;
+    else if (total >= 50 && total < 55)
+        return 0.0;
+    else return 0.0;
+}
+
+void calculateGPA(float gpa[][3], float grades[][6]) 
+{
+    float sum = 0.0;
+
+    for (int i = 0; i < numOfStudents; i++)
+    {
+        for (int j = 0; j < numOfGrades; j++)
+        {
+            sum = sum + grades[i][j];
+        }
+
+        gpa[i][0] = sum / numOfGrades;
+        gpa[i][1] = sum / numOfGrades / 10;
+        gpa[i][2] = sum / numOfGrades / 10 * 4;
+    }
+}
+
+void printGrades(float grades[][6], float gpa[][3]) 
+{
+    cout << "\nPrinting all students grades details ... " << endl;
+    cout << "ID\t\tG1\tG2\t\tG3\t\tG4\tG5\tAVG\t\tGPA" << endl;
+    for (int i = 0; i < numOfStudents; i++) 
+    {
+        cout << grades[i][0] << "\t";
+        for (int j = 1; j <= numOfGrades; j++) 
+        {
+            cout << grades[i][j] << "\t";
+        }
+        cout << gpa[i][1] << "\t" << gpa[i][2] << endl;
+    }
+}
+void readGrades(float grades[][6], float gpa[][3], ifstream& fin) 
+{
+    fin.open("grades.txt");
+
+    if (fin.fail());
+
+    for (int i = 0; i < numOfStudents; i++)
+    {
+        for (int k = 0; k < numOfGrades; k++)
+        {
+            fin >> grades[i][k];
+        }
+    }
+    fin.close();
+    calculateGPA(gpa, grades);
+}
+
+void storeGrades(float grades[][6], float gpa[][3], ofstream& fout) 
+{
+    cout << "Storing grades to file ..." << endl;
+    fout.open("calculated.txt");
+
+    if (fout.fail());
+
+    for (int i = 0; i < numOfStudents; i++)
+    {
+        fout << i + 1 << '\t';
+
+        for (int k = 0; k < numOfGrades; k++)
+        {
+            fout << grades[i][k] << '\t';
+        }
+        fout << gpa[i][1] << '\t' << gpa[i][2] << endl;
+    }
+    fout.close();
+}
+
+int getTopIndex(float gpa[][3]) 
+{
+    int top = 0;
+    for (int i = 0; i < numOfStudents; i++)
+    {
+        if (gpa[i][2] > gpa[top][2])
+        {
+            top = i;
+        }
+    }
+    return top;
+}
+
+void printTop(float grades[][6], float gpa[][3]) 
+{
+    int top = 0;
+    getTopIndex;
+
+    cout << "Top Student Details..." << endl;
+
+    for (int i = 0; i < numOfGrades; i++)
+    {
+        cout << grades[top][i] << '\t';
+    }
+
+    cout << gpa[top][1] << '\t' << gpa[top][2] << endl;
+}
+
+int main() {
+    float grades[3][6] = { 0 };
+    float gpa[3][3];
+
+    ifstream fin;
+    ofstream fout;
+
+    fout.open("calculated.txt");
+    fin.open("grades.txt");
+
+    if (fout.fail()) {
+        cout << " failed to open output file ... " << endl;
+        exit(0);
+    }
+    if (fin.fail()) {
+        cout << " failed to open input file ... " << endl;
+        exit(0);
+    }
+
+    readGrades(grades, gpa, fin);
+
+    while (1) {
+        int option;
+        cout << "\n choose an option: " << endl;
+        cout << "\t1. Print Grades " << endl;
+        cout << "\t2. Print Top Student " << endl;
+        cout << "\t3. Store Grades to file " << endl;
+        cout << "\t4. exit " << endl;
+
+        cout << " option: ";
+        cin >> option;
+
+        switch (option) {
+        case 1:
+            printGrades(grades, gpa);
+            break;
+        case 2:
+            printTop(grades, gpa);
+            break;
+        case 3:
+            storeGrades(grades, gpa, fout);
+            break;
+        case 4:
+            cout << " Exiting program " << endl;
+            fin.close();
+            fout.close();
+            exit(0);
+        }
+    }
+
+    return 0;
+}
