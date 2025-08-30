@@ -1,0 +1,209 @@
+======================================= Excerise #1 =======================================
+#include<iostream>
+using namespace std;
+
+template<typename T>
+class MyList {
+public:
+    MyList(int _capacity);                                          //constructor
+    MyList(const MyList<T>& rhs);                                   //copy constructor
+    ~MyList();                                                      //destructor
+    MyList<T>& operator=(const MyList<T>& rhs);                     //operator=
+
+    bool empty() const;                                             //empty()
+    bool full() const;                                              //full()
+    int count();                                                    //count()
+    void insert(T item);                                            //insert(item)
+    void Remove(T item);                                            //remove(item)
+
+    template<typename T> // DON'T forget to write this, if it is a friend function, else you will start to see link errors.
+    friend ostream& operator<<(ostream& outs, const MyList<T>& rhs);//operator<<
+
+private:
+    int capacity;
+    T* arr;
+    int current;
+};
+
+template<typename T>
+MyList<T>::MyList(int _capacity)
+{
+    capacity = _capacity;
+    arr = new T[capacity];
+    current = 0;
+}
+
+template<typename T>
+MyList<T>::MyList(const MyList<T>& rhs)
+{
+    capacity = rhs.capacity;
+    current = rhs.current;
+
+    arr = new T[capacity];
+
+    for (int i = 0; i < current; i++)
+    {
+        arr[i] = rhs.arr[i];
+    }
+}
+
+template<typename T>
+MyList<T>::~MyList()
+{
+    delete[] arr;
+}
+
+template<typename T>
+MyList<T>& MyList<T>::operator=(const MyList<T>& rhs)
+{
+    if (this == &rhs)
+    {
+        return *this;
+    }
+
+    if (capacity != rhs.capacity)
+    {
+        delete[] arr;
+        capacity = rhs.capacity;
+        arr = new T[capacity];
+
+    }
+    current = rhs.current;
+    for (int i = 0; i < current; i++)
+    {
+        arr[i] = rhs.arr[i];
+    }
+
+    return *this;
+}
+
+template<typename T>
+bool MyList<T>::empty() const
+{
+    return current == 0;
+}
+
+template<typename T>
+bool MyList<T>::full() const
+{
+    return current == capacity;
+}
+
+template<typename T>
+int MyList<T>::count()
+{
+    return current;
+}
+
+template<typename T>
+void MyList<T>::insert(T item) //////////
+{
+    if (!full())
+    {
+        arr[current] = item;
+        current++;
+    }
+    else
+    {
+        cout << "List is full" << endl;
+    }
+}
+
+template<typename T>
+void MyList<T>::Remove(T item) /////////
+{
+    if (!empty()) {
+        bool found = false;
+        int index = 0;
+        for (; index < current; index++)
+        {
+            if (item == arr[index]) {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            for (; index < current - 1; index++) {
+                arr[index] = arr[index + 1];
+            }
+            current--;
+        }
+
+
+        else {
+
+            cout << "element does not exist" << endl;
+        }
+    }
+    else {
+        cout << "list empty" << endl;
+    }
+}
+
+template<typename T>
+ostream& operator<<(ostream& outs, const MyList<T>& rhs)
+{
+    for (int i = 0; i < rhs.current; i++)
+    {
+        outs << rhs.arr[i] << endl;
+    }
+    outs << endl;
+
+    return outs;
+}
+
+class ClothingPiece {
+    string m_pieces;
+    int m_price;
+public:
+    ClothingPiece() :m_pieces("tshirt"), m_price(25) {}
+    ClothingPiece(string pieces, int price) :m_pieces(pieces), m_price(price) {}
+    bool operator==(const ClothingPiece& rhs) {
+        return (m_price == rhs.m_price);
+    }
+    friend ostream& operator<<(ostream& out, const ClothingPiece& p);
+};
+
+ostream& operator<<(ostream& out, const ClothingPiece& p) {
+    out << p.m_pieces << " for $" << p.m_price;
+    return out;
+}
+
+int main()
+{
+    cout << "----------int List----------" << endl;
+    MyList<int>  intList(7);
+    intList.insert(1);
+    intList.insert(3);
+    intList.insert(4);
+    cout << "List before removing:\n" << intList << endl;
+    intList.Remove(3);
+    cout << "List after removing:\n" << intList << endl;
+
+    cout << "\n----------string List----------" << endl;
+    MyList<string> stringList(2);
+    stringList.insert("hello");
+    stringList.insert("is it me");
+    stringList.insert("you're looking for");
+    stringList.Remove("simba");
+    cout << "Number of elements in list: " << stringList.count() << endl;
+    cout << "List:\n" << stringList << endl;
+
+
+    cout << "\n----------ClothingPiece List----------" << endl;
+    cout << "Enter the number of clothing pieces you want in your outfit: ";
+    int n;
+    cin >> n;
+    MyList<ClothingPiece> clothingPieceList(n);
+    cout << "Enter the pieces and price of each piece:" << endl;
+    for (int i = 0; i < n; i++) {
+        string piece;
+        int price;
+        cin >> piece >> price;
+        ClothingPiece p(piece, price);
+        clothingPieceList.insert(p);
+    }
+    cout << "Your clothingPiece list is:\n" << clothingPieceList << endl;
+
+    return 0;
+}
