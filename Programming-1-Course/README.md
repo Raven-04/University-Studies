@@ -1,4 +1,4 @@
-Note: -
+*Note: -*
 
 Yay! My first course that concerns coding (great optimism as a Freshman :) ). Until, the reality had finally sunk in for me...
 
@@ -6,7 +6,9 @@ Keep in mind that this was basically the first time I have dealt with any form o
 
 So, yeah... Take it with a grain of salt.
 
-Disclaimer: -
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+*Disclaimer: -*
 
 This is what my university's professors and lab instructors have taught us at the American University of Sharjah (AUS).
 
