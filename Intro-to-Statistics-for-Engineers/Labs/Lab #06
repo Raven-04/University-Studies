@@ -1,0 +1,75 @@
+Potato
+str(Potato)
+Potato$Bacteria = as.factor(Potato$Bacteria)   #
+Potato$Temp = as.factor(Potato$Temp)           # Qualitative
+Potato$Oxygen = as.factor(Potato$Oxygen)       #
+str(Potato)
+
+#---------------------------------------------------------
+# Q1
+#(A)
+summary(Potato$Rot)
+length(Potato$Rot)
+is.na(Potato$Rot)                              # is.na means missing
+sum(is.na(Potato$Rot))                         # no missing, meaning you have 54 observations
+t.test(Potato$Rot, conf.level = 0.95)          # Using t-interval
+
+#(B)
+summary(Potato$Temp)                           # number of 1 (number of successes) which is 27, n = 54
+prop.test(x=27, n=54, conf.level = 0.98)
+
+#(C)
+summary(Potato$Oxygen)
+prop.test(x=18, n = 54, conf.level = 0.99)
+
+#---------------------------------------------------------
+# Q2
+#(A)
+radon=c(91.9, 97.8, 111.4, 122.3, 105.4, 95, 103.8, 99.6, 96.6, 119.3, 104.8, 101.7)
+qqnorm(radon)
+qqline(radon)                                 # It supports normality since most of the points are on the line. Else, it isn't.
+
+#(B)
+t.test(radon, conf.level = 0.95)
+
+#---------------------------------------------------------
+# 3 (H.W.) TODO
+
+
+
+#---------------------------------------------------------
+# 4
+# (A)
+x = rnorm(n = 30, mean = 77, sd = 7)
+x
+
+# (B)
+ci = t.test(x, conf.level = 0.90)
+ci
+names(ci)
+ci$conf.int[1]                                 # Lower bound
+ci$conf.int[2]                                 # Upper bound
+
+# (C)
+output = matrix(nrow = 100000, ncol = 4)
+for (i in 1:100000)
+{
+  x = rnorm(n= 30, mean = 77, sd = 7)
+  CI = t.test(x, conf.level = 0.90)
+  lb = CI$conf.int[1]
+  ub = CI$conf.int[2]
+  output[i, 1] = i
+  output[i, 2] = lb
+  output[i, 3] = ub
+  if ((lb <= 77) & (77<=ub))
+  {
+    output[i, 4] = T
+  }
+  else
+  {
+    output[i, 4] = F
+  }
+}
+
+output
+sum(output[, 4])/100000               # 90% of the time of accuracy.
