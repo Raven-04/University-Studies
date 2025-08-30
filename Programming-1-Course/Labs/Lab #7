@@ -1,0 +1,172 @@
+============================================== Excerise #1 ==============================================
+#include <iostream>
+using namespace std;
+
+int Fabio(int n) 
+{
+	if (n < 0)
+	{
+		return -1;
+	}
+	else if (n == 0 || n == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		int factorial = 1;
+		for (int i = 1; i <= n; i++)
+		{
+			factorial *= i;
+			
+		}
+		return factorial;
+	}
+}
+
+int main() {
+	int n;
+
+	cout << "Which factorial would you like me to calculate today? ";
+	cin >> n;
+
+	int factorial = Fabio(n);
+
+	if (factorial == -1)
+	{
+		cout << "Sorry, that's an invalid input" << endl;
+	}
+	else
+	{
+		cout << n << "! = " << factorial << endl;
+	}
+	return 0;
+}
+
+============================================== Excerise #2 ==============================================
+#include <iostream>
+using namespace std;
+
+void Fabio(int n, int& fact)
+{
+	if (n < 0)
+	{
+		fact = -1;
+	}
+	else if (n == 0 || n == 1)
+	{
+		fact = 1;
+	}
+	else
+	{
+		fact = 1;
+		for (int i = 1; i <= n; i++)
+		{
+			fact *= i;
+		}
+	}
+}
+
+int main() {
+	int n, fact;
+
+	cout << "Which factorial would you like me to calculate today? ";
+	cin >> n;
+
+	Fabio(n, fact);
+
+	if (fact == -1)
+	{
+		cout << "Sorry, that's an invalid input" << endl;
+	}
+	else
+	{
+		cout << n << "! = " << fact << endl;
+	}
+
+	return 0;
+}
+
+============================================== Excerise #3 ==============================================
+#include <iostream>
+using namespace std;
+
+void swap(char& c1, char& c2)
+{
+	int temp;
+	temp = c1;
+	c1 = c2;
+	c2 = temp;
+}
+
+int main() {
+	char c1, c2;
+
+	cout << "Enter c1: ";
+	cin >> c1;
+
+	cout << "Enter c2: ";
+	cin >> c2;
+	cout << endl;
+
+	swap(c1, c2);
+
+	cout << "Performing magic..." << endl;
+	cout << "Ta-daaaa! c1=" << c1 << " and c2=" << c2 << endl;
+
+	return 0;
+}
+
+============================================== Excerise #4 ==============================================
+#include <iostream>
+using namespace std;
+
+int h, w;
+char c;
+
+void geo()
+{
+	for (int rows = 1; rows <= h; rows++)
+	{
+		if (rows == 1 || rows == h)
+		
+		for (int col = 1; col <= w; col++)
+		{
+			cout << c;
+		}
+		else
+		{
+			for (int col = 1; col <= w; col++)
+			{
+			
+				if (col == 1 || col == w)
+				{
+					cout << c;
+				}
+				else
+				{
+					cout << " ";
+				}
+			}
+
+		}
+		cout << endl;
+	}
+}
+
+int main() {
+	
+
+	cout << "Hi I'm Geo and I'm here to make your rectangle dreams come true!" << endl;
+	cout << "Enter height: ";
+	cin >> h;
+	cout << "Enter width: ";
+	cin >> w;
+	cout << "Enter char: ";
+	cin >> c;
+	cout << endl;
+
+	geo();
+
+	return 0;
+}
