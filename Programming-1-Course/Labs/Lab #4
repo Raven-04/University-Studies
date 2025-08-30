@@ -1,0 +1,124 @@
+============================================ Exercise #1 ============================================
+#include <iostream>
+using namespace std;
+
+int main() {
+
+	int num;
+	bool isPrime = true;
+
+	cout << "Enter integer number: ";
+	cin >> num;
+	int i = num / 2;
+	while (i >= 2) 
+	{
+		if (num % i == 0)
+		{
+			isPrime = false;
+			break;
+		}
+		i--;
+	}
+	if (isPrime == true) 
+		cout << num << " is a prime number." << endl;
+	else
+		cout << num << " is Not a prime number." << endl;
+
+
+	return 0;
+}
+
+============================================ Exercise #2 ============================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	int lower, upper;
+
+	cout << "Enter lower number: ";
+	cin >> lower;
+	cout << "Enter upper number: ";
+	cin >> upper;
+	cout << endl;
+
+	int sum = 0, product = 1;
+	for (int i = lower; i <= upper; i++) 
+{
+		if (i % 3 == 0) 
+		{
+			sum = sum + i;
+			product = product * i;
+		}
+	}
+	cout << "Sum of multiples of 3 between " << lower << " and " << upper << " = " << sum << endl;
+	cout << "Product of multiples of 3 between " << lower << " and " << upper << " = " << product << endl;
+
+	return 0;
+}
+
+============================================ Exercise #3 ============================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	int num1, num2, i = 1;
+	char op;
+	int result;
+	
+	do
+	{
+
+		cout << "Enter math operation: ";
+		cin >> num1 >> op >> num2;
+		i++;
+
+		switch (op)
+		{
+		case '+':
+			cout << num1 << " " << op << " " << num2 << " = " << num1 + num2 << endl << endl;
+			break;
+		case '-':
+			cout << num1 << " " << op << " " << num2 << " = " << num1 - num2 << endl << endl;
+			break;
+		case '*':
+			cout << num1 << " " << op << " " << num2 << " = " << num1 * num2 << endl << endl;
+			break;
+		case '/':
+			cout << num1 << " " << op << " " << num2 << " = " << num1 / num2 << endl << endl;
+			break;
+		case '%':
+			cout << num1 << " " << op << " " << num2 << " = " << num1 % num2 << endl << endl;
+			break;
+		default:
+			cout << "Invalid math operation !" << endl << endl;
+		}
+	} while (i <= 7);
+
+	return 0;
+}
+
+============================================ Exercise #4 ============================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	int num1, num2;
+	char op;
+	int result;
+
+	for (int i = 1; i <= 7; i++) 
+	{
+
+		cout << "Enter math operation: ";
+		cin >> num1 >> op >> num2;
+
+		if (op == '+') cout << num1 << " " << op << " " << num2 << " = " << num1 + num2 << endl << endl;
+		else if (op == '-') cout << num1 << " " << op << " " << num2 << " = " << num1 - num2 << endl << endl;
+		else if (op == '*') cout << num1 << " " << op << " " << num2 << " = " << num1 * num2 << endl<< endl;
+		else if (op == '/') cout << num1 << " " << op << " " << num2 << " = " << num1 / num2 << endl << endl;
+		else if (op == '%') cout << num1 << " " << op << " " << num2 << " = " << num1 % num2 << endl << endl;
+		else cout << "Invalid math operation !" << endl << endl;
+	}
+
+	return 0;
+}
