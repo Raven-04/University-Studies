@@ -1,0 +1,104 @@
+=========================================== Excerise #1 ===========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	int N, factorial = 1;
+
+	for (int i = 2; i <= 8; i++) 
+	{
+		factorial = 1;
+		for (int j = 1; j <= i; j++)
+			factorial = factorial * j;
+		cout << i << "! " << " = " << factorial << endl;
+	}
+
+	return 0;
+}
+
+=========================================== Excerise #2 ===========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	int num, stars;
+	
+	cout << "enter how many times to loop? ";
+	cin >> num;
+	cout << endl;
+
+	for (int i = 1; i <= num; i++)
+	{
+		cout << "enter a number between 1 and 10 (-1 to exit): ";
+		cin >> stars;
+
+		if (stars == -1)
+		{
+			cout << "exiting loop!" << endl;
+			break;
+		}
+		if (stars < 0 || stars > 10) cout << "Invalid input!" << endl;
+		else {
+			for (int j = 1; j <= stars; j++)
+				cout << '*';
+			cout << endl;
+		}
+	}
+
+	return 0;
+}
+
+=========================================== Excerise #3 ===========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	int num;
+
+	cout << "Enter integer number: ";
+	cin >> num;
+	cout << endl;
+
+	//for-loop
+	for (int i = 1; i <= 7; i++)
+	{
+		for (int k = 1; k <= i; k++)
+			cout << k << ' ';
+		cout << endl;
+	}
+	for (int i = num-1; i >= 1; i--)
+	{
+		for (int k = 1; k <= i; k++)
+			cout << k << ' ';
+		cout << endl;
+	} 
+
+	//while-loop
+	/*int i = 1;
+	while (i < 2 * num)
+	{
+		if (i <= num)
+		{
+			int k = 1;
+			while (k <= i)
+			{
+				cout << k << ' ';
+				k++;
+			}
+			cout << endl;
+		}
+		else
+		{
+			int k = 1;
+			while (k <= 2 * num - i)
+			{
+				cout << k << ' ';
+				k++;
+			}
+			cout << endl;
+		}
+		i++;
+	}*/
+
+	return 0;
+}
