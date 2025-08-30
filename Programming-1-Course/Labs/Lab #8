@@ -1,0 +1,123 @@
+========================================== Excerise #1 ==========================================
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	const int SIZE = 7;
+	int array[SIZE], max, min, sum = 0;
+	float average;
+
+	cout << "Enter array elements:" << endl;
+	for (int i = 0; i < SIZE; i++)
+	{
+		cout << "a[" << i << "]: ";
+		cin >> array[i];
+	}
+
+	min = max = array[0];
+
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (array[i] > max)
+		{
+			max = array[i];
+		}
+		if (array[i] < min)
+		{
+			min = array[i];
+		}
+		
+		sum = sum + array[i];
+	}
+
+	average = sum * 1.0 / SIZE;
+
+	cout << endl;
+	cout << " Min = " << min << endl;
+	cout << " Max = " << max << endl;
+	cout << " Sum = " << sum << endl;
+	cout << " Average = " << average << endl;
+
+	cout << endl;
+
+	return 0;
+}
+
+========================================== Excerise #2 ==========================================
+#include <iostream>
+using namespace std;
+
+void printArray(int a[], int size)
+{
+	cout << "a[] = {";
+	if (size > 0)
+	{
+		cout << a[0];
+	}
+	for (int i = 1; i < size; i++)
+	{
+		cout << ", " << a[i];
+	}
+	cout << "}" << endl;
+
+}
+void reverseElements(int a[], int size)
+{
+	for (int i = 0, k = size - 1; i < size/2; i++, k--)
+	{
+		int temp;
+		temp = a[i];
+		a[i] = a[k];
+		a[k] = temp;
+	}
+}
+void swap(int& a, int& b);
+
+bool searchTarget(int a[], int size, int target, int& index);
+
+int main() {
+	const int SIZE = 5;
+	int a[SIZE];
+	int target;
+	int index;
+
+	cout << "Enter array elements:" << endl;
+	for (int i = 0; i < SIZE; i++)
+	{
+		cout << "a[" << i << "]: ";
+		cin >> a[i];
+	}
+	cout << endl;
+
+	cout << "Print array elements before reversing ..." << endl;
+	printArray(a, SIZE);
+	cout << endl;
+
+	reverseElements(a, SIZE);
+
+	cout << "Print array elements after reversing ..." << endl;
+	printArray(a, SIZE);
+	cout << endl;
+
+	cout << "Enter a target to search for: ";
+	cin >> target;
+
+	for (int i = 1; i < SIZE; i++)
+	{
+		if (target > 0 && target < 4)
+		{
+			index = i;
+			cout << "Target '" << target << "' found @ index [" << index << "].";
+			break;
+		}
+		else
+		{
+			cout << "Target not found !";
+			break;
+		}
+	}
+
+	cout << endl;
+	return 0;
+}
