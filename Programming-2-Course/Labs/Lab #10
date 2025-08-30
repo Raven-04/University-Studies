@@ -1,0 +1,202 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Schedule {
+	string* m_courses;
+	int m_capacity;
+	int m_exams;
+
+public:
+	Schedule() :m_exams(0), m_capacity(3) {
+		cout << "Called default constructor" << endl;
+		m_courses = new string[m_capacity];
+	}
+	Schedule(int capacity) :m_capacity(capacity), m_exams(0) {
+		cout << "Called parametrized constructor" << endl;
+		m_courses = new string[m_capacity];
+	}
+
+	//Copy constuctor
+	Schedule(const Schedule& rhs);
+
+	//Move constructor
+	Schedule(Schedule&& rhs) noexcept;
+
+	//Destructor
+	~Schedule();
+
+	//Assignment operator
+	Schedule& operator=(const Schedule& rhs);
+
+	//Move assignement operator
+	Schedule& operator=(Schedule&& rhs) noexcept;
+
+	//Insert function
+	void insert(string courses);
+
+	friend ostream& operator<<(ostream& out, const Schedule& Schedule);
+};
+
+Schedule::Schedule(const Schedule& rhs)
+{
+	m_capacity = rhs.m_capacity;
+	m_exams = rhs.m_exams;
+
+	cout << "Called copy constructor" << endl;
+	m_courses = new string[m_capacity];
+
+	for (int i = 0; i < m_capacity; i++)
+	{
+		m_courses[i] = rhs.m_courses[i];
+	}
+}
+
+Schedule::Schedule(Schedule&& rhs) noexcept
+{
+	this->m_courses = rhs.m_courses;
+	this->m_capacity = rhs.m_capacity;
+	this->m_exams = rhs.m_exams;
+
+	rhs.m_courses = NULL;
+	rhs.m_capacity = 0;
+	rhs.m_exams = 0;
+
+	cout << "Called move constructor" << endl;
+}
+
+Schedule::~Schedule()
+{
+	delete[] m_courses;
+	cout << "Called destructor" << endl;
+}
+
+Schedule& Schedule::operator=(const Schedule& rhs)
+{
+	if (this == &rhs)
+	{
+		return *this;
+	}
+
+	if (this->m_capacity != rhs.m_capacity)
+	{
+		delete[] this->m_courses;
+
+		this->m_capacity = rhs.m_capacity;
+
+		this->m_courses = new string[m_capacity];
+	}
+
+	this->m_exams = rhs.m_exams;
+
+	for (int i = 0; i < m_capacity; i++)
+	{
+		this->m_courses[i] = rhs.m_courses[i];
+	}
+
+	cout << "Called copy assignment operator" << endl;
+
+	return *this;
+}
+
+Schedule& Schedule::operator=(Schedule&& rhs) noexcept
+{
+	if (this != &rhs)
+	{
+		delete[] this->m_courses; // We deleted the calling object's array, in order to free an empty space for copying the array later.
+
+		this->m_courses = rhs.m_courses;
+		this->m_capacity = rhs.m_capacity;
+		this->m_exams = rhs.m_exams;
+
+		rhs.m_courses = NULL;
+		rhs.m_capacity = 0;
+		rhs.m_exams = 0;
+	}
+
+	return *this;
+}
+
+void Schedule::insert(string courses)
+{
+	if (m_exams == m_capacity)
+	{
+		cout << "The capacity has exceeded." << endl;
+	}
+	else
+	{
+		for (int i = 0; i < m_capacity; i++)
+		{
+			if (m_courses[i] == courses)
+			{
+				cout << "Exam already exists" << endl;
+			}
+			else
+			{
+				m_courses[m_exams++] = courses;
+				cout << "Exam inserted" << endl;
+			}
+			break;
+
+		}
+	}
+}
+
+//=====================================================================
+
+ostream& operator<<(ostream& out, const Schedule& Schedule) {
+	out << "Capacity: " << Schedule.m_capacity << endl;
+	if (Schedule.m_exams == 0)
+	{
+		out << "Empty" << endl;
+	}
+	else
+	{
+		out << "Exams: " << Schedule.m_exams << endl;
+		for (int i = 0; i < Schedule.m_exams; i++) {
+			out << Schedule.m_courses[i] << " ";
+		}
+	}
+	return out;
+}
+
+Schedule initSchedule()
+{
+	cout << "Enter realistic schedule capacity: ";
+	int cap;
+	cin >> cap;
+	Schedule schedule(cap);
+	cout << "How many exams do you have scheduled? ";
+	int courses;
+	cin >> courses;
+	cout << "Enter " << courses << " course names:" << endl;
+	string exam;
+	for (int i = 0; i < courses; i++) {
+		cin >> exam;
+		schedule.insert(exam);
+	}
+	return schedule;
+}
+
+int main() {
+	cout << "Initializing schedule1" << endl;
+	Schedule schedule1 = initSchedule();
+	cout << "\nInitializing schedule2" << endl;
+	Schedule schedule2 = initSchedule();
+	cout << "\nInitializing schedule3 which is a copy of schedule1" << endl;
+	Schedule schedule3 = schedule1;
+	cout << "\nCreating a vector of Schedule of exam 2" << endl;
+	vector<Schedule> scheduleVect(2);
+	cout << "\nAssigning the schedule1 and schedule2 to the vector" << endl;
+	scheduleVect[0] = schedule1;
+	scheduleVect[1] = schedule2;
+	cout << "\nPushing schedule3 into the vector" << endl;
+	scheduleVect.push_back(schedule3);
+	cout << "\nPushing a new anonymous schedule into the vector" << endl;
+	scheduleVect.push_back(Schedule(2));
+	cout << "\nPrinting all schedules in the vector" << endl;
+	for (int i = 0; i < scheduleVect.size(); i++) {
+		cout << "Schedule #" << i << '\n' << scheduleVect.at(i) << "\n\n";
+	}
+}
