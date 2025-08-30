@@ -1,0 +1,41 @@
+Bears
+names(Bears)
+str(Bears)
+Bears$Sex=as.factor(Bears$Sex)       #Changes Sex to factor
+Bears$Month=as.factor(Bears$Month)   #Changes Month to factor
+is.na(Bears)
+sum(is.na(Bears))                    #Shows the total amount of Trues
+
+#(B)
+t1 = table(Bears$Month)              #Tally table for month
+pie(t1)                                   
+barplot(t1)                              #Bar chart for t1
+install.packages("lessR")                #Install a package with new functions
+library(lessR)                           #Loading in the package (to use it)
+bm = Bears$Month                         #Name the variable you want to use
+PieChart(bm, main = "Pie Chart for Month")
+BarChart(bm, xlab = "Month", ylab = "Frequency", main = "Bar Chart for Bears Month")
+help("BarChart")                        #You use this function to help you out
+
+#C)
+bw = Bears$Weight
+hist(bw, probability = T ,breaks = 5)   #If probability is true, then it uses the frequency and not the R.F.
+help("hist")
+Histogram(bw, bin_width = 65)
+help("Histogram")
+
+#D)
+dotchart(Bears$Weight, groups = Bears$Sex)
+
+#E)
+table(Bears$Sex)
+bs = Bears$Sex
+PieChart(bs, main = "Pie Chart for Sex")
+summary(Bears$Weight)
+sd(Bears$Weight)                            #sd is standard deviation
+
+tapply(Bears$Weight, Bears$Month, summary) #tapply meaning applying a function multiple times
+tapply(Bears$Weight, Bears$Month, sd)      #sd for weight and month
+
+#F)
+tapply(Bears$Weight, mean, median, sd)
