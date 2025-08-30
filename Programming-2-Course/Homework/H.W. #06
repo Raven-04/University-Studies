@@ -1,0 +1,368 @@
+======================================= Excerise #1 =======================================
+C++ File #1:-
+#include <iostream>
+#include "pfarraydbak.h"
+using namespace std;
+
+void testPFArrayDBak();
+//Conducts one test of the class PFArrayDBak.
+
+//----HW: write a new main according to the HW
+int main()
+{
+    // Making a pointer to the base class and creating a new object of type derived.
+    PFArrayD* a;
+
+    a = new PFArrayDBak();
+
+    // Filling in the array.
+    int cap;
+    
+    cout << "Enter capacity of the array: ";
+    cin >> cap;
+
+    for (int i = 0; i < cap; i++)
+    {
+        double answer;
+
+        cout << "Please input Element " << i + 1 << ": ";
+        cin >> answer;
+
+        a->addElement(answer);
+    }
+
+    // Printing and backing up array 'a' in 'b'.
+    cout << "\nBefore backing up: " << endl;
+    a->print();
+
+    a->backup();
+
+    cout << "\nAfter backing up: " << endl;
+    a->print();
+
+    // Deallocating the memory.
+    delete a;
+
+    return 0;
+}
+
+void testPFArrayDBak()
+{
+    int cap;
+    cout << "Enter capacity of this super array: ";
+    cin >> cap;
+    PFArrayDBak backUpArr(cap);
+
+    cout << "Enter up to " << cap << " nonnegative numbers.\n";
+    cout << "Place a negative number at the end.\n";
+
+    double next;
+
+    cin >> next;
+    while ((next >= 0) && (!backUpArr.full()))
+    {
+        backUpArr.addElement(next);
+        cin >> next;
+    }
+
+    if (next >= 0)
+    {
+        cout << "Could not read all numbers.\n";
+        //Clear the unread input:
+        while (next >= 0)
+            cin >> next;
+    }
+
+    int count = backUpArr.getNumberUsed();
+    cout << "The following " << count
+        << " numbers read and stored:\n";
+    int index;
+    for (index = 0; index < count; index++)
+        cout << backUpArr.at(index) << " ";
+    cout << endl;
+
+    cout << "Backing up array.\n";
+    backUpArr.backup();
+
+    cout << "emptying array.\n";
+    backUpArr.emptyArray();
+    cout << backUpArr.getNumberUsed()
+        << " numbers are now stored in the array.\n";
+
+    cout << "Restoring array.\n";
+    backUpArr.restore();
+    count = backUpArr.getNumberUsed();
+    cout << "The following " << count
+        << " numbers are now stored:\n";
+    for (index = 0; index < count; index++)
+        cout << backUpArr.at(index) << " ";
+    cout << endl;
+}
+
+C++ File #2:-
+#include <iostream>
+using namespace std;
+#include "pfarrayd.h"
+
+PFArrayD::PFArrayD() : capacity(50), used(0)
+{
+    a = new double[capacity];
+}
+
+PFArrayD::PFArrayD(int size) : capacity(size), used(0)
+{
+    a = new double[capacity];
+}
+
+PFArrayD::PFArrayD(const PFArrayD& pfaObject)
+    :capacity(pfaObject.capacity), used(pfaObject.used)
+{
+    a = new double[capacity];
+    for (int i = 0; i < used; i++)
+        a[i] = pfaObject.a[i];
+}
+double PFArrayD::at(int index)
+{
+    if (index >= used)
+    {
+        cout << "Illegal index in PFArrayD.\n";
+        exit(0);
+    }
+    return a[index];
+}
+//double& PFArrayD::operator[](int index)
+//{
+//    if (index >= used)
+//    {
+//        cout << "Illegal index in PFArrayD.\n";
+//        exit(0);
+//    }
+//
+//    return a[index];
+//}
+
+void PFArrayD::operator =(const PFArrayD& rightSide)
+{
+    if (capacity != rightSide.capacity)
+    {
+        delete[] a;
+        a = new double[rightSide.capacity];
+    }
+
+    capacity = rightSide.capacity;
+    used = rightSide.used;
+    for (int i = 0; i < used; i++)
+        a[i] = rightSide.a[i];
+
+}
+
+PFArrayD::~PFArrayD()
+{
+    delete[] a;
+    cout << "~PFArrayD() has been called" << endl;
+}
+
+void PFArrayD::addElement(double element)
+{
+    if (used >= capacity)
+    {
+        cout << "Attempt to exceed capacity in PFArrayD.\n";
+        exit(0);
+    }
+    a[used] = element;
+    used++;
+}
+
+bool PFArrayD::full() const
+{
+    return (capacity == used);
+}
+
+int PFArrayD::getCapacity() const
+{
+    return capacity;
+}
+
+int PFArrayD::getNumberUsed() const
+{
+    return used;
+}
+
+void PFArrayD::emptyArray()
+{
+    used = 0; //logical delete
+}
+
+void PFArrayD::print()
+{
+    cout << "\nPrinting out the partially-filled array of \"a\"..." << endl;
+    for (int i = 0; i < used; i++)
+    {
+        cout << a[i] << " | ";
+    }
+    cout << endl;
+}
+
+C++ File #3:-
+#include "pfarraydbak.h"
+#include <iostream>
+using namespace std;
+
+PFArrayDBak::PFArrayDBak() : PFArrayD(), capacityB(capacity /*of parent*/), usedB(0)
+{
+    b = new double[capacityB];
+}
+
+PFArrayDBak::PFArrayDBak(int capacityValue) : PFArrayD(capacityValue), capacityB(capacityValue), usedB(0)
+{
+    b = new double[capacityB];
+}
+
+PFArrayDBak::PFArrayDBak(const PFArrayDBak& oldObject)
+    : PFArrayD(oldObject), usedB(0)
+{
+    capacityB = oldObject.capacityB;
+    usedB = oldObject.usedB;
+
+    b = new double[capacityB];
+    for (int i = 0; i < usedB; i++)
+        b[i] = oldObject.b[i];
+}
+
+void PFArrayDBak::backup()
+{
+    usedB = used; /*inherited from parent*/
+    for (int i = 0; i < usedB; i++)
+        b[i] = at(i); /*function at() of parent class*/
+    //b[i] = PFArrayD::at(i); //same as the line above
+}
+
+void PFArrayDBak::restore()
+{
+    emptyArray(); /*a function of the parent*/
+    //PFArrayD::emptyArray(); //same as the line above
+
+    for (int i = 0; i < usedB; i++)
+        addElement(b[i]);
+    //PFArrayD::addElement(b[i]); //same as te line above
+}
+
+void PFArrayDBak::operator =(const PFArrayDBak& rightSide)
+{
+    PFArrayD::operator =(rightSide);
+
+    if (capacityB != rightSide.capacityB)
+    {
+        delete[] b;
+        capacityB = rightSide.capacityB;
+        b = new double[rightSide.capacityB];
+    }
+
+    usedB = rightSide.usedB;
+    for (int i = 0; i < usedB; i++)
+        b[i] = rightSide.b[i];
+
+}
+
+PFArrayDBak::~PFArrayDBak()
+{
+    delete[] b;
+    cout << "\n~PFArrayDBak() has been called" << endl;
+}
+
+void PFArrayDBak::print()
+{
+    PFArrayD::print();
+    cout << "\nPrinting out the partially-filled array of \"b\"..." << endl;
+    for (int i = 0; i < usedB; i++)
+    {
+        cout << b[i] << " | ";
+    }
+    cout << endl;
+}
+
+Header File #1:-
+#pragma once
+#ifndef PFARRAYD_H
+#define PFARRAYD_H
+
+class PFArrayD
+{
+public:
+    PFArrayD();
+    //Initializes with a capacity of 50.
+
+    PFArrayD(int capacityValue);
+
+    PFArrayD(const PFArrayD& pfaObject);
+
+    void addElement(double element);
+    //Precondition: The array is not full.
+    //Postcondition: The element has been added.
+
+    bool full() const;
+    //Returns true if the array is full, false otherwise.
+
+    int getCapacity() const;
+
+    int getNumberUsed() const;
+
+    void emptyArray();
+    //Resets the number used to zero, effectively emptying the array.
+
+    double at(int index); //use for read only cout << obj.at(i); but not cin >> obj.at(i);
+    //double& operator[](int index);
+    //Read and change access to elements 0 through numberUsed - 1.
+
+    void operator =(const PFArrayD& rightSide);
+
+    virtual ~PFArrayD();
+
+    virtual void print();
+
+    virtual void backup() = 0;
+
+protected:
+    double* a; //for an array of doubles.
+    int capacity; //for the size of the array.
+    int used; //for the number of array positions currently in use.
+};
+
+#endif //PFARRAYD_H
+
+Header File #2:-
+#pragma once
+#ifndef PFARRAYDBAK_H
+#define PFARRAYDBAK_H
+#include "pfarrayd.h"
+
+class PFArrayDBak : public PFArrayD
+{
+public:
+    PFArrayDBak();
+    //Initializes with a capacity of 50.
+
+    PFArrayDBak(int capacityValue);
+
+    PFArrayDBak(const PFArrayDBak& Object);
+
+    void backup();
+    //Makes a backup copy of the partially filled array.
+
+    void restore();
+    //Restores the partially filled array to the last saved version. 
+    //If backup has never been invoked, this empties the partially filled array.
+
+    void operator =(const PFArrayDBak& rightSide);
+
+    virtual ~PFArrayDBak();
+
+    virtual void print();
+
+private:
+    double* b; //for a backup of main array.
+    int usedB; //backup for inherited member variable used.
+    int capacityB; //backup for inherited size of array.
+};
+
+#endif //PFARRAYD_H
