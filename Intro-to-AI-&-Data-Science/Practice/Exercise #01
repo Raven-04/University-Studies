@@ -1,0 +1,84 @@
+# Question #1
+num1 = 5
+num2 = 10
+add = num1 + num2
+sub = num1 + num2
+mul = num1 * num2
+div = num1 / num2
+mod = num1 % num2
+exp = num1 ** num2
+floor = num1 // num2
+
+print(f'{num1} + {num2} = {add}')
+print(f'{num1} - {num2} = {sub}')
+print(f'{num1} * {num2} = {mul}')
+print(f'{num1} / {num2} = {div}')
+print(f'{num1} % {num2} = {mod}')
+print(f'{num1} ** {num2} = {exp}')
+print(f'{num1} // {num2} = {floor}')
+
+# Question #2
+greet = "Good morning"
+name = "Mark"
+
+sentence =  greet + " " + name
+print(sentence)
+
+# Question 3
+x1 = 3 * (4 +5) - 7 % 2
+x2 = 7 + 8 * 2 - 5 // 2
+x3 = 10 + 2 ** 3 -5 * 2
+x4 = (15 - 3) * 4 / 2
+
+print(x1)
+print(x2)
+print(x3)
+print(x4)
+
+# Question 4
+p = (8 < 10) or (2==3)
+q = not (6 >= 8) and (3 != 3)
+r = (7 >= 5) and not (4 < 2)
+s = (12 == 10) or (3 > 5)
+
+print(p)
+print(q)
+print(r)
+print(s)
+
+# Question 5
+AUS = ["CAS", "CEN", "SBA", "CAAD", "Main Building"]
+print("AUS's departments:", AUS)
+
+print("The Department of Business:", AUS[2])
+
+AUS.append("Library")
+print(AUS)
+
+print(AUS[1:4])
+
+AUS.remove("Main Building")
+print(AUS)
+
+AUS.reverse()
+print(AUS)
+
+# Question 6
+length = 5.3
+width = 3.8
+area = length * width
+
+print(f"Area: {area}")
+
+# Question 7        # The code works in "Colab", not too sure why it doesn't work here
+conversion_rate = 0.85
+dollars = input("Enter a value in dollars: ")
+euros = float(dollars) * conversion_rate
+
+print(f"Euros: {euros}")
+
+# Question 8        # Again, works in "Colab", it might be due to the input functions
+name = input("Enter your name: ")
+house = input("Enter your Hogwarts House: ")
+
+print(f"Hello {name}, and welcome to {house}!")
