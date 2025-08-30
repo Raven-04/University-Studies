@@ -1,0 +1,159 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Tool 
+{
+	string m_name;
+	int m_health;
+	vector<string> m_enchantments;
+
+public:
+	Tool() :m_name(""), m_health(0) {};
+	Tool(string name, int health) :m_name(name), m_health(health) {}
+	void Enchant(string enchantment) 
+	{
+		m_enchantments.push_back(enchantment);
+	}
+
+	bool operator>(const Tool& t2) 
+	{
+		if (m_enchantments.size() > t2.m_enchantments.size()) 
+		{
+			return true;
+		}
+		else if (m_enchantments.size() < t2.m_enchantments.size()) 
+		{
+			return false;
+		}
+		else 
+		{
+			if (m_health > t2.m_health) 
+			{
+				return true;
+			}
+			else 
+			{
+				return false;
+			}
+		}
+	}
+
+	bool operator<(const Tool& t2) 
+	{
+		return !(operator>(t2));
+	}
+
+	bool operator==(const Tool& t2) 
+	{
+		if (m_enchantments.size() == t2.m_enchantments.size() && m_health == t2.m_health) 
+		{
+			return true;
+		}
+		else 
+		{
+			return false;
+		}
+	}
+
+	friend Tool operator+(const Tool& t1, const Tool& t2);
+	friend ostream& operator<<(ostream& out, const Tool& t1);
+	friend istream& operator>>(istream& in, Tool& t1);
+};
+
+Tool operator+(const Tool& t1, const Tool& t2) 
+{
+	Tool t3(t1.m_name, t1.m_health);
+
+	if (t1.m_name == t2.m_name) 
+	{
+		t3.m_health += t2.m_health;
+	}
+
+	return t3;
+}
+ostream& operator<<(ostream& out, const Tool& t1) 
+{
+	if (t1.m_enchantments.size() > 0) 
+	{
+		out << "Enchanted ";
+	}
+	out << t1.m_name << endl;
+	out << "health: " << t1.m_health << endl;
+	if (t1.m_enchantments.size() > 0) 
+	{
+		out << "Active enchantments: ";
+		for (string enchantment : t1.m_enchantments) 
+		{
+			out << enchantment << " ";
+		}
+		out << endl;
+	}
+
+	return out;
+}
+istream& operator>>(istream& in, Tool& t1) 
+{
+	in >> t1.m_name >> t1.m_health;
+
+	return in;
+}
+
+int main() 
+{
+	Tool t1, t2, t3;
+	cout << "Enter tool name and health for Tool 1: ";
+	cin >> t1;
+	cout << "Enter tool name and health for Tool 2: ";
+	cin >> t2;
+	cout << "Printing tool information:" << endl;
+	cout << t1 << '\n' << t2 << endl;
+	if (t1 == t2) 
+	{
+		cout << "The tools are equal" << endl;
+	}
+	else 
+	{
+		cout << "The tools are not equal" << endl;
+	}
+	cout << "\nApplying enchantments" << endl;
+
+	cout << "Enter number of enchantments for Tool 1: ";
+	int n;
+	cin >> n;
+	for (int i = 0; i < n; i++) 
+	{
+		string enchantment;
+		cin >> enchantment;
+		t1.Enchant(enchantment);
+	}
+
+	cout << "Enter number of enchantments for Tool 2: ";
+	cin >> n;
+	for (int i = 0; i < n; i++) 
+	{
+		string enchantment;
+		cin >> enchantment;
+		t2.Enchant(enchantment);
+	}
+	cout << "\nPrinting tool information after enchantment:" << endl;
+	cout << t1 << '\n' << t2 << endl;
+	
+	if (t1 > t2) 
+	{
+		cout << "Tool 1 is stronger" << endl;
+	}
+	else if (t2 > t1) 
+	{
+		cout << "Tool 2 is stronger" << endl;
+	}
+	cout << "Enter tool name and health for Tool 3: ";
+	cin >> t3;
+	cout << "Creating a Tool 4 = Tool 1 + Tool 3" << endl;
+	Tool t4 = t1 + t3;
+	cout << t4 << endl;
+
+	return 0;
+}
