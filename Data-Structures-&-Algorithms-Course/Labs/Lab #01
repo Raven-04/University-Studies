@@ -1,0 +1,255 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+class Matrix
+{
+private:
+    int** arr;
+    int rows;
+    int cols;
+public:
+    Matrix(int r = 4, int c = 4) : rows(r), cols(c)
+    {
+        arr = new int* [rows];
+
+        for (int i = 0; i < rows; i++) {
+            arr[i] = new int[cols];
+        }
+    }
+    Matrix(const Matrix& rhs)
+    {
+        rows = rhs.rows;
+        cols = rhs.cols;
+
+        arr = new int* [rows];
+
+        for (int i = 0; i < rows; i++) {
+            arr[i] = new int[cols];
+            for (int j = 0; j < cols; j++) {
+                arr[i][j] = rhs.arr[i][j];
+            }
+        }
+    }
+
+    Matrix& operator=(const Matrix& rhs)
+    {
+        if (&rhs == this) {
+            return *this;
+        }
+
+        if (rows == rhs.rows && cols == rhs.cols) {
+            for (int i = 0; i < rows; i++){
+                for (int j = 0; j < cols; j++){
+                    arr[i][j] == rhs.arr[i][j];
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < rows; i++){
+                delete[]arr[i];
+            }
+            delete arr;
+
+            rows = rhs.rows;
+            cols = rhs.cols;
+
+            for (int i = 0; i < rhs.rows; i++) {
+                arr[i] = new int[cols];
+                for (int j = 0; j < rhs.cols; j++) {
+                    arr[i][j] = rhs.arr[i][j];
+                }
+            }
+        }
+
+        return *this;
+    }
+    bool operator == (const Matrix& rhs)
+    {
+        if (&rhs == this) {
+            return true;
+        }
+        if (rhs.rows != rows || rhs.cols != cols) {
+            return false;
+        }
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (arr[i][j] != rhs.arr[i][j]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    Matrix operator += (const Matrix& rhs)
+    {
+        if (rhs.rows != rows || rhs.cols != cols) {
+            cout << "Error" << endl;
+            exit(1);
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                arr[i][j] += rhs.arr[i][j];
+            }
+        }
+
+        return *this;
+    }
+
+    Matrix operator -= (const Matrix& rhs)
+    {
+        if (rhs.rows != rows || rhs.cols != cols) {
+            cout << "Error" << endl;
+            exit(1);
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                arr[i][j] -= rhs.arr[i][j];
+            }
+        }
+
+        return *this;
+    }
+
+
+    friend Matrix operator + (const Matrix& m1, const Matrix& m2)
+    {
+        if (m1.rows != m2.rows || m1.cols != m2.cols) {
+            cout << "Error detected!" << endl;
+            exit(1);
+        }
+        
+        Matrix sum(m1.rows, m1.cols);
+        for (int i = 0; i < m1.rows; i++) {
+            for (int j = 0; j < m1.cols; j++) {
+                sum.arr[i][j] = m1.arr[i][j] + m2.arr[i][j];
+            }
+        }
+
+        return sum;
+    }
+
+    friend Matrix operator - (const Matrix& m1, const Matrix& m2)
+    {
+        if (m1.rows != m2.rows || m1.cols != m2.cols) {
+            cout << "Error detected!" << endl;
+            exit(1);
+        }
+
+        Matrix sub(m1.rows, m1.cols);
+        for (int i = 0; i < m1.rows; i++) {
+            for (int j = 0; j < m1.cols; j++) {
+                sub.arr[i][j] = m1.arr[i][j] - m2.arr[i][j];
+            }
+        }
+
+        return sub;
+    }
+
+
+    friend ostream& operator<<(ostream& outs, const Matrix& rhs)
+    {
+        for (int i = 0; i < rhs.rows; i++) {
+            for (int j = 0; j < rhs.cols; j++) {
+                outs << rhs.arr[i][j];
+            }
+        }
+
+        return outs;
+    }
+
+    friend istream& operator>>(istream& ins, Matrix& rhs)
+    {
+        for (int i = 0; i < rhs.rows; i++) {
+            for (int j = 0; j < rhs.cols; j++) {
+                ins >> rhs.arr[i][j];
+            }
+        }
+
+        return ins;
+    }
+
+
+    int& operator () (const int r_index, const int c_index)
+    {
+        if (r_index < 0 || c_index < 0 || r_index >= rows || c_index >= cols) {
+            cout << "Error" << endl;
+            exit(1);
+        }
+        return (arr[r_index][c_index]);
+    }
+
+    const int& operator () (const int r_index, const int c_index) const
+    {
+        if (r_index < 0 || c_index < 0 || r_index >= rows || c_index >= cols) {
+            cout << "Error" << endl;
+            exit(1);
+        }
+        return (arr[r_index][c_index]);
+    }
+
+    ~Matrix()
+    {
+        for (int i = 0; i < rows; i++) {
+            delete[] arr[i];
+        }
+        delete[] arr;
+    }
+};
+
+int main() {
+
+    Matrix a(2, 2), b(2, 2);
+    cout << "Please enter the content of the first Matrix (A):\n";
+    cin >> a;
+    cout << "Please enter the content of the second Matrix (B):\n";
+    cin >> b;
+    cout << "Printing A and B using the << operator :\n";
+    cout << "A \n" << a << "B \n" << b;
+    cout << "\nTesting Copy Constructor Matrix D = A = :\n";
+    Matrix d = a;
+    cout << d << endl;
+    cout << "Testing = operator, Matrix E; E = B;\n";
+    Matrix e;
+    e = b;
+    cout << "E before changing the value of B :\n";
+    cout << e << endl;
+
+    //Testing addition â€œ + â€ and subtraction â€œ - â€œ operators.
+    //Testing addition assignment â€œ += â€ and subtraction assignment â€œ - = â€ operators.
+    cout << "Testing D + A = :\n" << d + a;
+    cout << "Testing D - A = :\n" << d - a;
+    cout << endl;
+    cout << "Testing E+=B = :\n";
+    e += b;
+    cout << e;
+    cout << "Testing E-=B = :\n";
+    e -= b;
+    cout << e << endl;
+
+    //Testing comparison operator â€œ = â€œ
+    cout << "Testing A == A = " << (a == a) << endl;
+    cout << "Testing A == B = " << (a == b) << endl;
+
+    //Testing operator ()
+    cout << "Testing cout << A[index] \n";
+    int index1, index2;
+    cout << "Enter row index : ";
+    cin >> index1;
+    cout << "Enter column index : ";
+    cin >> index2;
+    cout << "A[" << index1 << "," << index2 << "] = " << a(index1, index2) << endl;
+    cout << "Enter new value : ";
+    int value;
+    cin >> value;
+    a(index1, index2) = value;
+    cout << "A[" << index1 << "," << index2 << "] = " << a(index1, index2) << endl;
+    cout << "New values of a : \n" << a;
+
+    return 0;
+}
