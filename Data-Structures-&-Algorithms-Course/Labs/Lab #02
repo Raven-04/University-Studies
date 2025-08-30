@@ -1,0 +1,155 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+class Matrix
+{
+private:
+	int** arr;
+	int rows;
+	int cols;
+public:
+	Matrix(int r = 4, int c = 4) : rows(r), cols(c)
+	{
+		arr = new int* [rows];
+		for (int i = 0; i < rows; i++) {
+			arr[i] = new int[cols];
+		}
+	}
+	friend ostream& operator<<(ostream& outs, const Matrix& rhs)
+	{
+		for (int i = 0; i < rhs.rows; i++) {
+			for (int j = 0; j < rhs.cols; j++) {
+				outs << rhs.arr[i][j];
+			}
+		}
+		return outs;
+	}
+	friend istream& operator>>(istream& ins, Matrix& rhs)
+	{
+		for (int i = 0; i < rhs.rows; i++) {
+			for (int j = 0; j < rhs.cols; j++) {
+				ins >> rhs.arr[i][j];
+			}
+		}
+		return ins;
+	}
+	Matrix& operator++() {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				++arr[i][j];
+			}
+		}
+		return *this;
+	}
+	Matrix& operator-() {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				arr[i][j] = arr[i][j] * -1;
+			}
+		}
+		return *this;
+	}
+	~Matrix()
+	{
+		for (int i = 0; i < rows; i++) {
+			delete[] arr[i];
+		}
+		delete[] arr;
+	}
+};
+
+int main() {
+	Matrix a(2, 2), b(2, 2);
+	cout << "Please enter the content of the first Matrix (A):\n";
+	cin >> a;
+	cout << "Please enter the content of the second Matrix (B):\n";
+	cin >> b;
+	cout << "Printing A and B using the << operator :\n";
+	cout << "A \n" << a << "B \n" << b;
+	cout << "-A:\n" << -a << endl;
+	cout << "++B: \n" << ++b << endl;
+	return 0;
+}
+
+======================================= Excerise #2 =======================================
+#include <iostream>
+#include <string>
+
+using namespace std;
+struct Address {
+	string city;
+	string street;
+	string postcode;
+	string country;
+};
+struct Person {
+	string name;
+	int age;
+	string gender;
+	Address* addPtr;
+};
+
+void displayPerson(const Person* person) {
+	cout << "Name: " << person->name << endl;
+	cout << "Age: " << person->age << endl;
+	cout << "Gender: " << person->gender << endl;
+	cout << "\nAddress:-" << endl << "--------------" << endl;
+	cout << "Street: " << person->addPtr->street << endl;
+	cout << "City: " << person->addPtr->city << endl;
+	cout << "Postcode: " << person->addPtr->postcode << endl;
+	cout << "Country: " << person->addPtr->country << endl;
+}
+
+bool compareAddress(Person* p1, Person* p2) {
+	return (p1->addPtr->city == p2->addPtr->city &&
+		p1->addPtr->street == p2->addPtr->street &&
+		p1->addPtr->postcode == p2->addPtr->postcode &&
+		p1->addPtr->country == p2->addPtr->country);
+}
+
+int main() {
+	Person Person1 = { "Barry", 32, "Male" };
+	cout << "Person1's profile details are:-" << endl;
+	cout << "Name: " << Person1.name << endl;
+	cout << "Age: " << Person1.age << endl;
+	cout << "Gender: " << Person1.gender << endl;
+	cout << "\n----------------------------------------\n";
+	Person* personPtr = &Person1;
+	*personPtr = { "Cisco", 30, "Male" };
+	cout << "The modified profile details of Person1:-" << endl;
+	cout << "Name: " << Person1.name << endl;
+	cout << "Age: " << Person1.age << endl;
+	cout << "Gender: " << Person1.gender << endl;
+	cout << "\n----------------------------------------\n";
+	Address add1 = { "202 Central City", "Infintino St", "58274", "USA" };
+	Address add2 = { "202 Central City", "Dungeon Alley", "54321", "Canada" };
+	Address add3 = { "666 Gotham City", "Wayne Enterprise St", "67890", "Mexico" };
+	Person p1 = { "Nora", 30, "Female", &add1 };
+	Person p2 = { "Harry", 25, "Male", &add2 };
+	Person p3 = { "Bruce", 35, "Male", &add3 };
+	cout << "--------------\n" << "Person 1's Profile Details:" << endl;
+	displayPerson(&p1);
+	cout << endl;
+	cout << "Person 2's Profile Details:" << endl;
+	displayPerson(&p2);
+	cout << endl;
+	cout << "Person 3's Profile Details:" << endl;
+	displayPerson(&p3);
+	cout << endl;
+	cout << "----------------------------------------\n";
+	cout << "Comparing both addresses:" << endl;
+	if (compareAddress(&p1, &p2)) {
+		cout << p1.name << " and " << p2.name << " have the same address." << endl;
+	}
+	else {
+		cout << p1.name << " and " << p2.name << " do not have the same address." << endl;
+	}
+	if (compareAddress(&p1, &p3)) {
+		cout << p1.name << " and " << p3.name << " have the same address." << endl;
+	}
+	else {
+		cout << p1.name << " and " << p3.name << " do not have the same address." << endl;
+	}
+	return 0;
+}
