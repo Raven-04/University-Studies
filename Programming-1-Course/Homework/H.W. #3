@@ -1,0 +1,92 @@
+===================================== Excerise #1 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+int main() { 
+ int a, b; 
+ 
+ cout << "Enter two integer numbers (base followed by exponent): "; 
+ cin >> a >> b; 
+ 
+ cout << "a" << " b " << "a^b" << endl; 
+ cout << "-------------------" << endl; 
+ 
+ for (int i = 0; i <= b; i++) 
+ { 
+  int result = 1; 
+ 
+  for (int k = 0; k < i; k++) 
+  { 
+   result = result * a; 
+  } 
+ 
+  cout << a << " " << i << " " << result << endl; 
+ } 
+ 
+ return 0; 
+}
+
+===================================== Excerise #2 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+int main() { 
+ int num_1, num_2, GCD; 
+ 
+ cout << "Enter the first integer number: "; 
+ cin >> num_1; 
+ cout << "Enter the second integer number: "; 
+ cin >> num_2; 
+ 
+ if (num_2 > num_1) 
+ { 
+  int num = num_2; 
+  num_2 = num_1; 
+  num_1 = num; 
+ } 
+ 
+ for (int i = 1; i <= num_2; i++) 
+ { 
+ 
+  if (num_1 % i == 0 and num_2 % i == 0) 
+  { 
+   GCD = i; 
+  } 
+ 
+ } 
+ 
+ cout << "The greatest common divisor (GCD) of " << num_2 << " and " << num_1 << 
+" is " << GCD << endl; 
+ 
+ return 0; 
+}
+
+===================================== Excerise #3 =====================================
+#include <iostream> 
+using namespace std; 
+ 
+int main() { 
+ int num, result, fre; 
+ 
+ cout << "Enter an integer number: "; 
+ cin >> num; 
+ 
+ for (int i = 0; i <= 9; i++) 
+ { 
+  cout << "The frequency of " << i << " = "; 
+  fre = 0; 
+ 
+  for (int k = num; k > 0; k = k / 10) 
+  { 
+   result = k % 10; 
+ 
+   if (result == i) 
+   { 
+    fre++; 
+   } 
+  } 
+  cout << fre << endl; 
+ } 
+ 
+ return 0; 
+}
