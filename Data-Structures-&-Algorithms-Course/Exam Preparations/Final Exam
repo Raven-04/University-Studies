@@ -1,0 +1,683 @@
+======================================= Info =======================================
+// Final Exam Material:-
+// ---------------------
+// 1. Linked Lists
+// 2. DFS (which uses stacks) and BFS (which uses stacks & queues)
+// 3. Heaps
+// 4. Graphs
+// 5. Hash and Collisions
+
+// ===============================================================================================================================================================
+// General Info. //
+// ===============================================================================================================================================================
+// | Stacks (LIFO) |
+// A container (an object for storing other objects) that only allows access to the last added element (see it as a stack of bread - Vertical).
+// # Main Operations:-
+// push(), pop(), top(), size(), isEmpty(), isFull()
+// Underflow: popping from an empty stack.
+// Overflow: pushing into a full stack.
+// ------------------------------------------
+// | Queues (FIFO) |
+// Only have access to the first element added (see it as a grocery line - Horizontal).
+// # Main Operations:-
+// push(), pop(), front(), rear(), size(), isEmpty(), isFull()
+// ------------------------------------------
+// | Deapth-First Search (DFS) |
+// Traverses the graph branch by branch.
+// Used for traversing or searching through a network of interconnected nodes (searches for all vertices).
+// ------------------------------------------
+// | Breadth-First Search (BFS) |
+// Traverses the graph level by level.
+// Used for finding the shortest path on graphs (searches for a specific node and it's shortest path).
+// ------------------------------------------
+// | Heap |
+// A Heap is a tree-based data structure in which the tree is a complete binary tree (All levels are fully filled except the last level (leaf nodes); filled from left to right).
+// 2 Types of Heaps:-
+// 1. Max-Heap (The value of the root is the biggest) - Remember (>> <)
+// 2. Min-Heap (The value of the root is the smallest) - Remember (<< >)
+// Time Complexity: O(Log n)
+// Parent Node: (i-1) / 2
+// Left Child: (2*i) + 1
+// Right Child: (2*i) + 2 
+// Heapify: Rearranging the elements to maintain the property of the heap data structure.
+// # Main Operations:-
+// Heapify, insert, delete, getMax (for Max-heap)/ getMin (for Min-heap) -- time complexity: O(1), removeMax / removerMin
+// Note. After inserting or deleting you always need to heapify to rearrange the elements.
+// ------------------------------------------
+// | Graph |
+// A Graph is a non-linear data structure consisting of vertices and edges (denoted as G(V, E)).
+// 2 Types of Graphs:-
+// 1. Directed Graphs: A set of vertices connected by edges, with each node having a direction associated with it (denoted with arrows ->).
+// 2. Undirected Graphs: No direction is associated with them, the graph can be traversed in either direction.
+// Time Complexity: O(n)
+// Space Complexity: O(n^2) (For Adjacency Matrix)
+// Space Complexity: O(e)   (For Adjacency List)
+// ------------------------------------------
+// | Hashing |
+// Refers to the process of generating a fixed-size output from an input of variable size using the mathematical formulas known as hash functions.
+// Types of Hash functions:-
+// 1. Division Method
+// 2. Mid Square Method
+// 3. Folding Method
+// 4. Multiplication Method
+// Hash function: key = data % size
+// 2 Method to handle Collisions:-
+// 1. Separate Chaining (Opened Hashing) (Make each cell of the hash table point to a linked list of records that have the same hash function value)
+// 2. Open Addressing (Closed Hashing)
+//    1. Linear Probing (if the spot is taken, look for the next spot right are that spot, and if that spot is also taken, look for the spot after that)
+//    2. Quadratic Probing
+//			if the spot is taken, we try (hash(x) + 1^2) % n
+//			and that (hash(x) + 1^2) % n) is taken, we try (hash(x) + 2^2) % n and so on until a spot is found.
+//    3. Double Hashing
+//			using two hash functions - h(k, i) = (h1(k) + i * h2(k)) % n
+// Time Complexity: O(n)
+
+=============================== Single Linked Lists ================================
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+	int data;
+	Node* next;
+
+	Node(int value) {
+		data = value;
+		next = NULL;
+	}
+};
+
+class LinkedList {
+private:
+	Node* head;
+
+public:
+	LinkedList() {
+		head = NULL;
+	}
+
+	void appendF(int value) {
+		Node* newNode = new Node(value);
+
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			Node* current = head;
+
+			while (current->next != NULL) {
+				current = current->next;
+			}
+			current->next = newNode;
+		}
+	}
+
+	void appendB(int value) {
+		Node* newNode = new Node(value);
+
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			newNode->next = head;
+			head = newNode;
+		}
+	}
+
+	void appendBetween(int prev_node, int value) {
+		if (head == NULL) {
+			cout << "Previous node not found in the list." << endl;
+
+			return;
+		}
+
+		Node* newNode = new Node(value);
+		Node* current = head;
+
+		while (current != NULL && current->data != prev_node) {
+			current = current->next;
+		}
+
+		if (current == NULL) {
+			cout << "Previous node not found in the list." << endl;
+
+			delete newNode;
+			return;
+		}
+
+		newNode->next = current->next;
+		current->next = newNode;
+	}
+
+	void deleteVal(int value) {
+		if (head == NULL) {
+			cout << "There is no variables in the list." << endl;
+			return;
+		}
+
+		if (head->data == value) {
+			Node* temp = head;
+			head = head->next;
+
+			delete temp;
+			return;
+		}
+
+		Node* current = head;
+
+		while (current->next != NULL) {
+			if (current->next->data == value) {
+				Node* temp = current->next;
+				current->next = current->next->next;
+
+				delete temp;
+				return;
+			}
+
+			current = current->next;
+		}
+	}
+
+	void deleteValBetween(int next_node) {
+		if (head == NULL) {
+			cout << "Value does not exist in the list." << endl;
+
+			return;
+		}
+
+		if (head->data == next_node) {
+			Node* temp = head->next;
+			head->next = head->next->next;
+
+			delete temp;
+			return;
+		}
+
+		Node* current = head;
+
+		while (current->next != NULL) {
+			if (current->next->data == next_node) {
+				Node* temp = current->next->next;
+				current->next->next = current->next->next->next;
+
+				delete temp;
+				return;
+			}
+
+			current = current->next;
+		}
+	}
+
+	void reverse() {
+		Node* current = head;
+		Node* prev = NULL, * next = NULL;
+
+		while (current != NULL) {
+			next = current->next;
+			current->next = prev;
+			prev = current;
+			current = next;
+		}
+		head = prev;
+	}
+
+	void display() {
+		Node* current = head;
+
+		while (current != NULL) {
+			cout << current->data << " ";
+			current = current->next;
+		}
+		cout << endl;
+	}
+
+	~LinkedList() {
+		while (head != NULL) {
+			Node* temp = head;
+
+			head = head->next;
+
+			delete temp;
+		}
+	}
+};
+
+int main() {
+	LinkedList myList;
+
+	myList.appendF(10);
+	myList.appendB(20);
+	myList.appendF(30);
+	myList.appendB(40);
+	myList.appendF(50);
+	myList.appendB(60);
+
+	myList.display();
+
+	cout << "Append after a given value:-" << endl;
+	myList.appendBetween(20, 1000);
+
+	myList.display();
+
+	int x;
+	cout << "Choose a value from the list to remove: ";
+	cin >> x;
+
+	myList.deleteVal(x);
+
+	myList.display();
+
+	int y;
+	cout << "Choose a value to remove after a given value: ";
+	cin >> y;
+
+	myList.deleteValBetween(y);
+
+	myList.display();
+
+	cout << "The list after reversing it:-" << endl;
+
+	myList.reverse();
+
+	myList.display();
+
+	myList.~LinkedList();
+
+	return 0;
+}
+
+======================================= DFS ========================================
+#include <iostream>
+#include <vector>
+#include <stack>
+using namespace std;
+
+class Graph {
+private:
+	int vertices;
+	vector<vector<int>> adjList;
+
+public:
+	Graph(int V) : vertices(V), adjList(V) {}
+
+	void addEdge(int u, int v) {
+		adjList[u].push_back(v);
+		adjList[v].push_back(u);
+	}
+
+	void DFS(int startVertex, int targetVertex) {
+		vector<bool> visited(vertices, false);
+		stack<int> stack;
+		bool targetFound = false;
+
+		stack.push(startVertex);
+
+		while (!stack.empty()) {
+			int current = stack.top();
+			stack.pop();
+
+			if (!visited[current]) {
+				cout << current << " ";
+				visited[current] = true;
+			}
+
+			if (current == targetVertex) {
+				visited[targetVertex] = true;
+				targetFound = true;
+				break;
+			}
+
+			for (int neighbor : adjList[current]) {
+				if (!visited[neighbor]) {
+					stack.push(neighbor);
+				}
+			}
+		}
+
+		if (!targetFound) {
+			cout << "\nThe target was not found to be in the DFS." << endl;
+		}
+	}
+};
+
+int main() {
+	Graph g(9); // The number is the amount of vertices/nodes
+
+	g.addEdge(0, 1);
+	g.addEdge(0, 2);
+	g.addEdge(0, 3);
+	g.addEdge(1, 4);
+	g.addEdge(1, 5);
+	g.addEdge(2, 6);
+	g.addEdge(3, 7);
+	g.addEdge(3, 8);
+
+	cout << "Depth-First Traversal starting from vertex 0:-" << endl;
+	g.DFS(0, 8);
+
+	cout << endl;
+
+	return 0;
+}
+
+======================================= BFS ========================================
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <queue>
+using namespace std;
+
+class Graph {
+private:
+	int vertices;
+	vector<vector<int>> adjlist;
+
+public:
+	Graph(int V) : vertices(V), adjlist(V) {}
+
+	void addEdge(int u, int v) {
+		adjlist[u].push_back(v);
+		adjlist[v].push_back(u);
+	}
+
+	void BFS(int startVertex, int targetVertex) {
+		int numNodes = adjlist.size();
+		vector<bool> visited(vertices, false);
+		vector<int> distance(numNodes, -1);
+		queue<int> q;
+
+		q.push(startVertex);
+		visited[startVertex] = true;
+		distance[startVertex] = 0;
+
+		while (!q.empty()) {
+			int current = q.front();
+			q.pop();
+
+			for (int neighbor : adjlist[current]) {
+				if (!visited[neighbor]) {
+					q.push(neighbor);
+					visited[neighbor] = true;
+					distance[neighbor] = distance[current] + 1;
+				}
+			}
+		}
+
+		if (distance[targetVertex] == -1) {
+			cout << "No path exists from " << startVertex << " to " << targetVertex << endl;
+		}
+		else {
+			cout << "The shortest path from " << startVertex << " to " << targetVertex << " is of length " << distance[targetVertex] << ": ";
+			int node = targetVertex;
+			//stack<int> store;
+
+			while (node != startVertex) {
+				cout << node << " ";
+				// store.push(node);
+
+				for (int neighbor : adjlist[node]) {
+					if (distance[neighbor] == distance[node] - 1) {
+						node = neighbor;
+						break;
+					}
+				}
+			}
+
+			cout << startVertex << endl;
+			//store.push(startVertex);
+
+			/*while (!store.empty()) {
+				cout << store.top() << " ";
+				store.pop();
+			}*/
+			cout << endl;
+		}
+	}
+};
+
+int main() {
+	Graph G(16);
+	G.addEdge(0, 3);
+	G.addEdge(0, 2);
+	G.addEdge(0, 1);
+
+	G.addEdge(3, 9);
+	G.addEdge(3, 8);
+
+	G.addEdge(8, 14);
+	G.addEdge(9, 8);
+
+	G.addEdge(2, 7);
+	G.addEdge(2, 6);
+
+	G.addEdge(6, 11);
+	G.addEdge(7, 13);
+	G.addEdge(7, 12);
+
+	G.addEdge(11, 15);
+	G.addEdge(13, 15);
+
+	G.addEdge(1, 5);
+	G.addEdge(1, 4);
+	G.addEdge(4, 5);
+	G.addEdge(5, 10);
+
+	cout << "Shortest Path from vertex 0 to 9 " << endl;
+	G.BFS(0, 9);
+
+	cout << "\n\nShortest Path from vertex 0 to 11 " << endl;
+	G.BFS(0, 11);
+
+	cout << "\n\nShortest Path from vertex 0 to 4 " << endl;
+	G.BFS(0, 4);
+
+	cout << "\n\nShortest Path from vertex 0 to 14 " << endl;
+	G.BFS(0, 14);
+
+	cout << "\n\nShortest Path from vertex 0 to 15 " << endl;
+	G.BFS(0, 15);
+
+	return 0;
+}
+
+====================================== Heaps =======================================
+#include <iostream>
+using namespace std;
+
+class MaxHeap {
+private:
+	int* arr;
+	int capacity;
+	int size;
+	
+public:
+	MaxHeap(int n) {
+		capacity = n;
+		size = 0;
+		arr = new int[n];
+	}
+
+	void heapify(int i) {
+		int largest = i; 
+		// int smallest = i
+		int l = 2 * i + 1;
+		int r = 2 * i + 2;
+
+		if (l < size && arr[l] > arr[largest]) {
+			largest = l;
+		}
+		/* 
+		if (l < size && arr[l] < arr[smallest]) {
+			smallest = l;
+		}
+		*/
+
+		if (r < size && arr[r] > arr[largest]) {
+			largest = r;
+		}
+		/* 
+		if (r < size && arr[r] < arr[smallest]) {
+			smallest = r;
+		}
+		*/
+
+		if (largest != i) {
+			swap(arr[i], arr[largest]);
+			heapify(largest);
+		}
+	}
+
+	void insert(int item) {
+		if (size == capacity) {
+			cout << "\nOverflow: Could not insertkey\n";
+			return;
+		}
+
+		size++;
+
+		int i = size - 1;
+		arr[i] = item;
+
+		while (i != 0 && arr[(i - 1) / 2] < arr[i]) {
+			swap(arr[i], arr[(i - 1) / 2]);
+			i = (i - 1) / 2;
+		}
+
+		/*
+		while (i != 0 && arr[(i - 1) / 2] > arr[i]) {
+			swap(arr[i], arr[(i - 1) / 2]);
+			i = (i - 1) / 2;
+		}
+		*/
+	}
+
+	int extractMax() {
+		if (size <= 0) {
+			return INT_MIN;
+		}
+		if (size == 1) {
+			size--;
+			return arr[0];
+		}
+
+		int root = arr[0];
+		arr[0] = arr[size - 1];
+		size--;
+
+		heapify(0);
+
+		return root;
+	}
+};
+
+int main() {
+	MaxHeap h(15);
+
+	int n = 6, arr[10];
+
+	cout << "Entered " << n << " items/keys:- 3, 10, 12, 8, 2, 14" << endl;
+	h.insert(3);
+	h.insert(10);
+	h.insert(12);
+	h.insert(8);
+	h.insert(2);
+	h.insert(14);
+
+	cout << "Extracting the maximum element: " << h.extractMax() << endl;
+
+	h.insert(15);
+	h.insert(5);
+	
+	cout << "Extracting the maximum element: " << h.extractMax() << endl;
+
+	cout << "Extracting the maximum element: " << h.extractMax() << endl;
+
+	return 0;
+}
+
+====================================== Graphs ======================================
+#include <iostream>
+#include <vector>
+#include <list>
+#include <map>
+using namespace std;
+
+class Graph {
+private:
+	int V;
+	vector<list<int>> adj;
+
+public:
+	Graph(int v) {
+		this->V = v;
+		adj.resize(v);
+	}
+
+	void addEdge(int v, int w) {
+		adj[v].push_back(w);
+	}
+
+	void BFS(int s) {
+		vector<bool> visited;
+		visited.resize(V, false);
+
+		list<int> queue;
+
+		visited[s] = true;
+		queue.push_back(s);
+
+		while (!queue.empty()) {
+			s = queue.front();
+			cout << s << " ";
+			queue.pop_front();
+
+			for (auto adjacent : adj[s]) {
+				if (!visited[adjacent]) {
+					visited[adjacent] = true;
+					queue.push_back(adjacent);
+				}
+			}
+		}
+	}
+};
+
+class Graph {
+public:
+	map<int, bool> visited;
+	map<int, list<int>> adj;
+
+	void addEdge(int v, int w) {
+		adj[v].push_back(w);
+	}
+
+	void DFS(int v) {
+		visited[v] = true;
+		cout << v << " ";
+
+		list<int>::iterator i;
+		for (i = adj[v].begin(); i != adj[v].end(); i++) {
+			if (!visited[*i]) {
+				DFS(*i);
+			}
+		}
+	}
+};
+
+int main() {
+	Graph g;
+
+	g.addEdge(0, 1);
+	g.addEdge(0, 2);
+	g.addEdge(1, 2);
+	g.addEdge(2, 0);
+	g.addEdge(2, 3);
+	g.addEdge(3, 3);
+
+	//cout << "Following is BFS Traversal " << endl;
+	//g.BFS(2);
+
+	cout << "Following is DFS Traversal " << endl;
+	g.DFS(2);
+
+	return 0;
+}
