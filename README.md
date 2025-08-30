@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-<br>*Disclaimer: -*</br>
+<b>*Disclaimer: -*</b>
 
 This is what my university's professors and lab instructors have taught us at the American University of Sharjah (AUS).
 
