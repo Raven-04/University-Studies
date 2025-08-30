@@ -1,0 +1,67 @@
+str(Bears)
+Bears$Sex = as.factor(Bears$Sex)
+
+#----------------------------------------------------------
+# (A)                              # t-test
+summary(Bears$Age)
+t.test(Bears$Age, conf.level = 0.925)
+
+# (B)                              # t-test
+t.test(Bears$Age, alternative = "less", mu = 45, conf.level = 0.95)
+
+# (C)                              # t-test
+summary(Bears$Weight)
+t.test(Bears$Weight, alternative = "two.sided", mu = 170, conf.level = 0.975)
+
+# (D)
+Bears$Age
+age_M = Bears$Age[Bears$Sex == 1]
+age_F = Bears$Age[Bears$Sex == 2]
+age_M
+age_F
+summary(age_M)
+summary(age_F)
+length(age_M)
+length(age_F)
+n_M = 99-42
+n_F = 42-18
+n_M                               # n_M = 57, large
+n_F                               # n_F = 26, small
+qqnorm(age_F)
+qqline(age_F)
+
+var.test(age_M, age_F, conf.level = 0.95)                   # We assume homogenity --> pooled test
+t.test(age_M, age_F, conf.level = 0.95, var.equal = T)
+
+# (F)                 # 1 sample t-test
+summary(Bears$Weight)
+length(Bears$Weight)
+t.test(Bears$Weight, conf.level =  0.99)
+
+# (G)
+Bears$Weight
+weight_M = Bears$Weight[Bears$Sex == 1]
+weight_F = Bears$Weight[Bears$Sex == 2]
+weight_M
+weight_F
+summary(weight_M)
+summary(weight_F)
+length(weight_M)                
+length(weight_F)
+
+var.test(weight_M, weight_F, conf.level = 0.95)                   # We do not assume homogenity --> pooled test
+t.test(weight_M, weight_F, conf.level = 0.95, var.equal = F)
+
+# (H)
+Bears$Length
+Length_M = Bears$Length[Bears$Sex == 1]
+Length_F = Bears$Length[Bears$Sex == 2]
+Length_M
+Length_F
+summary(Length_M)
+summary(Length_F)
+length(Length_M)                
+length(Length_F)
+
+var.test(Length_M, Length_F, conf.level = 0.95)                   # We do not assume homogenity --> pooled test
+t.test(Length_M, Length_F, mu = 0, alternative = "greater", conf.level = 0.95, var.equal = F)
