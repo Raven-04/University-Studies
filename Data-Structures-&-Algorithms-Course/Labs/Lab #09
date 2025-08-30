@@ -1,0 +1,73 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+// Part A
+/*int fib(int n) {
+	if (n <= 1) {
+		return n;
+	}
+
+	return fib(n - 1) + fib(n - 2);
+}*/
+
+// Part B
+int fib(int n, int a = 0, int b = 1) {
+	if (n == 0) {
+		return a;
+	}
+	if (n == 1) {
+		return b;
+	}
+
+	return fib(n - 1, b, a + b);
+}
+
+int main() {
+	int num;
+
+	cout << "Enter an integer number: ";
+	cin >> num;
+
+	cout << "\nThe Fibonacci number for " << num << " is: " << fib(num) << endl;
+
+	return 0;
+}
+
+======================================= Excerise #2 =======================================
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Part A
+/*double PI(int n) {
+	if (n == 1) {
+		return 3;
+	}
+	else {
+		return (4.0 / (((2 * n) - 2) * ((2 * n) - 1) * (2 * n))) * pow(-1, n) + PI(n - 1);
+	}
+}*/
+
+// Part B
+double PI(int n, double a = 0) {
+	if (n == 1) {
+		a = 3;
+	}
+	else {
+		a = (4.0 / (((2 * n) - 2) * ((2 * n) - 1) * (2 * n))) * pow(-1, n) + PI(n - 1);
+	}
+
+	return a;
+}
+
+int main() {
+	int num;
+
+	cout << "Enter a value: ";
+	cin >> num;
+
+	cout << "\nThe pi value of " << num << " is: " << PI(num) << endl;
+
+	return 0;
+}
