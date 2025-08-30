@@ -1,0 +1,208 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Villager
+{
+protected:
+	string name;
+
+public:
+	Villager();
+	Villager(string _name);
+	
+	void print();
+	void gossip();
+};
+
+Villager::Villager()
+{
+	name = "Villager";
+}
+
+Villager::Villager(string _name)
+{
+	name = _name;
+}
+
+void Villager::print()
+{
+	cout << "My name is " << name << endl;
+}
+
+void Villager::gossip()
+{
+	cout << "I love to gossip :3" << endl;
+}
+
+//------------------------------------------------------
+
+class UnemployedVillager : public Villager
+{
+public:
+	UnemployedVillager();
+	UnemployedVillager(string _name);
+	
+	void lounge();
+};
+
+UnemployedVillager::UnemployedVillager()
+{
+}
+
+UnemployedVillager::UnemployedVillager(string _name)
+{
+	name = _name;
+}
+
+void UnemployedVillager::lounge()
+{
+	cout << "I'm just lounging around" << endl;
+}
+
+class EmployedVillager : public Villager
+{
+protected:
+	string profession;
+	int emeralds;
+
+public:
+	EmployedVillager();
+	EmployedVillager(string _name, string _profession);
+
+	void print();
+	void trade(string item);
+};
+
+EmployedVillager::EmployedVillager()
+{
+	name = "Villager";
+	profession = "unclassified";
+	emeralds = 100;
+}
+
+EmployedVillager::EmployedVillager(string _name, string _profession) : Villager(_name)
+{
+	name = _name;
+	profession = _profession;
+	emeralds = 100;
+}
+
+void EmployedVillager::print()
+{
+	Villager::print();
+
+	cout << "my profession is " << profession << endl;
+	cout << "I have " << emeralds << " emeralds to trade with" << endl;
+}
+
+void EmployedVillager::trade(string item)
+{
+	if (item == "diamond")
+	{
+		emeralds = emeralds - 30;
+		cout << "I can trade you " << 30 << " emeralds for your diamond" << endl;
+	}
+	if (item == "blanket")
+	{
+		emeralds = emeralds - 1;
+		cout << "I can trade you " << 1 << " emerald for your blanket" << endl;
+	}
+	if (item == "stick")
+	{
+		emeralds = emeralds - 5;
+		cout << "I can trade you " << 5 << " emeralds for your stick" << endl;
+	}
+
+	cout << "I have " << emeralds << " emeralds left" << endl;
+}
+
+//------------------------------------------------------
+
+class Blacksmith : public EmployedVillager
+{
+public:
+	Blacksmith() : EmployedVillager()
+	{
+		profession = "Blacksmith";
+	};
+	Blacksmith(string _name) : EmployedVillager(_name, "Blacksmith")
+	{
+	}
+
+	void print();
+	void trade(string item);
+	void tradeTool();
+};
+
+void Blacksmith::print()
+{
+	EmployedVillager::print();
+}
+
+void Blacksmith::trade(string item)
+{
+	EmployedVillager::trade(item);
+}
+
+void Blacksmith::tradeTool()
+{
+	cout << "Trading a tool for " << 5 << " emeralds" << endl;
+	emeralds = emeralds + 5;
+	cout << "I have " << emeralds << " emeralds left" << endl;
+}
+
+class Cleric : public EmployedVillager
+{
+public:
+	Cleric() : EmployedVillager()
+	{
+		profession = "Cleric";
+	}
+	Cleric(string _name) : EmployedVillager(_name, "Cleric")
+	{
+	}
+
+	void tradeMedicine();
+};
+
+void Cleric::tradeMedicine()
+{
+	cout << "Trading a tool for " << 10 << " emeralds" << endl;
+	emeralds = emeralds + 10;
+	cout << "I have " << emeralds << " emeralds left" << endl;
+}
+
+//------------------------------------------------------
+
+int main() {
+	Villager v1("Alfredo");
+	v1.print();
+	v1.gossip();
+	cout << endl;
+
+	EmployedVillager v2;
+	v2.print();
+	v2.trade("stick");
+	cout << endl;
+
+	Blacksmith v3("Alejandro");
+	v3.print();
+	v3.trade("diamond");
+	v3.trade("blanket");
+	v3.tradeTool();
+	cout << endl;
+
+	Cleric v4("Roberto");
+	v4.print();
+	v4.tradeMedicine();
+	cout << endl;
+
+	UnemployedVillager v5("Steve");
+	v5.print();
+	v5.lounge();
+	cout << endl;
+
+	return 0;
+}
