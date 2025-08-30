@@ -1,0 +1,92 @@
+# ============================Intro. to AI and Data Science H.W. 3============================
+# Question #1
+import math
+
+def triangle(a, b):
+  area = a*b / 2
+  return area
+
+def cone(r, h):
+  volume = math.pi * r**2 * h / 3
+  return volume
+
+print("Triangle with a = 5 cm and b = 3 cm\n", "Area of the triangle =", triangle(5,3))
+print("Cone with r = 5 cm and h = 15 cm\n", "Volume of the cone =", cone(5, 15))
+print("Cone with r = 10 cm and h = 10 cm\n", "Volume of the cone =", cone(10, 10))
+
+print("\n------------------------------------\n")
+# Question #2
+
+def pricing():
+  x = int(input("Please enter your electrical units used: "))
+  if x <= 0:
+      return "An ERROR occurred when calculating your electrical bill."
+  elif x <= 100:
+    return "$0.5"
+  elif x <= 200:
+    return "$0.75"
+  else:
+    return "$1.25"
+
+print("\nYour electrical bill costs:", pricing())
+
+print("\n------------------------------------\n")
+# Question #3
+
+i = 100
+count = 0
+while (i <= 400):
+  if (i%11 == 0):
+    print(i, "is divisible by 11")
+    count += 1 
+  i += 1
+print("\nThe amount of numbers between 100 and 400 that are divisible by 11 =", count)
+
+print("\n------------------------------------\n")
+# Question #4
+
+class Course():
+ def __init__(self, Name, Instructor, Students, Code):
+    self.name = Name
+    self.instructor = Instructor
+    self.students = Students
+    self.code = Code
+    
+intro = Course("Introduction to AI and Data Science", "Tarig Ali", 42, "NGN112")
+
+print("Course Name:", intro.name)
+print("Course Instructor:", intro.instructor)
+print("Number of Students enrolled in the course:", intro.students)
+print("Course Code:", intro.code)
+
+print("\n------------------------------------\n")
+# Question #5
+import statistics as st
+
+Grades = {100, 95, 80, 97, 56, 75, 77, 98, 87, 90, 65, 59, 65, 67, 87, 55, 69, 89, 7, 78, 80, 89, 57, 87, 68, 77}
+
+print("Grades:", Grades)
+print("\nThe amount of grades:", len(Grades))
+print("Sum of the grades:", sum(Grades))
+print("The minimum grade is:", min(Grades))
+print("The maximum grade is:", max(Grades))
+print("The average grade is:", sum(Grades) / len(Grades)) # or we could find the mean; st.mean(Grades)
+print("The standard deviation of the grades is:", st.stdev(Grades))
+print("The variance of the grades is:", st.variance(Grades))
+
+print("\n------------------------------------\n")
+# Question #6
+import pandas as pd
+
+data = {
+    "Course": ["NGN112","NGN112","NGN112","NGN112","NGN112","NGN112","NGN112","NGN112","NGN112","NGN112","NGN112","NGN112","NGN112"],
+    "Students": [41, 40, 39, 41, 42, 40, 41, 42, 39, 40, 39, 40, 40],
+    "Instructor": ["D. Haweeleh", "D. Hammi", "D. Zakaria", "D. Ali", "D. Hassan", "D. Hammi", "D. Alshraideh", "D. Alshraideh", "D. Hammi", "D. Hasan", "D. Teng", "D. Teng", "D. Hasan"],
+    "Section": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  }
+
+df = pd.DataFrame(data)
+sum = df.describe()
+
+print(df, "\n")
+print(sum)
