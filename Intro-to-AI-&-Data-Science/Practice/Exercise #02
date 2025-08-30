@@ -1,0 +1,155 @@
+# Question #1
+def area(l, w):
+    area = l * w
+    print("Area of a rectangle:", area, "cm")
+
+def perimeter(l, w):
+    per = 2*(l+w)
+    print("Perimeter of the rectangle:", per, "cm")
+
+length = 8; width = 5
+
+area(length, width)
+perimeter(length, width)
+
+# Question #2
+def is_odd(li):
+    return len(li) % 2 == 1
+
+def combine(list1, list2):
+    return list1 + list2
+
+colors = ["red", "blue", "orange", "green"]
+games = ["tetris", "minesweeper", "fruit ninja"]
+
+print("Odd number of elements in colors:", is_odd(colors))
+print("Odd number of elements in games:", is_odd(games))
+print("Combined list:", combine(colors,games))
+
+# Question #3
+def temperatureScale(temp):
+  if temp <=0:
+    print("Freezing Temperature")
+  elif temp <= 12:
+    print("Cold Temperature")
+  elif temp <= 20:
+    print("Cool Temperature")
+  elif temp <= 30:
+    print("Warm Temperature")
+  elif temp > 30:
+    print("Hot Temperature")
+  else:
+    print("Invalid temperature reading...")
+    
+temp = float(input("Enter the temperature today: "))
+temperatureScale(temp)
+
+# Question #4
+def cuisine(food):
+  if food == "falafel" or food == "Falafel" or food == "FALAFEL":
+    print("Your dish,", food, ", is considered Levantine Cuisine")
+  elif food == "biryani" or food == "Biryani" or food == "BIRYANI":
+    print("Your dish,", food, ", is considered Desi Cuisine")
+  elif food == "tagine" or food == "Tagine" or food == "TAGINE":
+    print("Your dish,", food, ", is considered North African Cuisine")
+  elif food == "pad thai" or food == "Pad thai" or food == "pad Thai" or food == "Pad Thai"  or food == "PADTHAI" or food == "PAD THAI":
+    print("Your dish,", food, ", is considered Thai Cuisine")
+  elif food == "spaghetti bolognese" or food == "Spaghetti bolognese" or food == "spaghetti Bolognese" or food == "Spaghetti Bolognese" or food == "SPAGHETTIBOLOGNESE" or food == "SPAGHETTI BOLOGNESE":
+    print("Your dish,", food, ", is considered Italian Cuisine")
+  else:
+    print(food, "not found in the menu.\n")
+
+food = str(input("Enter your choice of dish: "))
+cuisine(food)
+
+# Question #5
+password = "ngn112"
+success = False
+
+while not success:  
+  key = input("Enter your password:")
+  if (key == password):
+    print("password accepted!")
+    success = True
+  else:
+    print("password denied")
+
+# Question #6
+import math
+
+def is_prime(num):
+  for i in range(2, math.ceil(num**0.5)):
+    if (num%i == 0):
+      return False
+  return True
+
+for i in range(2, 100):
+  if is_prime(i):
+    print(i, "is a prime number")
+
+# Question #7
+class Student:
+  def __init__(self, name, age, major, gpa):
+    self.name = name
+    self.age = age
+    self.major = major
+    self.gpa = gpa
+
+my_info = Student("Mohamed", 20, "Computer Science", 2.88)
+print(my_info.name)
+print(my_info.age)
+print(my_info.major)
+print(my_info.gpa)
+
+# Question #8
+import numpy as np
+
+A = np.array([[5, -2, 3],
+             [4, 1, -2],
+             [2, -3, 1]])
+
+b = np.array([10, 0, -1])
+
+x = np.linalg.solve(A, b)
+print(x)
+
+# Question #9
+import numpy as np
+
+scores = [78, 92, 64, 88, 75, 99, 85, 77, 90, 93]
+scores_array = np.array(scores)
+
+mean_score = np.mean(scores_array)
+print("Mean Score:", mean_score)
+
+max_score = np.max(scores_array)
+min_score = np.min(scores_array)
+print("Highest score:", max_score)
+print("Lowest score:", min_score)
+
+adjusted_success = scores_array + 5
+print("Adjusted Scores:", adjusted_success)
+
+# Question #10
+import pandas as pd
+
+movies_data = [
+{"Title": "Farha", "Genre": "Thriller", "Rating": 8.1, "Year": 2021},
+{"Title": " A Separation", "Genre": "Drama", "Rating": 8.3, "Year": 2011},
+{"Title": "It must be heaven", "Genre": "Drama", "Rating": 7, "Year": 2019},
+{"Title": "Barbie", "Genre": "Comedy", "Rating": 6.9, "Year": 2023},
+{"Title": "5 Broken Cameras", "Genre": "Documentary", "Rating": 7.9, "Year": 2011},
+{"Title": "Oppenheimer", "Genre": "Thriller", "Rating": 8.4, "Year": 2023}
+]
+
+movies_df = pd.DataFrame(movies_data)
+movies_df
+
+avg_rating = movies_df["Rating"].mean()
+print("Average rating for all movies:", avg_rating)
+
+highest = movies_df["Rating"].max()
+lowest = movies_df["Rating"].min()
+
+print("Highest rated movie:", highest)
+print("Lowest rated movie:", lowest)
