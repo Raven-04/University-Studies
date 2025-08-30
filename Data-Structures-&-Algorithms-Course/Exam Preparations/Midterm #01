@@ -1,0 +1,564 @@
+======================================= Circular Linked Lists =======================================
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+	int data;
+	Node* next;
+
+	Node(int value) {
+		data = value;
+		next = NULL;
+	}
+};
+
+class CircularLinkedList {
+private:
+	Node* head;
+
+public:
+	CircularLinkedList() {
+		head = NULL;
+	}
+
+	void appendB(int value) {
+		Node* newNode = new Node(value);
+		
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			head = newNode;
+			newNode->next = head;
+		}
+		
+	}
+
+	void appendE(int value) {
+		Node* newNode = new Node(value);
+
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			Node* current = head;
+
+			if (current->next != head) {
+				current = current->next;
+			}
+
+			current->next = newNode;
+			newNode->next = head;
+		}
+	}
+};
+
+int main() {
+
+
+	return 0;
+}
+
+======================================= Double Linked Lists =========================================
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+	int data;
+	Node* prev;
+	Node* next;
+
+	Node(int value) {
+		data = value;
+		prev = NULL;
+		next = NULL;
+	}
+};
+
+class DoubleLinkedList {
+public:
+	Node* head;
+
+	DoubleLinkedList() {
+		head = NULL;
+	}
+
+	void appendB(int value) {
+		Node* newNode = new Node(value);
+
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			head->prev = newNode;
+			newNode->next = head;
+			head = newNode;
+		}	
+	}
+
+	void appendF(int value) {
+		Node* newNode = new Node(value);
+
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			Node* current = head;
+			while (current->next != NULL) {
+				current = current->next;
+			}
+			current->next = newNode;
+			newNode->prev = current;
+		}
+	}
+
+	void appendAfter(Node* prev_Node, int value) {
+		
+		if (prev_Node == NULL) {
+			cout << "prev_Node cannot be NULL.";
+			return;
+		}
+
+		Node* newNode = new Node(value);
+
+		newNode->next = prev_Node->next;
+
+		prev_Node->next = newNode;
+
+		newNode->prev = prev_Node;
+
+		if (newNode->next != NULL) {
+			newNode->next->prev = newNode;
+		}
+	}
+
+	void appendBefore(Node* prev_Node, int value) {
+
+		if (prev_Node == NULL) {
+			cout << "prev_Node cannot be NULL.";
+			return;
+		}
+
+		Node* newNode = new Node(value);
+
+		newNode->next = prev_Node;
+
+		newNode->prev = prev_Node->prev;
+		
+		prev_Node->prev = newNode;
+
+		if (newNode->prev != NULL) {
+			newNode->prev->next = newNode;
+		}
+	}
+
+	void deleteVal(int value) {
+		if (head == NULL) {
+			return;
+		}
+
+		if (head->data == value) {
+			Node* temp = new Node(value);
+			temp->next = head;
+			temp->prev = NULL;
+			head = head->next;
+			return;
+		}
+
+		Node* current = head;
+
+		while (current->next != NULL) {
+			if (current->next->data == value) {
+				Node* temp = current->next;
+				current->next = current->next->next;
+				current->next->next->prev = current;
+				
+				delete temp;
+			}
+
+			current = current->next;
+		}
+	}
+
+	void deleteValAfter(Node* prev_Node) {
+		if (prev_Node == NULL) {
+			cout << "No previous node exists." << endl;
+			return;
+		}
+
+
+		Node* temp = prev_Node->next;
+		prev_Node->next = temp->next;
+		temp->next->prev = prev_Node;
+
+		delete temp;
+		
+	}
+
+	void reverse() {
+		Node* temp = NULL;
+		Node* current = head;
+
+		// swap next and prev for all nodes of doubly linked list
+		while (current != NULL) {
+			temp = current->prev;
+			current->prev = current->next;
+			current->next = temp;
+			current = current->prev;
+		}
+
+		// Update head_ref to point to the last node
+		if (temp != NULL && temp->prev != NULL) {
+			head = temp->prev;
+		}
+	}
+
+	void display() {
+		Node* current = head;
+
+		while (current != NULL) {
+			cout << current->data << " ";
+			current = current->next;
+		}
+		cout << endl;
+	}
+
+	~DoubleLinkedList() {
+		while (head != NULL) {
+			Node* temp = head;
+
+			head = head->next;
+
+			delete temp;
+		}
+	}
+};
+
+int main() {
+	DoubleLinkedList mylist;
+	
+	mylist.appendB(10);
+	mylist.appendF(20);
+	mylist.appendB(30);
+	mylist.appendF(40);
+	mylist.appendB(50);
+	mylist.appendF(60);
+
+	mylist.display();
+	
+	mylist.reverse();
+
+	cout << "List after reversing:" << endl;
+	mylist.display();
+
+	Node* noToInsertAfter = mylist.head->next;
+
+	mylist.appendAfter(noToInsertAfter, 1000);
+
+	cout << "List after appendAfter:" << endl;
+	mylist.display();
+
+	Node* noToInsertBefore = mylist.head->next;
+
+	mylist.appendBefore(noToInsertBefore, 2000);
+
+	cout << "List after appendBefore:" << endl;
+	mylist.display();
+
+	int x;
+	cout << "delete a value from the list: ";
+	cin >> x;
+
+	mylist.deleteVal(x);
+	
+	mylist.display();
+	
+	Node* noTodelete = mylist.head->next;
+
+	mylist.deleteValAfter(noTodelete);
+
+	cout << "List after deleting:" << endl;
+	mylist.display();
+
+
+	return 0;
+}
+
+======================================= Linked Lists ================================================
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+	int data;
+	Node* next;
+
+	Node(int value) {
+		data = value;
+		next = NULL;
+	}
+};
+
+class LinkedList {
+private:
+	Node* head;
+
+public:
+	LinkedList() {
+		head = NULL;
+	}
+
+	void appendF(int value) {
+		Node* newNode = new Node(value);
+
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			Node* current = head;
+
+			while (current->next != NULL) {
+				current = current->next;
+			}
+			current->next = newNode;
+		}
+	}
+
+	void appendB(int value) {
+		Node* newNode = new Node(value);
+
+		if (head == NULL) {
+			head = newNode;
+		}
+		else {
+			newNode->next = head;
+			head = newNode;
+		}
+	}
+
+	void appendBetween(int prev_node, int value) {
+		if (head == NULL) {
+			cout << "Previous node not found in the list." << endl;
+
+			return;
+		}
+		
+		Node* newNode = new Node(value);
+		Node* current = head;
+
+		while (current != NULL && current->data != prev_node) {
+			current = current->next;
+		}
+
+		if (current == NULL) {
+			cout << "Previous node not found in the list." << endl;
+
+			delete newNode;
+			return;
+		}
+
+		newNode->next = current->next;
+		current->next = newNode;
+	}
+
+	void deleteVal(int value) {
+		if (head == NULL) {
+			cout << "There is no variables in the list." << endl;
+			return;
+		}
+
+		if (head->data == value) {
+			Node* temp = head;
+			head = head->next;
+
+			delete temp;
+			return;
+		}
+		
+		Node* current = head;
+
+		while (current->next != NULL) {
+			if (current->next->data == value) {
+				Node* temp = current->next;
+				current->next = current->next->next;
+
+				delete temp;
+				return;
+			}
+
+			current = current->next;
+		}
+	}
+
+	void deleteValBetween(int next_node) {
+		if (head == NULL) {
+			cout << "Value does not exist in the list." << endl;
+			
+			return;
+		}
+
+		if (head->data == next_node) {
+			Node* temp = head->next;
+			head->next = head->next->next;
+
+			delete temp;
+			return;
+		}
+
+		Node* current = head;
+
+		while (current->next != NULL) {
+			if (current->next->data == next_node) {
+				Node* temp = current->next->next;
+				current->next->next = current->next->next->next;
+
+				delete temp;
+				return;
+			}
+			
+			current = current->next;
+		}
+	}
+
+	void reverse() {
+		Node* current = head;
+		Node* prev = NULL, * next = NULL;
+
+		while (current != NULL) {
+			next = current->next;
+			current->next = prev;
+			prev = current;
+			current = next;
+		}
+		head = prev;
+	}
+
+	void display() {
+		Node* current = head;
+
+		while (current != NULL) {
+			cout << current->data << " ";
+			current = current->next;
+		}
+		cout << endl;
+	}
+
+	~LinkedList() {
+		while (head != NULL) {
+			Node* temp = head;
+
+			head = head->next;
+
+			delete temp;
+		}
+	}
+};
+
+int main() {
+	LinkedList myList;
+
+	myList.appendF(10);
+	myList.appendB(20);
+	myList.appendF(30);
+	myList.appendB(40);
+	myList.appendF(50);
+	myList.appendB(60);
+
+	myList.display();
+
+	cout << "Append after a given value:-" << endl;
+	myList.appendBetween(20, 1000);
+
+	myList.display();
+
+	int x;
+	cout << "Choose a value from the list to remove: ";
+	cin >> x;
+
+	myList.deleteVal(x);
+
+	myList.display();
+
+	int y;
+	cout << "Choose a value to remove after a given value: ";
+	cin >> y;
+
+	myList.deleteValBetween(y);
+
+	myList.display();
+
+	cout << "The list after reversing it:-" << endl;
+
+	myList.reverse();
+
+	myList.display();
+
+	myList.~LinkedList();
+
+	return 0;
+}
+
+======================================= Insertion & Selection Sorts ===============================
+#include <iostream>
+using namespace std;
+
+/*void swap(int& arr1, int& arr2) {
+	int temp = arr1;
+	arr1 = arr2;
+	arr2 = temp;
+}*/
+
+void selectionSort(int* arr, int size) {
+	for (int current = 0; current < size - 1; current++) {
+		int minIndex = current;
+		for (int i = current + 1; i < size; i++) {
+			if (arr[i] < arr[minIndex]) {
+				minIndex = i;
+			}
+		}
+
+		if (minIndex != current) {
+			swap(arr[current], arr[minIndex]);
+		}
+	}
+}
+
+void insertionSort(int* arr, int size) {
+	for (int current = 1; current < size; current++) {
+		int i = current;
+
+		while (i > 0 && arr[i - 1] > arr[i]) {
+			swap(arr[i - 1], arr[i]);
+			i = i - 1;
+		}
+	}
+}
+
+int main() {
+	int size = 100;
+	int* arr;
+
+	arr = new int[size];
+
+	srand(time(NULL));
+	for (int i = 0; i < size; i++) {
+		arr[i] = rand() % 100;
+	}
+
+	for (int i = 0; i < size; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl << endl;
+
+	insertionSort(arr, size);
+
+	for (int i = 0; i < size; i++) {
+		cout << arr[i] << " ";
+	}
+
+	delete[] arr;
+
+	return 0;
+}
