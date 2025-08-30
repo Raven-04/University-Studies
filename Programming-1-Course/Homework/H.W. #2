@@ -1,0 +1,103 @@
+===================================== Excerise #1 =====================================
+#include <iostream> 
+#include <cmath> 
+using namespace std; 
+ 
+int main() { 
+ double x; 
+ 
+ cout << "Enter a double value for x: "; 
+ cin >> x; 
+ 
+ if (x < -1) { 
+  cout << "f(x) = " << 20; 
+ } 
+ if (-1 <= x and x < 1) { 
+  cout << "f(x) = " << -10 * x + 10; 
+ } 
+ if (1 <= x and x < 3) { 
+  cout << "f(x) = " << -5 * pow(x, 2) + 25 * x - 20; 
+ } 
+ if (3 <= x and x < 4) { 
+  cout << "f(x) = " << 5 * x - 5; 
+ } 
+ if (x >= 4) { 
+  cout << "f(x) = " << 15; 
+ } 
+ 
+ return 0; 
+}
+
+===================================== Excerise #2 =====================================
+ #include <iostream> 
+using namespace std; 
+ 
+int main() { 
+ int num, even = 0, odd = 0; 
+ 
+ 
+ for (int i = 1; i <= 10; i++) 
+ { 
+ 
+  cout << "Enter a non-negative integer value for x (enter -1 to stop): "; 
+  cin >> num; 
+ 
+  if (num == -1) 
+  { 
+   break; 
+  } 
+  (num % 2 == 0) ? (even++) : (odd++); 
+ } 
+  
+ cout << "You entered " << even << " even numbers and " << odd << " odd 
+numbers." << endl; 
+ 
+ return 0; 
+}
+
+===================================== Excerise #3 =====================================
+ #include <iostream> 
+using namespace std; 
+ 
+int main() { 
+ int i = 1, weekday; 
+  
+ for (i = 1; i <= 10; i++)  
+ { 
+  cout << "Enter weekday number in the range 1-7(enter 99 to stop): "; 
+  cin >> weekday; 
+ 
+  switch (weekday) 
+  { 
+   case 1: 
+    cout << "Monday" << endl; 
+    break; 
+   case 2: 
+    cout << "Tuesday" << endl; 
+    break; 
+   case 3: 
+    cout << "Wednesday" << endl; 
+    break; 
+   case 4: 
+    cout << "Thursday" << endl; 
+    break; 
+   case 5: 
+    cout << "Friday" << endl; 
+    break; 
+   case 6: 
+    cout << "Saturday" << endl; 
+    break; 
+   case 7: 
+    cout << "Sunday" << endl; 
+    break; 
+   case 99: 
+    cout << "Thank uou!" << endl; 
+    return 0; 
+   default: 
+    cout << "Invalid input, try again" << endl; 
+    break; 
+  } 
+ } 
+ 
+ return 0; 
+}
