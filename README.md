@@ -11,3 +11,7 @@ I did not create all the codes on my own for all assignments, I mearly had to co
 (I guess you can consider this as a reference...)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+b {
+  font-size: 24;
+}
