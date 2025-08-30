@@ -1,0 +1,150 @@
+======================================== Exercise #1 ========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+
+	cout << "8.2 * 9 + 2    = " << 8.2 * 9 + 2 << "\n";
+	cout << "6 * 3 / 4    = " << 6 * 3 / (float)4 << "\n";
+	cout << "3 / 4 * 6.5    = " << 3 / (float)4 * 6.5 << "\n";
+	cout << "6 * 3 / 4    =" << 6 * 3 / (float)4 << "\n";
+	cout << "15 % 4    =" << 15 % 4 << "\n";
+	cout << "3 % 5    =" << 3 % 5 << "\n";
+
+	return 0;
+}
+
+======================================== Exercise #2 ========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	bool bool_value;
+
+	bool_value = 59;
+	cout << "bool_value (59)     = " << bool_value << endl;
+	bool_value = -32;
+	cout << "bool_value (-32)     = " << bool_value << endl;
+	bool_value = 0;
+	cout << "bool_value (0)     = " << bool_value << endl;
+	bool_value = 'm';
+	cout << "bool_value ('m')     = " << bool_value << endl;
+	bool_value = true;
+	cout << "bool_value (true)     = " << bool_value << endl;
+	bool_value = false;
+	cout << "bool_value (false)     = " << bool_value << endl;
+
+	return 0;
+}
+
+======================================== Exercise #3 ========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	float x, y, s;
+
+	cout << "enter a value for x: ";
+	cin >> x;
+	cout << "enter a value for y: ";
+	cin >> y;
+
+	s = ((x / y) + (y / x)) / ((x - y) / x);
+	cout << " s = " << s << endl << endl;
+
+	cout << "enter a value for x: ";
+	cin >> x;
+	cout << "enter a value for y: ";
+	cin >> y;
+
+	s = ((x / y) + (y / x)) / ((x - y) / x);
+	cout << " s = " << s << endl << endl;
+
+	cout << "enter a value for x: ";
+	cin >> x;
+	cout << "enter a value for y: ";
+	cin >> y;
+
+	s = ((x / y) + (y / x)) / ((x - y) / x);
+	cout << " s = " << s << endl;
+
+	return 0;
+}
+
+======================================== Exercise #4 ========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+
+
+	int num;
+
+	cout << "Enter an integer number: ";
+	cin >> num;
+
+	cout << endl;
+	cout << "Ones digit     = " << num % 10 << endl;
+	cout << "Tens digit     = " << (num / 10) % 10 << endl;
+	cout << "Hundreds digit = " << (num / 100) % 10 << endl;
+
+	return 0;
+}
+
+======================================== Exercise #5 ========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+
+	int num;
+	char c;
+
+	c = '70';
+	num = 116;
+	
+	cout << " Enter an integer value between 0 and 127: ";
+	cin >> num;
+	cout << " You entered integer num " << num << " , character equivalent of " << (char)(num) << endl << endl;
+	cout << " Enter a small letter: " << (char) (c+65) << endl;
+	cout << " Upper case of 'q' is 'Q' " << endl << endl;
+	cout << " My Name is: " << (char)(77) << (char)(111) << (char)(104) << (char)(97) << (char)(109) << (char)(101) << (char)(100) << endl;
+	cout << " My Major is: " << (char)(67) << (char)(83) << (char)(69) << endl;
+
+	return 0;
+}
+
+======================================== Exercise #6 ========================================
+#include <iostream>
+using namespace std;
+
+int main() {
+    // a = 5(00000101), 
+    // b = 9(00001001)
+    int a = 5, b = 9;
+
+    // The result is 00000001
+    cout << "a = " << a << "," << " b = " << b << endl;
+    cout << "a & b = " << (a & b) << endl; // bitwise AND
+
+    // The result is 00001101
+    cout << "a | b = " << (a | b) << endl; // bitwise OR
+
+    // The result is 00001100
+    cout << "a ^ b = " << (a ^ b) << endl; // bitwise XOR
+
+    // The result is 11111010 = 2 + 8 + 16 + 32 + 64 - 128 = -6
+    // the left most bits is the sign bit (0=positive, 1=negative)
+    cout << "~a = " << (~a) << endl; // bitwise NOT
+
+    // The result is 00010010 (b << 1)
+    // The result is 00100100 (b << 2)
+    cout << "b << 1" << " = " << (b << 1) << endl; // left shift 
+    cout << "b << 2" << " = " << (b << 2) << endl; // left shift 
+    // The result is 00000100 (b >> 1)
+    // The result is 00000001 (b >> 3)
+    cout << "b >> 1" << " = " << (b >> 1) << endl; // right shift 
+    cout << "b >> 3" << " = " << (b >> 3) << endl; // right shift 
+
+    return 0;
+}
