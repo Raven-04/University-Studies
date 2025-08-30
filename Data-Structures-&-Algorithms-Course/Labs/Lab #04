@@ -1,0 +1,244 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include "SingleLinkedList.h"
+using namespace std;
+
+int main()
+{
+    SingleLinkedList sll;
+
+
+
+
+    int ary[] = { 11,22,44,77,66,88 }, size = 6;
+    for (int i = 0; i < size; i++)
+        sll.append(ary[i]);
+
+    cout << "List is :\n";
+    sll.print();
+
+
+    //Testing insertAfter function
+    cout << "\n********Testing insertAfter********\n";
+    cout << "\nInserting 55 after 44 :\n";
+    bool success = sll.insertAfter(44, 55);
+    if (success)
+        sll.print();
+    else
+        cout << "Value not Found! \n";
+
+    cout << "\nInserting 99 after 88 (inserting at the end of the list):\n";
+    success = sll.insertAfter(88, 99);
+    if (success)
+        sll.print();
+    else
+        cout << "Value not Found! \n";
+
+    //Testing insertBefore function
+    cout << "\n********Testing insertBefore********\n";
+    cout << "\nInserting 43 before 44 :\n";
+    success = sll.insertBefore(44, 43);
+    if (success)
+        sll.print();
+    else
+        cout << "Value not Found! \n";
+
+
+
+    cout << "\nInserting 10 before 11 (inserting at the beginning of the list):\n";
+    success = sll.insertBefore(11, 10);
+    if (success)
+        sll.print();
+    else
+        cout << "Value not Found! \n";
+
+
+    cout << "\n********Testing Delete function********\n";
+    cout << "\nDeleting 77:\n ";
+    success = sll.erase(77);
+    if (success)
+        sll.print();
+    else
+        cout << "Value not Found! \n";
+
+    cout << "\nDeleting 99 (deleting last element in the list):\n ";
+    success = sll.erase(99);
+    if (success)
+        sll.print();
+    else
+        cout << "Value not Found! \n";
+
+    cout << "\nDeleting 11 (deleting first element in the list):\n ";
+    success = sll.erase(11);
+    if (success)
+        sll.print();
+    else
+        cout << "Value not Found! \n";
+
+    cout << "\nDeleting -99 (trying to delete an element which is not present in the list):\n ";
+    success = sll.erase(-99);
+    if (success)
+        sll.print();
+    else
+        cout << "Value not Found! \n";
+
+
+    return 0;
+}
+
+Header File:-
+#pragma once
+#include <iostream>
+using namespace std;
+
+class SingleLinkedList
+{
+public:
+	SingleLinkedList()
+	{
+		head = nullptr;
+	}
+
+	void append(int value)
+	{
+		Node* newNode = new Node(value);
+
+		if (head == nullptr) {
+			head = newNode;
+		}
+		else{
+			Node* current = head;
+			
+			while (current->next != nullptr) {
+				current = current->next;
+			}
+			
+			current->next = newNode;
+		}
+	}
+
+	void print() {
+		Node* current = head;
+		while (current != nullptr) {
+			cout << current->data << "\t";
+			current = current->next;
+		}
+		cout << endl;
+	}
+
+	// ============================================= //
+
+	bool insertAfter(int givenValue, int newValue) {
+		// Initializing current to head.
+		Node* current = head;
+
+		// Checking if current is null.
+		while (current != nullptr) {
+			if (current->data == givenValue) {
+				// Creating a new node to insert it into the linked-list.
+				Node* newNode = new Node(newValue);
+
+				newNode->next = current->next;
+				current->next = newNode;
+
+				return true;
+			}
+
+			// Current moves from the previous node to the next.
+			current = current->next;
+		}
+
+		return false;
+	}
+
+	bool insertBefore(int givenValue, int newValue) {
+		if (head == nullptr) {
+			return false;
+		}
+
+		if (head->data == givenValue) {
+			Node* newNode = new Node(newValue);
+
+			newNode->next = head;
+			head = newNode;
+
+			return true;
+		}
+
+		Node* current = head;
+
+		while (current->next != nullptr) {
+			if (current->next->data == givenValue) {
+				Node* newNode = new Node(newValue);
+
+				newNode->next = current->next;
+				current->next = newNode;
+
+				return true;
+			}
+
+			current = current->next;
+		}
+
+		return false;
+	}
+
+	bool erase(int givenValue) {
+		if (head == nullptr) {
+			return false;
+		}
+
+		// Creating a temporary node to delete the head.
+		if (head->data == givenValue) {
+			Node* temp = head;
+
+			head = head->next;
+			delete temp;
+
+			return true;
+		}
+
+		Node* current = head;
+
+		while (current->next != nullptr) {
+			if (current->next->data == givenValue) {
+				Node* temp = current->next;
+
+				current->next = current->next->next;
+				delete temp;
+
+				return true;
+			}
+
+			current = current->next;
+		}
+
+		//return false;
+	}
+
+	// ============================================= //
+
+	~SingleLinkedList()
+	{
+		while (head != nullptr)
+		{
+			Node* temp = head;
+			head = head->next;
+			delete temp;
+		}
+	}
+
+private:
+
+	struct Node
+	{
+		int  data;
+		Node* next;
+		Node(int value)
+		{
+			data = value;
+			next = nullptr;
+		}
+	};
+	Node* head;
+};
