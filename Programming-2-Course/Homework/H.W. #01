@@ -1,0 +1,97 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+void printArr(int** arr, int Rs, int Cs);
+
+int main()
+{
+	int Rs, Cs, padSize;
+	int** arr, ** newArr;
+
+	cout << "Enter the rows and columns of a 2D array: ";
+	cin >> Rs >> Cs;
+
+	//Creating a 2D array of integers.
+	arr = new int* [Rs];
+
+	for (int r = 0; r < Rs; r++)
+	{
+		arr[r] = new int[Cs];
+	}
+
+	//Filling in the array with random values.
+	for (int r = 0; r < Rs; r++)
+	{
+		for (int c = 0; c < Cs; c++)
+		{
+			arr[r][c] = rand() % 10;
+		}
+	}
+
+	cout << "Enter the padding size (>0): ";
+	cin >> padSize;
+
+	cout << endl;
+
+	printArr(arr, Rs, Cs);
+
+	//Declaration of the new rows and columns. In addition, to creating a new array.
+	int newR = Rs + 2 * padSize, newC = Cs + 2 * padSize;
+
+	newArr = new int* [newR];
+
+	for (int r = 0; r < newR; r++)
+	{
+		newArr[r] = new int[newC];
+	}
+
+	//Filling in the new array with zeros.
+	for (int r = 0; r < newR; r++)
+	{
+		for (int c = 0; c < newC; c++)
+		{
+			newArr[r][c] = 0;
+		}
+	}
+
+	//Copying the original array's values to the center of the new array.
+	for (int r = 0; r < Rs; r++)
+	{
+		for (int c = 0; c < Cs; c++)
+		{
+			newArr[r + 2][c + 2] = arr[r][c];
+		}
+	}
+
+	printArr(newArr, newR, newC);
+
+	//Deleting the new and old arrays.
+	for (int r = 0; r < newR; r++)
+	{
+		delete[] newArr[r];
+	}
+	delete[] newArr;
+
+	for (int r = 0; r < Rs; r++)
+	{
+		delete[] arr[r];
+	}
+	delete[] arr;
+
+	return 0;
+}
+
+void printArr(int** arr, int Rs, int Cs)
+{
+	for (int r = 0; r < Rs; r++)
+	{
+		for (int c = 0; c < Cs; c++)
+		{
+			cout << arr[r][c] << " ";
+		}
+		cout << endl;
+	}
+
+	cout << endl;
+}
