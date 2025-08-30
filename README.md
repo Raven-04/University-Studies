@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-<b style="font-size: 24px; font-family:tahoma;">*Disclaimer: -*</b>
+<b style="font-size: 44px;">*Disclaimer: -*</b>
 
 This is what my university's professors and lab instructors have taught us at the American University of Sharjah (AUS).
 
