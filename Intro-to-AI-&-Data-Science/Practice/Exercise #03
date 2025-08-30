@@ -1,0 +1,154 @@
+# Question #1
+A)
+import numpy as np 
+array_1d = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) 
+array_sum = np.sum(array_1d) 
+array_mean = np.mean(array_1d) 
+print(f"Sum of the array: {array_sum}") 
+print(f"Mean of the array: {array_mean}")
+
+B)
+array_2d = np.arange(1, 13).reshape(3, 4) 
+array_reshaped = array_2d.reshape(4, 3) 
+array_transposed = array_reshaped.T 
+print(f"Original 2D array: \n{array_2d}\n") 
+print(f"Reshaped 2D array: \n{array_reshaped}\n") 
+print(f"Transposed 2D array: \n{array_transposed}") 
+
+C)
+random_array = np.random.randint(1, 101, size=15) 
+sorted_array = np.sort(random_array)[::-1] 
+second_largest = sorted_array[1] 
+print(f"Sorted array in descending order: {sorted_array}") 
+print(f"Second largest value: {second_largest}")
+
+D)
+import matplotlib.pyplot as plt 
+days = np.array([1, 2, 3, 4, 5, 6, 7]) 
+weather = np.array([19, 16, 15, 17, 18, 18, 16]) 
+plt.plot(days, weather) 
+plt.show()
+
+# Question #2
+scores = np.array([[80, 75, 85], 
+[90, 85, 88], 
+[70, 65, 75], 
+[85, 80, 90]]) 
+
+A) 
+avg_subject = np.mean(scores, axis=0) 
+print(f"Average score for each subject: {avg_subject}") 
+
+B) 
+avg_semester = np.mean(scores, axis=1) 
+print(f"Average score for each semester: {avg_semester}\n") 
+
+C) 
+highest_avg_subject = np.argmax(np.mean(scores, axis=0)) 
+print(f"Subject with the highest average score: {highest_avg_subject+1}") 
+
+D) 
+highest_avg_semester = np.argmax(np.mean(scores, axis=1)) 
+print(f"Semester with the highest average score: {highest_avg_semester+1}") 
+
+# Question #3
+A)
+import pandas as pd 
+series = pd.Series([10, 20, 30, 40, 50], index=['A', 'B', 'C', 'D', 'E']) 
+print(f"Value at index 'C': {series['C']}") 
+print(f"Value at index 'E': {series['E']}") 
+
+B)
+series_1 = pd.Series([1, 2, 3, 4, 5], index=['A', 'B', 'C', 'D', 'E']) 
+series_2 = pd.Series([10, 20, 30, 40, 50], index=['A', 'B', 'C', 'D', 'E']) 
+result = series_1 + series_2 
+print(f"Result of addition:\n{result}")
+
+C)
+temp_c = pd.Series([25, 28, 22, 30, 27], index=['Mon', 'Tue', 'Wed', 'Thu', 
+'Fri']) 
+temp_f = temp_c * 9/5 + 32 
+temp_c.update(temp_f) 
+print(temp_c) 
+
+D)
+series = pd.Series([100, 200, 300, 400, 500], index=['A', 'B', 'C', 'D', 'E']) 
+print(f"Value at index 'B': {series['B']}") 
+print(f"Value at index 'D': {series['D']}\n") 
+print("Values from index 'B' to 'E':") 
+print(series['B':'E'])
+
+# Question #4
+A)
+sales = pd.Series([1000, 1200, 900, 1100], index=['Q1', 'Q2', 'Q3', 'Q4'])
+total_sales = sales.sum() 
+print(f"Total sales for the year: {total_sales}") 
+
+B)
+percent_inc = ((sales['Q2'] - sales['Q1']) / sales['Q1']) * 100 
+print(f"Percentage increase in sales from Q1 to Q2: {percent_inc}") 
+
+C)
+highest_sales_q = sales.idxmax() 
+print(f"Quarter with the highest sales: {highest_sales_q}\n") 
+
+D)
+sales['Q3'] = 950 
+print("Updated Series with sales for Q3:") 
+print(sales)
+
+# Question #5
+A)
+imdb_df = pd.read_csv("imdb_top_1000.csv")
+
+B)
+print(imdb_df.columns)
+
+C)
+imdb_df = imdb_df[['Series_Title', 'Released_Year', 'Runtime', 'Genre', 'IMDB_Rating', 'No_of_Votes', 'Gross']] 
+
+D)
+imdb_df.head()
+
+E)
+# Checking data types of each column
+print(f"Original data types: \n\n{imdb_df.dtypes}")
+
+# Checking values in the Released_Year column 
+# Notice how there's a string value of PG in one of the entries 
+imdb_df['Released_Year'].value_counts()
+
+# Removing that one entry with PG 
+imdb_df = imdb_df[imdb_df['Released_Year'] != 'PG'] 
+ 
+# Changing Released_Year to type int 
+imdb_df['Released_Year'] = imdb_df['Released_Year'].astype(int) 
+ 
+# Displaying the updated data types 
+print(f"New data types: \n\n{imdb_df.dtypes}")
+
+# Filtering the dataset to movies after 2010 
+imdb_df_2010 = imdb_df[imdb_df['Released_Year'] > 2010] 
+ 
+# Checking if filtering was done successfully 
+imdb_df_2010['Released_Year'].value_counts()
+
+F)
+mean_rating = imdb_df_2010['IMDB_Rating'].mean() 
+median_rating = imdb_df_2010['IMDB_Rating'].median() 
+std_dev_rating = imdb_df_2010['IMDB_Rating'].std() 
+print(f"Mean IMDB Rating: {mean_rating}") 
+print(f"Median IMDB Rating: {median_rating}") 
+print(f"Standard Deviation of IMDB Rating: {std_dev_rating}")
+
+G)
+highest_rated_movie = imdb_df_2010.loc[imdb_df_2010['IMDB_Rating'].idxmax()] 
+print("----- Highest rated movie after 2010 -----") 
+print(f"Title: {highest_rated_movie['Series_Title']}") 
+print(f"Year of Release: {highest_rated_movie['Released_Year']}") 
+print(f"Rating: {highest_rated_movie['IMDB_Rating']}") 
+
+H)
+top_5_voted_movies = imdb_df_2010.nlargest(5, 'No_of_Votes') 
+print("Top 5 movies with the highest number of votes after 2010:\n") 
+top_5_voted_movies['Series_Title']
