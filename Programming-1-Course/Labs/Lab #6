@@ -1,0 +1,128 @@
+============================================== Excerise #1 ==============================================
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+	int num;
+	float x, y, z;
+
+	int i = 1;
+	while (i <= 3)
+	{
+		cout << "Enter three integer values (x, y, z): ";
+		cin >> x >> y >> z;
+
+		if (x < 0 || y < 0)
+		{
+			cout << "Invalid input (must have x >= 0 & y >= 0)." << endl << endl;
+			continue;
+		}
+
+		cout << "Expression	" << "Value" << endl;
+		cout << "----------" << "	-----" << endl;
+		cout << "Expression #1" << "	" << 2 * (sqrt (x)) + 3 * (pow(y,sqrt(x))) << endl;
+		cout << "Expression #2" << "	" << x * sqrt(y) + pow(y,2) * abs(z) << endl;
+		cout << "Expression #3" << "	" << pow(x,3) + pow(y,abs(z)) << endl;
+		cout << endl;
+		i++;
+	}
+
+	return 0;
+}
+
+============================================== Excerise #2 ==============================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	float num;
+
+	for (int i = 1; i <= 5; i++)
+	{
+		cout << "Enter a floating point value: ";
+		cin >> num;
+
+		if (num - (int)num >= 0.5) 
+		{
+			cout << "Rounding UP = " << ceil(num) << endl << endl;
+		}
+		else 
+		{
+			cout << "Rounding DOWN = " << floor(num) << endl << endl;
+		}
+	}
+
+	return 0;
+}
+
+============================================== Excerise #3 ==============================================
+#include <iostream>
+using namespace std;
+
+float getSpeed(float distance, float time)
+{
+	return distance / time;
+}
+
+int main() {
+	float distance, time;
+
+	int i = 1;
+	do {
+		cout << "\nEnter distance traveled (meters)? ";
+		cin >> distance;
+		cout << "Enter time period (seconds)? ";
+		cin >> time;
+
+		if (distance < 0)
+		{
+			cout << "Invalid distance! Try again." << endl;
+			
+		}
+		if (time <= 0)
+		{
+			cout << "Invalid time! Try again." << endl;
+			
+		}
+		if (distance > 0 && time > 0) {
+
+			cout << "Your average speed is " << getSpeed(distance,time) << " m/s." << endl;
+		}
+		i++;
+	} while (i <= 5);
+
+	return 0;
+}
+
+============================================== Excerise #4 ==============================================
+#include <iostream>
+using namespace std;
+
+float harmonic(int num) 
+{
+	float sum = 0;
+	for (int i = 1; i <= num; i++)
+		sum = sum + 1.0 / i;
+	return sum;
+}
+
+int main() {
+	int num;
+	float sum;
+
+	for (int i = 1; i <= 3; i++) {
+
+		cout << "Enter an integer num: ";
+		cin >> num;
+
+		if (num < 0) 
+		{
+			cout << "Invalid number!" << endl << endl;
+			continue;
+		}
+
+		cout << "Sume of the harmonic series = " << harmonic(num) << endl << endl;
+	}
+	return 0;
+}
