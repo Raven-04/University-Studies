@@ -1,0 +1,67 @@
+print("---------------Intro. to AI and Data Science H.W. 1---------------") 
+# Question 1 
+name = "Mohamed Alawadhi" 
+age = 20 
+height = 1.77 
+ 
+print("My name is:", name) 
+print("I am:", age, "years old") 
+print("My current height in meters is:", height, "m") 
+ 
+print("") 
+# Question 2 
+y1 = 10 + 2**3 + 5 * 4 - 20 
+
+y2 = 2 + (5*6) - 24 + 3 * 6 % 8 
+y3 = 2 + (5*6) - 24 + 3 * 6//4 
+y4 = (9-2) * 5 + 8 
+ 
+print("The values of the variable ys' respectively are:-") 
+print("y1:", y1) 
+print("y2:", y2) 
+print("y3:", y3) 
+print("y4:", y4) 
+ 
+print("") 
+# Question 3 
+x = (5>3) and (4<7) #true 
+a = (10 == 10) or (5 != 3) #true 
+b = not(7 < 4) #true 
+c = (4 >= 5) and not (3 > 5) #false 
+d = (4 >= 5) or (3 > 5) #false 
+print("The values of the Boolean expressions:-") 
+print("x:", x) 
+print("a:", a) 
+print("b:", b) 
+print("c:", c) 
+print("d:", d) 
+ 
+print("") 
+# Question 4 
+fruits = ['apple', 'banana', 'cherry', 'date', 'elderberry'] 
+print("The fruits in the fruit basket are:", fruits)  # I just put the fruits in the fruit basket, cause why not, it makes more sense. 
+print("You decided to eat the", fruits[1]) 
+fruits.append('fig') 
+fruits.remove('date') 
+print("You noticed that you miss-saw the fig as a date in the basket.") 
+print("So, your actual fruit basket contains:", fruits) 
+ 
+print("") 
+# Question 5 
+fahrenheit = input("Enter the current temperature in degrees Fahrenheit:") 
+print("...Converting to degrees Celsius...") 
+celsius = 5/9 * (float(fahrenheit)-32) 
+print("The temperature in degrees Celsius is:", float(celsius)) 
+ 
+print("") 
+# Question 6 
+first = float(input("Enter your 1st float number: ")) 
+second = float(input("Enter your 2nd float number: ")) 
+sum = first + second 
+print("The sum of the numbers is:", sum) 
+difference = first - second 
+print("The difference between the numbers is:", difference) 
+product = first * second 
+print("The product of the numbers is:", product) 
+quotient = first / second 
+print("The quotient of the numbers is:", quotient)
