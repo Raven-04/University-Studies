@@ -1,0 +1,62 @@
+================================= Excerise #1 =================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	string fname = " Mohamed ";
+	string lname = " Alawadhi ";
+	string year = " Freshman ";
+	string num_courses = " 4 ";
+	string message;
+
+	cout << " Enter fname: ";
+	cin >> fname;
+	cout << " Enter lname: ";
+	cin >> lname;
+	cout << " Which year (i.e. Freshman, Sophomore, Junior, Senior): ";
+	cin >> year;
+	cout << " How many courses are you taking: ";
+	cin >> num_courses;
+	cout << endl;
+	cout << " My name is " << fname + " " + lname << "," << " I am a " << year << " Taking " << num_courses << " courses.";
+
+	return 0;
+}
+
+================================= Excerise #2 =================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	float mass = 930.75, depth = 43.12, volume = 370.43, acceleration = 32;
+	cout << "Enter mass : ";
+	cin >> mass;
+	cout << "Enter depth : ";
+	cin >> depth;
+	cout << "Enter volume : ";
+	cin >> volume;
+	cout << endl;
+	cout << "Pressure = " << mass * depth * acceleration / volume;
+	cout << endl << endl;
+	return 0;
+}
+
+================================= Excerise #3 =================================
+#include <iostream>
+using namespace std;
+
+int main() {
+	int numl1, numl2, numl3;
+	cout << "Enter three integer numbers [num1 num2 num 3]: ";
+	cin >> numl1;
+	cin >> numl2;
+	cin >> numl3;
+	if (numl1 % 7 == 0) cout << numl1 << " is odd " << endl;
+	else cout << numl1 << " is even " << endl;
+	if (numl2 % 4 == 0) cout << numl2 << " is even " << endl;
+	else cout << numl2 << " is odd " << endl;
+	if (numl3 % 9 == 0) cout << numl3 << " is odd " << endl;
+	else cout << numl3 << " is even " << endl;
+
+	return 0;
+}
