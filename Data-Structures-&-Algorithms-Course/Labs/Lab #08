@@ -1,0 +1,131 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+double HarmSerCheck(int n, double rst) {
+	if (n == 1) {
+		return rst + 1.0;
+	}
+
+	return HarmSerCheck(n - 1, rst + 1.0 / n);
+}
+
+double HarmSer(int n) {
+	return HarmSerCheck(n, 0.0);
+}
+
+int main() {
+	int num;
+
+	cout << "Enter a value: ";
+	cin >> num;
+
+	cout << "The harmonic series for " << num << " is: " << HarmSer(num) << endl;
+
+	return 0;
+}
+
+======================================= Excerise #2 =======================================
+#include <iostream>
+using namespace std;
+
+int reverse(int n, int result = 0) {
+	if (n == 0) {
+		return result;
+	}
+
+	int finalDigit = n % 10;
+
+	result = result * 10 + finalDigit;
+
+	return reverse(n / 10, result);
+}
+
+int main() {
+	int num;
+
+	cout << "Enter a number to reverse it: ";
+	cin >> num;
+
+	cout << "The reverse form of the number " << num << " is: " << reverse(num) << endl;
+
+	return 0;
+}
+
+======================================= Excerise #3 =======================================
+#include <iostream>
+using namespace std;
+
+void IntegerPalindrome(int value) {
+	if (value >= 0 && value <= 9) {
+		cout << value;
+		IntegerPalindrome(value + 1);
+		if (value != 9) {
+			cout << value;
+		}
+	}
+}
+
+int main() {
+	int input;
+
+	cout << "Enter an integer between 0 and 9: ";
+	cin >> input;
+
+	IntegerPalindrome(input);
+	cout << endl;
+
+	return 0;
+}
+
+======================================= Excerise #3 =======================================
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int partition(vector<int>& arr, int low, int high) {
+	int pivot = arr[high];
+	int i = low - 1;
+
+	for (int j = low; j < high; j++) {
+		if (arr[j] <= pivot) {
+			i++;
+			swap(arr[i], arr[j]);
+		}
+	}
+
+	swap(arr[i + 1], arr[high]);
+	return i + 1;
+}
+
+void quickSort(vector<int>& arr, int low, int high) {
+	if (low < high) {
+		int pIndex = partition(arr, low, high);
+
+		quickSort(arr, low, pIndex - 1);
+		quickSort(arr, pIndex + 1, high);
+	}
+}
+
+int main() {
+	vector<int> arr = { 53, 12, 65, 91, 3 };
+	int n = arr.size();
+	
+	cout << "Original Array:-" << endl;
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+	
+	quickSort(arr, 0, n - 1);
+
+	cout << "\n======================\n";
+
+	cout << "Sorted Array:-" << endl;
+	for (int i = 0; i < n; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+
+	return 0;
+}
