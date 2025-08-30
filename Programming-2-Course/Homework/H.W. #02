@@ -1,0 +1,127 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <string>
+#include <cctype>
+using namespace std;
+
+//Functions to check whether or not it is a palindrome.
+//As well as, lowering from upper case to lower case,
+//reversing the strings, and removing the punctuations.
+
+void swap(char& str1, char& str2);
+string reverseStr(const string& str);
+string removePunct(const string& str, const string& punct);
+string toLower(const string& str);
+bool isPal(const string& str);
+
+int main()
+{
+	int numOfLines;
+	string *newStr;
+
+	cout << "Enter number of lines: ";
+	cin >> numOfLines;
+
+	newStr = new string[numOfLines];
+
+	cout << "Enter " << numOfLines << " strings to check if they are palindromes: " << endl << endl;
+
+	//Reading the string from the user.
+	cin.ignore();
+	for (int i = 0; i < numOfLines; i++)
+	{
+		getline(cin, newStr[i]);
+	}
+	cout << endl;
+
+	//Printing out the strings after they were checked.
+	for (int i = 0; i < numOfLines; i++)
+	{
+		if (isPal(newStr[i]))
+		{
+			cout << "\"" << newStr[i] << "\" is a palindrome." << endl;
+		}
+		else
+		{
+			cout << "\"" << newStr[i] << "\" is not a palindrome." << endl;
+		}
+	}
+
+	delete[] newStr;
+
+	return 0;
+}
+
+void swap(char& str1, char& str2)
+{
+	char temp;
+
+	temp = str1;
+	str1 = str2;
+	str2 = temp;
+}
+
+string reverseStr(const string& str)
+{
+	int start = 0, end = str.length();
+	string temp(str);
+
+	while (start < end)
+	{
+		end--;
+		swap(temp[start], temp[end]);
+		start++;
+	}
+
+	return temp;
+}
+
+string removePunct(const string& str, const string& punct)
+{
+	string empty = "";
+	int strLength, punctLength;
+
+	strLength = str.length();
+
+	punctLength = punct.length();
+
+	for (int i = 0; i < strLength; i++)
+	{
+		int area;
+		string character = str.substr(i, 1);
+
+		area = punct.find(character, 0);
+
+		if (area == -1)
+		{
+			empty = empty + character;
+		}
+	}
+
+	return empty;
+}
+
+string toLower(const string& str)
+{
+	string temp(str);
+
+	for (int i = 0; i < str.length(); i++)
+	{
+		temp[i] = tolower(str[i]);
+	}
+
+	return temp;
+}
+
+bool isPal(const string& str)
+{
+	string punct(",;:.?!'\" ");
+	string newStr(str);
+	string palStr;
+
+	newStr = toLower(newStr);
+
+	palStr = removePunct(newStr, punct);
+
+	return (palStr == reverseStr(palStr));
+}
