@@ -1,0 +1,235 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+class ASCII
+{
+protected:
+	char* m_grid;
+	int m_length;
+
+public:
+	ASCII()
+	{
+		m_length = 10;
+		m_grid = new char[m_length];
+	}
+	ASCII(int length)
+	{
+		m_length = length;
+		m_grid = new char[m_length];
+	}
+	ASCII(string filename)
+	{
+		ifstream fin(filename);
+
+		fin >> m_length;
+
+		m_grid = new char[m_length];
+		fin.ignore(1000, '\n');
+
+		for (int i = 0; i < m_length; i++)
+		{
+			char c;
+			fin.get(c);
+			m_grid[i] = c;
+		}
+		fin.close();
+	}
+	ASCII(const ASCII& rhs)
+	{
+		m_length = rhs.m_length;
+
+		m_grid = new char[m_length];
+
+		for (int i = 0; i < m_length; i++)
+		{
+			m_grid[i] = rhs.m_grid[i];
+		}
+	}
+	virtual ~ASCII()
+	{
+		if (m_grid != nullptr)
+		{
+			delete[] m_grid;
+		}
+	}
+	ASCII& operator=(const ASCII& rhs)
+	{
+		if (this != &rhs)
+		{
+			if (m_length != rhs.m_length)
+			{
+				delete[] m_grid;
+				m_length = rhs.m_length;
+				m_grid = new char[m_length];
+			}
+
+			for (int i = 0; i < m_length; i++)
+			{
+				m_grid[i] = rhs.m_grid[i];
+			}
+		}
+
+		return *this;
+	}
+	virtual void AddPoint(int x, char pixel)
+	{
+		if (x >= 0 && x <= m_length)
+		{
+			m_grid[x] = pixel;
+		}
+		else
+		{
+			cout << "coordinates error" << endl;
+		}
+	}
+	virtual void Undo()
+	{
+		cout << "Undo feature is not available" << endl;
+	}
+	void Display()
+	{
+		for (int i = 0; i < m_length; i++)
+		{
+			cout << m_grid[i];
+		}
+		cout << endl;
+	}
+};
+
+class AdvancedASCII : public ASCII
+{
+protected:
+	char* p_grid;
+	int p_length;
+
+public:
+	AdvancedASCII() : ASCII()
+	{
+		p_grid = nullptr;
+		p_length = 0;
+	}
+	AdvancedASCII(string filename) : ASCII(filename)
+	{
+		p_grid = nullptr;
+		p_length = 0;
+	}
+	AdvancedASCII(const AdvancedASCII& rhs) : ASCII(rhs)
+	{
+		p_length = rhs.p_length;
+
+		p_grid = new char[p_length];
+
+		for (int i = 0; i < p_length; i++)
+		{
+			p_grid[i] = rhs.p_grid[i];
+		}
+	}
+	AdvancedASCII& operator=(const AdvancedASCII& rhs)
+	{
+		ASCII::operator=(rhs);
+
+		if (this != &rhs)
+		{
+			if (p_length != rhs.p_length)
+			{
+				delete[] p_grid;
+				p_length = rhs.p_length;
+				p_grid = new char[p_length];
+			}
+			for (int i = 0; i < p_length; i++)
+			{
+				p_grid[i] = rhs.p_grid[i];
+			}
+		}
+
+		return *this;
+	}
+	virtual ~AdvancedASCII()
+	{
+		if (p_grid != nullptr)
+		{
+			delete[] p_grid;
+		}
+	}
+	virtual void AddPoint(int x, char pixel)
+	{
+		// Copy m_grid to p_grid.
+		p_length = m_length;
+
+		p_grid = new char[p_length];
+
+		for (int i = 0; i < p_length; i++)
+		{
+			p_grid[i] = m_grid[i];
+		}
+		ASCII::AddPoint(x, pixel);
+	}
+	virtual void Undo()
+	{
+		if (m_grid != nullptr)
+		{
+			for (int i = 0; i < p_length; i++)
+			{
+				m_grid[i] = p_grid[i];
+			}
+		}
+	}
+};
+
+class LockedASCII : public ASCII
+{
+public:
+	LockedASCII() : ASCII()
+	{}
+	LockedASCII(string filename) : ASCII(filename)
+	{}
+	virtual void AddPoint(int x, char pixel)
+	{
+		cout << "Error: cannot modify locked ASCII object" << endl;
+	}
+};
+
+int main() 
+{
+	ASCII* ascii_arr[6];
+	ascii_arr[0] = new ASCII("zigzag.txt");
+	ascii_arr[1] = new AdvancedASCII("zigzag.txt");
+	ascii_arr[2] = new LockedASCII("zigzag.txt");
+	AdvancedASCII* ascii1 = new AdvancedASCII("wave.txt");
+	AdvancedASCII* ascii2 = new AdvancedASCII(*ascii1);
+	AdvancedASCII ascii3;
+	ascii3 = *ascii1;
+	ascii_arr[3] = ascii1;
+	ascii_arr[4] = ascii2;
+	ascii_arr[5] = &ascii3;
+	for (int i = 0; i < 6; i++) {
+		cout << "-----Testing ASCII art number " << i << "-----" << endl;
+		cout << "Display" << endl;
+		ascii_arr[i]->Display();
+		cout << "Replacing pixel " << i << " with an O" << endl;
+		ascii_arr[i]->AddPoint(i, 'O');
+		cout << "Display" << endl;
+		ascii_arr[i]->Display();
+		cout << "Undo" << endl;
+		ascii_arr[i]->Undo();
+		cout << "Display" << endl;
+		ascii_arr[i]->Display();
+		cout << endl;
+	}
+	for (int i = 0; i < 5; i++) {
+		delete ascii_arr[i];
+	}
+
+	return 0;
+}
+
+txt File #1:-
+10
+~~~~~~~~~~
+
+txt File #1:-
+12
+/\/\/\/\/\/\
