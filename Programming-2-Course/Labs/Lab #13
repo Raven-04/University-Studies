@@ -1,0 +1,165 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+// 1 - Implement Exception
+class Exception
+{
+protected:
+	string msg;
+
+public:
+	Exception(string _msg)
+	{
+		msg = _msg;
+	}
+	virtual string getMessage()
+	{
+		return msg;
+	}
+};
+
+// 2 - Implement InvalidAction
+class InvalidAction : public Exception
+{
+protected:
+	string action;
+
+public:
+	InvalidAction(string _action) : Exception("Invalid Action Exception: ")
+	{
+		action = _action;
+	}
+	virtual string getMessage()
+	{
+		return Exception::getMessage() + action;
+	}
+};
+
+// 3 - Implement InvalidInventoryIndex
+class InvalidInventoryIndex : public Exception
+{
+protected:
+	int inventory_size;
+
+public:
+	InvalidInventoryIndex(int _inventory_size) : Exception("InvalidInventoryIndex: ")
+	{
+		inventory_size = _inventory_size;
+	}
+	virtual string getMessage()
+	{
+		return Exception::getMessage() + "inventory size is " + to_string(inventory_size);
+	}
+};
+
+class Player 
+{
+	string m_name;
+	string m_location;
+	string m_state;
+	string m_hand;
+	vector<string> m_inventory;
+
+public:
+	Player(string name, string hand, vector<string> inventory) :m_name(name), m_hand(hand), m_inventory(inventory),
+		m_location("Overworld"), m_state("Awake") {};
+
+	// 4 - Implement Travel()
+	void Travel()
+	{
+		if (m_location != "Nether")
+		{
+			m_location = "Nether";
+
+			cout << "Traveled to the " << m_location << endl;
+		}
+		else
+		{
+			m_location = "Overworld";
+
+			cout << "Traveled to the " << m_location << endl;
+		}
+	}
+
+	// 5 – Implement Sleep()
+	void Sleep() throw(InvalidAction)
+	{
+		if (m_location == "Nether")
+		{
+			throw InvalidAction("Sleeping in nether"); // Exception handling
+		}
+		else if (m_state == "Asleep")
+		{
+			throw InvalidAction("Sleeping in nether");
+		}
+		
+		m_state = "Asleep";
+		cout << "is " << m_state << endl;
+	}
+
+	// 6 - Implement SwitchTool(int)
+	void SwitchTool(int index) throw(InvalidInventoryIndex)
+	{
+		if (index >= m_inventory.size() || index < 0)
+		{
+			throw InvalidInventoryIndex(m_inventory.size());
+		}
+
+		m_hand = m_inventory[index]; //exception invalid
+
+		cout << m_hand << " in hand" << endl;
+	}
+
+	friend ostream& operator<<(ostream& out, const Player& p);
+};
+
+ostream& operator<<(ostream& out, const Player& p) {
+	out << "Player name: " << p.m_name << endl;
+	out << "location: " << p.m_location << endl;
+	out << "state: " << p.m_state << endl;
+	out << "has " << p.m_hand << " in their hand" << endl;
+	out << "inventory:" << endl;
+	for (int i = 0; i < p.m_inventory.size(); i++) {
+		out << p.m_inventory.at(i) << endl;
+	}
+	return out;
+}
+
+int main() {
+	vector<string> tools = { "Diamond Pickaxe", "Iron Pickaxe" };
+	Player steve("Steve", "Wooden Shovel", tools);
+	cout << "---Printing---" << endl;
+	cout << steve << endl;
+
+	cout << "---Traveling---" << endl;
+	steve.Travel();
+
+	cout << "---Sleeping--" << endl;
+	try {
+		steve.Sleep();
+	}
+	catch (Exception& e) {
+		cout << e.getMessage() << endl;
+	}
+
+	cout << "---Switching tools---" << endl;
+	cout << "Select the index of the tool to swap with the one in your hand ";
+	int index;
+	cin >> index;
+	try {
+		steve.SwitchTool(index);
+	}
+	catch (Exception& e) {
+		cout << e.getMessage() << endl;
+	}
+
+	cout << "---Traveling back---" << endl;
+	steve.Travel();
+
+	cout << "---Sleeping---" << endl;
+	steve.Sleep();
+	return 0;
+}
