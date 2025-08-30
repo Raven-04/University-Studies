@@ -1,0 +1,128 @@
+======================================= Excerise #1 =======================================
+// Time complexity is O(n) and the worst case is the last element of the array (searching through every element).
+#include <iostream>
+#include <chrono>
+using namespace std;
+
+int linearSearch(int* arr, int size, int target)
+{
+	for (int i = 0; i < size; i++) {
+		if (arr[i] == target) {
+			cout << "The targeted element is in index " << i << "." << endl;
+			return true;
+		}
+	}
+	cout << "Target was not found in the array." << endl;
+	return -1;
+}
+
+int main() {
+	int size = 5;
+	int* arr;
+	int target;
+
+	arr = new int[size];
+
+	srand(time(NULL));
+	cout << "List of array elements: ";
+	for (int i = 0; i < size; i++) {
+		arr[i] = rand() % 50;
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+	
+	cout << "Enter a target(number) to search for in the array: ";
+	target = 1 + rand() % 50;
+	cout << target << endl;
+	
+	auto start_time = std::chrono::high_resolution_clock::now();
+	linearSearch(arr, size, target);
+	auto end_time = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+	
+	std::cout << "\n\nTime taken by sorting: " << duration.count() << " microseconds";
+	
+	return 0;
+}
+
+======================================= Excerise #2 =======================================
+// @ // SelectionSort: -
+// # of comparisons is (n^2 - n) / 2 and # of swaps is n - 1.
+// n^2 - n / 2 is both the best and worst-case.
+// Runtime is O(n^2)
+
+// @ // InsertionSort: -
+// # of comparisons is n - 1 IF the given array is sorted.
+// n - 1 is the best-case and n^2 - n / 2 is the worst-case for insertionSort.
+// Runtime is O(n)
+
+// @ // General Info: -
+// insertionSort is 10x faster than selectionSort.
+// insertionSort makes fewer comparisons and selectionSort makes fewer swaps.
+// The larger exponent is faster for a large sized array (~ n >= 1000). However, if the array has a small size, then the smaller exponent is faster.
+// Precedence of speed: O(n) -> O(n^3/2) -> O(n^2)
+
+#include <iostream>
+#include <chrono>
+using namespace std;
+
+void selectionSort(int* arr, int size) {
+	for (int current = 0; current < size - 1; current++) {
+		int minIndex = current;
+
+		for (int i = current + 1; i < size; i++) {
+			// Finding the smallest element in the array.
+			// arr[i] > arr[minIndex] prints in a descending order.
+			// prints in a ascending order.
+			if (arr[i] < arr[minIndex]) {
+				minIndex = i;
+			}
+		}
+		
+		// Swap if the minimum index not equal i.
+		if (minIndex != current) {
+			swap(arr[current], arr[minIndex]);
+		}
+	}
+}
+
+/*
+void insertionSort(int* arr, int size) {
+	for (int current = 1; current < size; current++) {
+
+		int i = current;
+
+		while (i > 0 && arr[i - 1] > arr[i]) {
+			swap(arr[i - 1], arr[i]);
+			i = i - 1;
+		}
+	}
+}
+*/
+
+int main() {
+	int size = 1000;
+	int* arr;
+
+	while (size <= 16000) {
+		cout << "\nSize: " << size << endl;
+		
+		arr = new int[size];
+
+		srand(time(NULL));
+		for (int i = 0; i < size; i++) {
+			arr[i] = rand() % 100;
+		}
+
+		auto start_time = std::chrono::high_resolution_clock::now();
+		selectionSort(arr, size);
+		auto end_time = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+		std::cout << "\n\nTime taken by sorting: " << duration.count() << "microseconds";
+		cout << "\n-----------------------------------------------------------------------------" << endl;
+		
+		size += size;
+	}
+
+	return 0;
+}
