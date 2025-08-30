@@ -1,0 +1,160 @@
+====================================== Excerise #1 ======================================
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+using namespace std;
+
+class Potion 
+{
+	string m_name;
+	int m_strength;
+	vector<string> m_ingredients;
+
+public:
+	Potion() :m_name("Water"), m_strength(0) {}
+	Potion(string name, vector<string> ingredients) :m_name(name), m_ingredients(ingredients), m_strength(-1) {}
+	Potion(string name, vector<string> ingredients, int strength) :m_name(name), m_ingredients(ingredients), m_strength(strength) {}
+
+	void Print() 
+	{
+		cout << "Potion name: " << m_name << endl;
+		cout << "Potion strength: " << m_strength << endl;
+		cout << "Ingredients:" << endl;
+		if (m_ingredients.size() == 0) 
+		{
+			cout << "N/A" << endl;
+		}
+		else 
+		{
+			for (int i = 0; i < m_ingredients.size(); i++) 
+			{
+				cout << m_ingredients.at(i) << endl;
+			}
+		}
+	}
+
+	bool Compare(Potion& p) 
+	{
+		if (m_name != p.m_name || m_ingredients.size() != p.m_ingredients.size()) 
+		{
+			return false;
+		}
+		for (int i = 0; i < m_ingredients.size(); i++) 
+		{
+			if (m_ingredients.at(i) != p.m_ingredients.at(i))
+				return false;
+		}
+		return true;
+	}
+
+	bool Brew(vector<Potion>& potions) 
+	{
+		for (int i = 0; i < potions.size(); i++) 
+		{
+			if (Compare(potions.at(i))) 
+			{
+				m_strength = potions.at(i).m_strength;
+				return true;
+			}
+		}
+		m_name = "Water";
+		m_ingredients.clear();
+		m_strength = 0;
+		return false;
+	}
+};
+
+
+int main() 
+{
+	ifstream fin("Potions.txt");
+	string line;
+	vector<Potion> potions;
+
+	cout << "***Reading Potion Brewing Guide***" << endl;
+	while (fin >> line) 
+	{
+		fin.ignore(1000, '\n');
+		string p_name;
+		getline(fin, p_name);
+		string p_strength_s;
+		getline(fin, p_strength_s);
+		int p_strength = stoi(p_strength_s);
+		vector<string> p_ingredients;
+		string ingredient;
+		do 
+		{
+			getline(fin, ingredient);
+			if (ingredient != "}")
+			{
+				p_ingredients.push_back(ingredient);
+			}
+		} while (ingredient != "}");
+		Potion p(p_name, p_ingredients, p_strength);
+		potions.push_back(p);
+	}
+	for (int i = 0; i < potions.size(); i++) 
+	{
+		potions.at(i).Print();
+		cout << "***" << endl;
+	}
+	cout << endl;
+
+	cout << "Enter the name of the potion you'd like to brew: ";
+	string name;
+	getline(cin, name);
+
+	cout << "Enter the ingredients on separate lines, followed by \"end\":" << endl;
+	string ingredient;
+	vector<string> ingredients;
+	getline(cin, ingredient);
+
+	while (ingredient != "end") 
+	{
+		ingredients.push_back(ingredient);
+		getline(cin, ingredient);
+	}
+	Potion mypotion(name, ingredients);
+
+	cout << "Brewing..." << endl;
+	if (mypotion.Brew(potions)) 
+	{
+		cout << "Brewing was successful!" << endl;
+	}
+	else 
+	{
+		cout << "Brewing failled..." << endl;
+	}
+
+	cout << "\n***You brewed***" << endl;
+	mypotion.Print();
+	
+	return 0;
+}
+
+txt File:-
+{
+Potion of Weakness
+12
+Fermented Spider Eye
+}
+{
+Potion of Strength
+23
+Netherwarts
+Pufferfish
+}
+{
+Potion of Night Vision
+15
+Netherwarts
+Golden Carrot
+}
+{
+Potion of Leaping II
+34
+Netherwarts
+Rabbit's Foot
+Glowstone Dust
+}
