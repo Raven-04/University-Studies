@@ -1,0 +1,120 @@
+# Question #1
+import pandas as pd
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.model_selection import train_test_split
+
+data = pd.read_csv('possum.csv')
+data.head()
+
+data.describe()
+
+missing_values = data.isnull().sum()
+print("Missing Values:\n", missing_values)
+
+data.dropna(inplace=True)
+
+data.drop(columns=['case', 'site'], inplace=True)
+
+categorical_cols = ['Pop']
+
+encoded_columns = pd.get_dummies(data[categorical_cols], prefix=categorical_cols)
+encoded_columns = encoded_columns.astype(bool)
+data = pd.concat([data.drop(categorical_cols, axis=1), encoded_columns], axis=1)
+
+data.head()
+
+columns_to_standardize = ['age', 'hdlngth', 'skullw', 'totlngth', 'taill', 'footlgth', 'earconch', 'eye', 'chest', 'belly']
+scaler = StandardScaler()
+data[columns_to_standardize] = scaler.fit_transform(data[columns_to_standardize])
+
+le = LabelEncoder()
+data['sex'] = le.fit_transform(data['sex'])
+
+data.head()
+
+data.info()
+
+# Question #2
+X = data.drop(columns=['sex'])
+y = data['sex']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+# Question #3
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+
+decision_tree = DecisionTreeClassifier(random_state=42)
+naive_bayes = GaussianNB()
+svm = SVC(kernel='linear', random_state=42)
+
+# Question #4
+decision_tree.fit(X_train, y_train)
+naive_bayes.fit(X_train, y_train)
+svm.fit(X_train, y_train)
+
+# Question #5
+y_pred_decision_tree = decision_tree.predict(X_test)
+y_pred_naive_bayes = naive_bayes.predict(X_test)
+y_pred_svm = svm.predict(X_test)
+
+# Question #6
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+import matplotlib.pyplot as plt
+from mlxtend.plotting import plot_decision_regions
+import seaborn as sns
+
+def evaluate_model(y_true, y_pred, model_name):
+    accuracy = accuracy_score(y_true, y_pred)
+    precision = precision_score(y_true, y_pred)
+    recall = recall_score(y_true, y_pred)
+    f1 = f1_score(y_true, y_pred)
+    cm = confusion_matrix(y_true, y_pred)
+
+    print(f"Model: {model_name}")
+    print(f"Accuracy: {accuracy}")
+    print(f"Precision: {precision}")
+    print(f"Recall: {recall}")
+    print(f"F1 Score: {f1}")
+    print(f"Confusion Matrix:\n {cm}")
+
+    # Plot confusion matrix
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, cmap="Blues", fmt="d")
+    plt.title(f'Confusion Matrix - {model_name}')
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    plt.show()
+
+evaluate_model(y_test, y_pred_decision_tree, "Decision Tree")
+
+evaluate_model(y_test, y_pred_naive_bayes, "Naive Bayes")
+
+evaluate_model(y_test, y_pred_svm, "Linear SVM")
+
+# Question #7
+### Model comparisions:
+
+- Linear SVM outperforms Decision Tree and Naive Bayes in terms of accuracy, precision, and F1 score.
+
+- Naive Bayes has the highest precision, indicating its ability to make fewer false positive predictions.
+
+- Linear SVM has the highest recall, suggesting it can capture a larger proportion of actual positive instances.
+
+- Decision Tree has the lowest performance among the three models.
+
+### Possible limitations:
+
+- **Decision Tree:**
+  - Prone to overfitting, especially with complex datasets.
+  - May not generalize well to unseen data.
+
+- **Naive Bayes:**
+  - Assumes independence between features, which may not hold true in all cases.
+  - Sensitive to outliers and may not perform well with highly skewed data.
+
+- **Linear SVM:**
+  - Assumes linear separation boundaries, which might not be optimal for non-linearly separable data.
+  - Requires careful selection of hyperparameters and may be computationally expensive for large datasets.
