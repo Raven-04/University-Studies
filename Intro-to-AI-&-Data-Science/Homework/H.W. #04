@@ -1,0 +1,142 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Reading the excel file and displaying it.
+hotel_data = pd.read_excel("/content/hotel_bookings.xlsx")
+hotel_data
+
+# /=------Part A-----=\
+# Printing out the number of attributes (= 19)
+print("The number of attributes: ", len(hotel_data.axes[1])) 
+# Printing out the number of observations (= 102406)
+print("The number of observations:", len(hotel_data.axes[0]))
+print("\n")
+
+# /=------Part B-----=\
+# Selectinn only the "reservation_status" from the hotel dataset.
+reservation_data = hotel_data["reservation_status"].value_counts()
+
+# Plotting the pie chart along with it's indices, figure size and the amount of decimals spaces.
+hotel_reservation_data = pd.DataFrame({"reservation_status": reservation_data}, index = ["Check-Out", "Canceled", "No-Show"])
+hotel_reservation_data.plot.pie(y = "reservation_status", figsize = (6, 6), autopct = "%1.1f%%")
+
+# Moving the pie chart's legend (the label) to the right side.
+plt.legend(bbox_to_anchor = (1.05, 1), loc = 'upper right')
+plt.title("A Pie-Chart for Reservation Status", fontweight = "bold")
+
+# The proportion percentage of cancelled = 35.8%
+# The proportion percentage of no-show = 1.0%
+
+# /=------Part C-----=\
+# Setting the style and plotting the bar chart using "hue" to reveal the amount of reservations with a month.
+sns.set(style = "darkgrid")
+plt.figure(figsize = (7,7))
+ax = sns.countplot(x = "reservation_status", hue = "Month", data = hotel_data) # ~ ASK QUESTION HERE!!!! ==========================================
+
+# Setting the x-axis and y-axis title along with the title of the graph.
+ax.set_xlabel("Reservation Status")
+ax.set_ylabel("Number of Reservations")
+ax.set_title("Number of Reservations by Month", fontweight = "bold")
+plt.legend(title = "Month")
+
+# [Reservation - Check-Out]
+# Highest: August
+# Lowest: December
+
+# [Reservation - Canceled]
+# Highest: January
+# Lowest: August
+
+# [Reservation - No-Show]
+# Highest: February
+# Lowest: September
+
+# /=------Part D-----=\
+# Plotting the bar-plot with the y-axis as the "adr" and the x-axis as the "reservation_status".
+ax = hotel_data.boxplot(column = "adr", by = "reservation_status", figsize = (7,7))
+
+# Setting the y-axis and x-axis title along with the title of the graph.
+ax.set_ylabel("Average Daily Rate")
+ax.set_xlabel("Reservation Status")
+ax.set_title("Box-Plot for the Average Daily Charges by Reservation Status", fontweight = "bold")
+
+# There is a weak correlation between the boxplots, as there are more overlaps between each other (the more they overlap, the weaker the correlation, and vise-versa).
+
+# /=------Part E-----=\
+# Plotting the bar-plot with the y-axis as the "lead_time" and the x-axis as the "reservation_status".
+ax = hotel_data.boxplot(column = "lead_time", by = "reservation_status", figsize = (7,7))
+
+# Setting the y-axis and x-axis title along with the title of the graph.
+ax.set_ylabel("Lead Time")
+ax.set_xlabel("Reservation Status")
+ax.set_title("Box-Plot for the Average Daily Charges by Reservation Status", fontweight = "bold")
+
+# The same can be said here as well. There is a weak correlation between the boxplots, due to the overlaps of five-number summary.
+
+# /=------Part F-----=\
+plt.figure(figsize=(10, 8))
+
+# Utilized Professor Tarig's heatmap parameters from the "Group Challenge Solution".
+sns.heatmap(hotel_data.corr(), annot = True, cmap='coolwarm', fmt=".2f")
+plt.title("Heatmap between the different Numeric Values in the Dataset", fontweight = "bold")
+
+# The heatmap reveals to generally have a weak correlation. However, the "stays_in_week_nights" and "stays_in_weekend_nights" are somewhat correlated, the same can be said with the "children" and "adr".
+
+# /=------Part G-----=\
+# Creating a variable only for "Canceled" reservation_status.
+rs_cancelled = hotel_data[hotel_data["reservation_status"] == "Canceled"]
+
+plt.figure(figsize = (7,7))
+ax = sns.countplot(x = "meal", data = rs_cancelled)
+
+ax.set_ylabel("Number of Cancelled Reservations")
+ax.set_xlabel("Meal Types")
+ax.set_title("Bar Chart for the Cancelled Reservation by Meal Types", fontweight = "bold")
+
+# It seems that people who had a meal type of "BB", tend to have more cancelled reservations (> 25000). While, the people with the meal type of "FB", tend to have less cancelled reservations (~ < 1000).
+# The other meal type, "HB" and "SC", seem to have a fairly average number of cancelled reservations (< 5000).
+
+# /=------Part H-----=\
+# Creating a variable only for "No-show" reservation_status.
+rs_no_show = hotel_data[hotel_data["reservation_status"] == "No-Show"]
+
+plt.figure(figsize = (7,7))
+ax = sns.countplot(x = "Type", data = rs_no_show)
+
+ax.set_ylabel("Number for No-Show Reservations")
+ax.set_xlabel("Hotel Types")
+ax.set_title("Bar Chart for the No-Show Reservations by Hotel Types", fontweight = "bold")
+
+# It seems that most people that did not show up, had reserved for a City Hotel (> 800). While, only a few people did not show for the Resort Hotel (~ < 250) (which would make sense, as typically a resort reservation is more expensive, and you wouldn't want to miss on a resort hotel reservation).
+
+# /=------Part I-----=\
+plt.figure(figsize = (7,7))
+ax = sns.countplot(x = "deposit_type", data = rs_cancelled)
+
+ax.set_ylabel("Number of Cancelled Reservations")
+ax.set_xlabel("Deposit Types")
+ax.set_title("Bar Chart for the Cancelled Reservations by Deposit Types", fontweight = "bold")
+
+# It seems that most people with "No Deposit", have cancelled their reservation (> 25000). On the other hand, there were less people who chose "Non Refund", who have cancelled their reservation (> 10000).
+# There was no one that had a "Refundable" deposit type and cancelled their reservation.
+
+# /=------Part J-----=\
+plt.figure(figsize = (13,7))
+ax = sns.countplot(x = "Month", data = rs_cancelled)
+
+ax.set_ylabel("Number of Cancelled Reservations")
+ax.set_xlabel("Month")
+ax.set_title("Bar Chart for the Cancelled Reservations Per Month", fontweight = "bold")
+
+# Most cancelled reservations occurred in January (< 5000), and the least amount of cancelled reservations occurred in August (~ < 2500) (Probably because most students and other families are on summer vacation).
+
+# /=------Part K-----=\
+plt.figure(figsize = (13,7))
+ax = sns.countplot(x = "Month", data = rs_no_show)
+
+ax.set_ylabel("Number for No-Show Reservations")
+ax.set_xlabel("Month")
+ax.set_title("Bar Chart for the No-Show Reservations Per Month", fontweight = "bold")
+
+# Most no show ups occurred in February (> 200), and the least amount of no show ups occurred September (~ < 60).
