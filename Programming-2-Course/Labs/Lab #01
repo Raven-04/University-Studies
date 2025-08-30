@@ -1,0 +1,126 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int x, *ptrY;
+
+	cout << "Enter a value for x: ";
+	cin >> x;
+
+	cout << "x is located at " << &x << " and has a value of " << x << endl;
+
+	ptrY = new int;
+
+
+	cout << "The new variable is located at " << ptrY << endl;
+
+	delete ptrY;
+
+	ptrY = &x;
+
+	cout << "The value of x using ptrY is " << *ptrY << endl;
+
+	delete ptrY; 
+	//Your deallocating a memory location that automatically delete it's self when the program runs. However, in this case your just deleting an empty memory. So, it counts as a crash.
+
+	return 0;
+}
+
+======================================= Excerise #2 =======================================
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int num_days;
+	double *tempValues, max, min;
+
+	cout << "Enter number of days: ";
+	cin >> num_days;
+
+	cout << "Enter " << num_days << " temperature values: ";
+
+	tempValues = new double[num_days];
+
+	for (int i = 0; i < num_days; i++)
+	{
+		cin >> tempValues[i];
+	}
+
+	max = tempValues[0];
+	min = tempValues[0];
+
+	for (int i = 0; i < num_days; i++)
+	{
+		if (tempValues[i] > max)
+		{
+			max = tempValues[i];
+		}
+
+		if (min > tempValues[i])
+		{
+			min = tempValues[i];
+		}
+	}
+
+	cout << "The max temperature was " << max << " and the min temperature was " << min << endl;
+
+	delete[] tempValues;
+
+	return 0;
+}
+
+======================================= Excerise #3 =======================================
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int oldsize = 6, newsize;
+	double *myarr, *myarr2;
+
+	myarr = new double[oldsize];
+
+	cout << "Enter " << oldsize << " values: ";
+
+	for (int i = 0; i < oldsize; i++)
+	{
+		cin >> myarr[i];
+	}
+
+	///
+
+	cout << "Enter the new size: ";
+	cin >> newsize;
+
+	myarr2 = new double[newsize];
+
+	for (int i = 0; i < newsize; i++)
+	{
+		if (i < oldsize)
+		{
+			myarr2[i] = myarr[i];
+		}
+		else
+		{
+			myarr2[i] = 0;
+		}
+	}
+
+	delete[] myarr;
+
+	myarr = myarr2;
+
+	cout << "The new values in myarr are: ";
+
+	for (int i = 0; i < newsize; i++)
+	{
+		cout << myarr[i] << " ";
+	}
+
+	delete[] myarr2;
+
+	return 0;
+}
