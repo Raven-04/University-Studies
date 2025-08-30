@@ -1,0 +1,68 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct Person {
+    int phNum;
+    string firstName, lastName;
+
+    Person(string fn = "None", string ln = "None", int ph = 0)
+        :firstName(fn), lastName(ln), phNum(ph) {};
+
+    friend ostream& operator<<(ostream& outs, const Person& rhs)
+    {
+        outs << rhs.firstName << "\t" << rhs.lastName << "\t" << rhs.phNum << endl;
+        return outs;
+    }
+};
+
+void print(vector<Person> persons) {
+    for (vector<Person>::iterator it = persons.begin(); it != persons.end(); it++) {
+        cout << "Phone Number: " << it->phNum << " | " << "First Name: " << it->firstName << " | " << "Last Name: " << it->lastName << endl;
+    }
+    cout << endl;
+}
+
+void addPerson(vector<Person>& persons, const string& fname, const string& lname, int ph) {
+    Person newPerson = Person(fname, lname, ph);
+
+    persons.push_back(newPerson);
+}
+
+void searchByPhone(vector<Person>& persons, int ph) {
+    vector<Person>::iterator it = persons.begin();
+    bool found = false;
+
+    while (it != persons.end()) {
+        if (it->phNum == ph) {
+            cout << "Phone Number Found!" << endl;
+            cout << "First Name: " << it->firstName << " | " << "Last Name: " << it->lastName << endl;
+            found = true;
+        }
+
+        it = it + 1;
+    }
+
+    if (found != true) {
+        cout << "Person's phone number " << ph << " was not found." << endl;
+    }
+}
+
+int main() {
+    vector<Person> persons;
+
+    persons = {
+        {"Mohamed", "Alawadhi", 1527684},
+        {"Fedaa", "Almehdi", },
+        {"Mark", "Rogers", },
+        {"Fatima", "Zahar", }
+    };
+
+    print(persons);
+    addPerson(persons, "Abdulla", "Shamsi", 507345622);
+    print(persons);
+    searchByPhone(persons, 507345622);
+
+    return 0;
+}
