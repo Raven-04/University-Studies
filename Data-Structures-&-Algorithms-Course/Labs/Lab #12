@@ -1,0 +1,130 @@
+======================================= Excerise #1 =======================================
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include<string>
+using namespace std;
+
+class PQ {
+private:
+    vector<int> v;
+    void heapify(int);
+    void insert(int);
+public:
+    void push(int newData)
+    {
+        insert(newData);
+    }
+    void pop()
+    {
+        swap(v[0], v[v.size() - 1]);
+        v.pop_back();
+        heapify(0);
+    }
+    int& top()
+    {
+        return v[0];
+    }
+    void print(ostream& os)
+    {
+        for (int i = 0; i < v.size(); i++)
+            os << v[i] << "  ";
+        os << endl;
+    }
+    bool empty()
+    {
+        return v.size() == 0;
+    }
+};
+
+ostream& operator<<(ostream& os, PQ& Q) {
+    Q.print(os);
+    return os;
+}
+void PQ::heapify(int i)
+{
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+
+    if (l < v.size() && v[l] > v[largest]) {
+        largest = l;
+    }
+
+    if (r < v.size() && v[r] > v[largest]) {
+        largest = r;
+    }
+
+    if (largest != i) {
+        swap(v[i], v[largest]);
+
+        heapify(i);
+    }
+}
+
+
+void PQ::insert(int item)
+{
+    v.push_back(item);
+    int i = v.size() - 1;
+    if (v.size() == 1) return;
+    int parent;
+    while (i > 0) {
+        parent = (i - 1) / 2;
+        if (v[i] > v[parent]) swap(v[i], v[parent]); else break;
+        i = parent;
+    }
+}
+
+
+void printMenu() {
+    cout << endl;
+    cout << "1. Add a ticket. " << endl;
+    cout << "2. Serve Ticket. " << endl;
+    cout << "3. Display pending tickets. " << endl;
+    cout << "4. Exit. " << endl;
+}
+
+
+int main() {
+    PQ PQ;
+    int t_priority;
+    int option;
+    printMenu();
+    cout << "Selected Option is: ";
+    cin >> option; // prompt user for an input option from menu displayed by printMenu function
+    while (option != 4) {
+
+        if (option == 1) {
+            cout << "Please enter the ticket's Priority from 1 to 10: ";
+            cin >> t_priority;
+            while (t_priority < 1 || t_priority > 10) {
+                cout << "Please enter the ticket's Priority from 1 to 10: ";
+                cin >> t_priority;
+            }
+            PQ.push(t_priority);
+        }
+
+        else if (option == 2) {
+
+            cout << "\nServing ticket.." << endl;
+            cout << PQ.top() << " - ";
+            PQ.pop();
+            cout << "Ticket has been served." << endl;
+        }
+
+        else if (option == 3) {
+            cout << "\nDisplaying all pending tickets..." << endl;
+            cout << PQ;
+        }
+
+        else
+            cout << "Unknown input. Please try again...";
+
+        printMenu();
+        cout << "Selected Option is: ";
+        cin >> option; // prompt user for an input option from menu displayed by printMenu function
+    }
+    cout << endl;
+}
