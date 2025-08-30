@@ -1,0 +1,65 @@
+#1A)
+names(Bears)
+str(Bears)
+Bears$Sex=as.factor(Bears$Sex)
+Bears$Month=as.factor(Bears$Month)
+summary(Bears$Weigth)
+stats_gender = tapply(Bears$Weight, Bears$Sex, summary)
+stats_gender$"1"
+stats_gender$"2"
+
+#1B)
+boxplot(Weight~Sex, data=Bears)
+boxplot(Weight~Sex, data=Bears, horizontal = T, col = rainbow(2)) #more detailed
+library(lessR)
+BoxPlot(Weight, by1=Sex, data=Bears)                #By using the "lessR" package.
+
+#1C)
+z_score=function(x){        #-\  
+  z=(x-mean(x))/sd(x)       ## |
+  return (z)                ## |  Describing and creating a function (z-score).
+}                           ## |
+w = c(1,2,3)                ## |
+z_score(w)                  #-/   
+
+z = z_score(Bears$Weight)     #Answer
+
+#1D)
+mean(z)
+sd(z)
+
+#1E)
+sort(z)
+hist(Bears$Weight)
+
+#1F)
+zw = tapply(Bears$Weight, Bears$Sex, z_score)
+zw_m=zw$"1"     #male
+zw_f=zw$"2"     #female
+sort(zw_f)
+
+#1G)
+zw_m=zw$"1"
+sort(zw_m)
+
+# (2) ---------------------------------------------------
+# 2A
+sample(seq(1, 100), size = 20)    # generates a random sample
+
+# 2B 
+#(Sampling without replacement)
+n = nrow(Bears)
+n
+s = sample(1:n, size = 50)        # You could use 1:n or seq(1, n)
+s
+Bears_sample = Bears[s,]          # Allows you to random sample (Important to project)
+
+# With replacement
+s2 = sample(1:n, size = 50, replace = T)
+s2
+Bears_sample_withrep = Bears[s2,]
+
+
+# 2C
+sample(seq(0, 10), size = 5)
+set.seed(12345)                   # It basically sets/records the data-sets (important for the project)
