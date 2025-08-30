@@ -1,0 +1,291 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node
+{
+    char data;
+    Node* left;
+    Node* right;
+
+    Node(int value)
+    {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+void MakeTree(string expr, Node* node, int& pos);
+
+void preFix(Node* node);
+
+void postFix(Node* node);
+
+void inFix(Node* node);
+
+int main()
+{
+    string a = "(((a+b)*c)+(((d-e)*f)/g))";
+    int index = 0;
+
+    Node* root = new Node(' ');
+    int pos = 0;
+
+
+    MakeTree(a, root, index);
+
+    cout << "Expression = " << a << "\n\n";
+
+    cout << "InFix equivalent: ";
+    inFix(root);
+
+
+    cout << "\n\nPostFix equivalent: ";
+    postFix(root);
+
+    cout << "\n\nPreFix equivalent: ";
+    preFix(root);
+    cout << "\n\n";
+
+
+    return 0;
+
+}
+
+//A recursive function that takes an expression and makes the tree
+
+void MakeTree(string expr, Node* node, int& pos)
+{
+    if (expr[pos] == '(')
+    {
+        pos++;
+        node->left = new Node('0');
+        node->left->left = nullptr;
+        node->left->right = nullptr;
+        MakeTree(expr, node->left, pos);
+        MakeTree(expr, node, pos);
+        return;
+    }
+
+    if (expr[pos] >= 'a' && expr[pos] <= 'z')
+    {
+
+        node->data = expr[pos];
+        pos++;
+        return;
+    }
+
+    if (expr[pos] == '+' || expr[pos] == '-' || expr[pos] == '*' || expr[pos] == '/')
+    {
+
+        node->data = expr[pos];
+        pos++;
+        node->right = new Node('0');
+        node->right->left = nullptr;
+        node->right->right = nullptr;
+        MakeTree(expr, node->right, pos);
+    }
+
+    if (expr[pos] == ')')
+    {
+        pos++;
+        return;
+    }
+}
+
+void preFix(Node* node) //VLR
+{
+    if (node != NULL) {
+        cout << " " << node->data;
+
+        preFix(node->left);
+
+        preFix(node->right);
+    }
+}
+
+void inFix(Node* node) //LVR traversal
+{
+    if (node != NULL) {
+        inFix(node->left);
+
+        cout << node->data << " ";
+
+        inFix(node->right);
+    }
+}
+
+void postFix(Node* node) //LRV traversal
+{
+    if (node != NULL) {
+        postFix(node->left);
+
+        postFix(node->right);
+        
+        cout << " " << node->data;
+    }
+}
+
+======================================= Excerise #2 =======================================
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node
+{
+    char data;
+    Node* left;
+    Node* right;
+
+    Node(int value)
+    {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+void MakeTree(string expr, Node* node, int& pos);
+
+void preFix(Node* node);
+
+void postFix(Node* node);
+
+void inFix(Node* node);
+
+int size(Node* root);
+
+int height(Node* root);
+
+int main()
+{
+    string a = "(((a+b)*c)+(((d-e)*f)/g))";
+    int index = 0;
+
+    Node* root = new Node(' ');
+    int pos = 0;
+
+
+    MakeTree(a, root, index);
+
+    cout << "Expression = " << a << "\n\n";
+
+    cout << "InFix equivalent: ";
+    inFix(root);
+
+    cout << "\n\nPostFix equivalent: ";
+    postFix(root);
+
+    cout << "\n\nPreFix equivalent: ";
+    preFix(root);
+
+    cout << "\n\nThe total number of nodes in the tree: ";
+    cout << size(root);
+
+    cout << "\n\nThe height of the tree: ";
+    cout << height(root);
+    cout << "\n\n";
+
+    return 0;
+}
+
+//A recursive function that takes an expression and makes the tree
+
+void MakeTree(string expr, Node* node, int& pos)
+{
+    if (expr[pos] == '(')
+    {
+        pos++;
+        node->left = new Node('0');
+        node->left->left = nullptr;
+        node->left->right = nullptr;
+        MakeTree(expr, node->left, pos);
+        MakeTree(expr, node, pos);
+        return;
+    }
+
+    if (expr[pos] >= 'a' && expr[pos] <= 'z')
+    {
+
+        node->data = expr[pos];
+        pos++;
+        return;
+    }
+
+    if (expr[pos] == '+' || expr[pos] == '-' || expr[pos] == '*' || expr[pos] == '/')
+    {
+
+        node->data = expr[pos];
+        pos++;
+        node->right = new Node('0');
+        node->right->left = nullptr;
+        node->right->right = nullptr;
+        MakeTree(expr, node->right, pos);
+    }
+
+    if (expr[pos] == ')')
+    {
+        pos++;
+        return;
+    }
+}
+
+void preFix(Node* node) //VLR
+{
+    if (node != NULL) {
+        cout << " " << node->data;
+
+        preFix(node->left);
+
+        preFix(node->right);
+    }
+}
+
+void inFix(Node* node) //LVR traversal
+{
+    if (node != NULL) {
+        inFix(node->left);
+
+        cout << node->data << " ";
+
+        inFix(node->right);
+    }
+}
+
+void postFix(Node* node) //LRV traversal
+{
+    if (node != NULL) {
+        postFix(node->left);
+
+        postFix(node->right);
+
+        cout << " " << node->data;
+    }
+}
+
+int size(Node* root) {
+    if (root != NULL) {
+        int l = size(root->left);
+        int r = size(root->right);
+
+        return 1 + l + r;
+    }
+
+    return 0;
+}
+
+int height(Node* root) {
+    if (root != NULL) {
+        int l = height(root->left);
+        int r = height(root->right);
+
+        if (l > r) {
+            return l + 1;
+        }
+        else {
+            return r + 1;
+        }
+    }
+
+    return 0;
+}
