@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-<b font-size:24 font-family:tahoma >*Disclaimer: -*</b>
+<b font-size:54 font-family:tahoma >*Disclaimer: -*</b>
 
 This is what my university's professors and lab instructors have taught us at the American University of Sharjah (AUS).
 
@@ -11,8 +11,3 @@ I did not create all the codes on my own for all assignments, I mearly had to co
 (I guess you can consider this as a reference...)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-b {
-  font-weight: 24;
-  font-family: Tahoma;
-}
