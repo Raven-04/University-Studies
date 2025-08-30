@@ -1,0 +1,61 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+from mlxtend.plotting import plot_decision_regions
+
+data = pd.read_csv("/content/Cancer_Biopsy.csv")
+data
+
+print("The number of attributes: ", len(data.axes[1])) # 4 attributes
+print("The number of observations: ", len(data.axes[0])) # 750 observations
+
+# A
+x = data[["Age", "Fam_history"]]
+y = data["Cancer"]
+
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.25, random_state = 777)
+
+# 1
+clf = DecisionTreeClassifier(max_depth = 3)
+
+# 2
+#clf = DecisionTreeClassifier(max_depth = 5)
+
+# 3
+#clf = GaussianNB()
+
+# 4
+#clf = KNeighborsClassifier(n_neighbors = 5)
+
+# 5
+#clf = KNeighborsClassifier(n_neighbors = 10)
+
+# 6
+#clf = SVC(kernel = "poly")
+
+# 7
+#clf = SVC(kernel = "rbf")
+
+clf = clf.fit(X_train, y_train)
+
+y_pred = clf.predict(X_test)
+print(y_pred)
+
+# The higher the accuracy, the better the model (0 < accuracy value < 1)
+print("\nAccuracy is: ", round(clf.score(X_test, y_test), 2))
+
+# Only used for the decision-tree
+plot_tree(clf, filled = True) 
+plt.show()
+
+plt.figure(figsize = (15, 5))
+plot_decision_regions(X_train.to_numpy(), y_train.to_numpy(), clf)
+plt.xlabel("Age")
+plt.ylabel("Fam_history")
+plt.show()
