@@ -1,0 +1,254 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+using namespace std;
+
+class Employee {
+private:
+	string ID;
+	string name;
+	string jobTitle;
+	//Relationships (1-to-1)    
+	bool isManager;
+	//Which department does he work for ? (1-to-N)    
+	string ID_of_Dept;
+public:
+	Employee();
+	Employee(string _id, string _name, string _jobTitle, bool _isManager, string _ID_of_Dept);
+
+	void printInfo();
+
+	string get_jobTitle();
+	void set_jobTitle(string _jobTitle);
+	string get_ID();
+	string get_name();
+};
+
+Employee::Employee()
+{
+	//This is an empty function.
+}
+
+Employee::Employee(string _id, string _name, string _jobTitle, bool _isManager, string _ID_of_Dept)
+{
+	ID = _id;
+	name = _name;
+	jobTitle = _jobTitle;
+	isManager = _isManager;
+	ID_of_Dept = _ID_of_Dept;
+}
+
+void Employee::printInfo()
+{
+	cout << ID << " | " << name << " | " << jobTitle << " | ";
+	if (isManager == true)
+	{
+		cout << "is a manager | ";
+	}
+	else
+	{
+		cout << "is not a manager | ";
+	}
+	cout << ID_of_Dept << endl;
+}
+
+string Employee::get_jobTitle()
+{
+	return jobTitle;
+}
+
+void Employee::set_jobTitle(string _jobTitle)
+{
+	jobTitle = _jobTitle;
+}
+
+string Employee::get_ID()
+{
+	return ID;
+}
+
+string Employee::get_name()
+{
+	return name;
+}
+
+class Department {
+private:
+	string ID;
+	string name;
+	string loc;
+	//one-to-one relationship    
+	string ID_of_manager;
+	//one-to-many relationship    
+	vector<string> listOfEmp_IDs;
+public:
+	Department();
+	Department(string _id, string _name, string _loc, string _ID_of_manager, vector<string> _listOfEmp_IDs);
+
+	void printInfo();
+	string get_ID();
+
+	vector<string> get_listOfEmp_IDs();
+};
+
+Department::Department()
+{
+	//This is an empty function.
+}
+
+Department::Department(string _id, string _name, string _loc, string _ID_of_manager, vector<string> _listOfEmp_IDs)
+{
+	ID = _id;
+	name = _name;
+	loc = _loc;
+	ID_of_manager = _ID_of_manager;
+	listOfEmp_IDs = _listOfEmp_IDs;//element-by-element copy
+}
+
+void Department::printInfo()
+{
+	cout << ID << " | " << name << " | " << loc << " | " << "ID of manager: " << ID_of_manager << endl;
+	cout << "Employees: ";
+	for (int i = 0; i < listOfEmp_IDs.size(); i++)
+	{
+		cout << listOfEmp_IDs[i] << " | ";
+	}
+	cout << endl;
+	
+	cout << "Employees' information: " << endl;
+}
+
+string Department::get_ID()
+{
+	return ID;
+}
+
+vector<string>Department::get_listOfEmp_IDs()
+{
+	return listOfEmp_IDs;
+}
+
+//-------------------------------------------------------
+void readEmployeesFromFile(vector <Employee>& emp_list) {
+	ifstream mycin("Employee.txt");
+	int no_emps;
+	mycin >> no_emps;
+	mycin.ignore(1000, '\n');
+
+	for (int i = 0; i < no_emps; i++)
+	{
+		//1. read emp info into local variables
+		string _id, _name, _jobTitle, _isManager, _ID_of_Dept;
+		getline(mycin, _id);
+		getline(mycin, _name);
+		getline(mycin, _jobTitle);
+		getline(mycin, _isManager);
+		getline(mycin, _ID_of_Dept);
+		//2. construct an emp object
+		Employee emp(_id, _name, _jobTitle,
+			_isManager == "true" ? true : false, _ID_of_Dept);
+
+		//3. push it into the vector
+		emp_list.push_back(emp);
+	}
+	mycin.close();
+}
+//--------------------------------------------------------
+void readDepartmentsFromFile(
+	vector <Department>& dept_list)
+{
+	ifstream mycin("Department.txt");
+	int no_depts;
+	mycin >> no_depts;
+	mycin.ignore(1000, '\n');
+
+	for (int i = 0; i < no_depts; i++)
+	{
+		//1. read dept info into local variables
+		string _id, _name, _loc, _ID_of_manager;
+		getline(mycin, _id);
+		getline(mycin, _name);
+		getline(mycin, _loc);
+		getline(mycin, _ID_of_manager);
+		int no_emps;
+		mycin >> no_emps;
+		mycin.ignore(1000, '\n');
+
+		//read list of emp ids
+		vector<string> _listOfEmp_IDs;
+		for (int i = 0; i < no_emps; i++)
+		{
+			string _empID;
+			mycin >> _empID;
+			mycin.ignore(1000, '\n');
+			_listOfEmp_IDs.push_back(_empID);
+		}
+
+		//2. construct a dept object
+		Department dept(_id, _name, _loc, _ID_of_manager, _listOfEmp_IDs);
+
+		//3. add it to the list of departments
+		dept_list.push_back(dept);
+
+	}
+	mycin.close();
+}
+//--------------------------------------------------------
+int findEmpByID(vector <Employee> emp_list/*The list*/, string _ID/*the ID*/)
+{
+	//loop and search for the emp ID in the list of employees (if not found then return -1)
+	for (int idx = 0; idx < emp_list.size(); idx++) {
+		if (emp_list[idx].get_ID() == _ID) //found!
+			return idx; //return index of Employee in list
+	}
+	// (if not found then return -1)
+	return -1;
+}
+
+int findDeptByID(vector <Department> dept_list/*The list*/, string _ID)
+{
+	//loop and search for the emp ID in the list of employees (if not found then return -1)
+	for (int idx = 0; idx < dept_list.size(); idx++) {
+		if (dept_list[idx].get_ID() == _ID) //found!
+			return idx; //return index of Employee in list
+	}
+	// (if not found then return -1)
+	return -1;
+
+}
+
+
+//--------------------------------------------------------
+int main()
+{
+	vector <Employee> emp_list;
+	vector <Department> dept_list;
+
+	readEmployeesFromFile(emp_list);
+	readDepartmentsFromFile(dept_list);
+
+	for (int i = 0; i < dept_list.size(); i++)
+	{
+		cout << "-----------------Department Dept_ID_" << i + 1 << " information: " << endl;
+		cout << "Printing out department info:" << endl;
+		dept_list[i].printInfo();
+
+		vector<string> _listOfEmp_IDs = dept_list[i].get_listOfEmp_IDs();
+
+		for (int e = 0; e < _listOfEmp_IDs.size(); e++)
+		{
+			int id;
+
+			id = findEmpByID(emp_list, _listOfEmp_IDs[e]);
+
+			cout << "Printing out employee info: " << endl;
+			emp_list[id].printInfo();
+		}
+		cout << endl;
+	}
+	cout << endl;
+
+	return 0;
+}
