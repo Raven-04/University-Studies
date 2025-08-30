@@ -1,0 +1,52 @@
+# Question #1
+import pandas as pd 
+import numpy as np 
+import seaborn as sns 
+import matplotlib.pyplot as plt 
+from google.colab import drive 
+drive.mount('/content/drive') 
+titanic_df.describe() 
+titanic_df.head()
+
+# Question #2
+titanic_df.drop(['PassengerId','Ticket', 'Cabin', 'Embarked'], axis=1, 
+inplace=True) 
+for column in titanic_df.columns: 
+null_count = titanic_df[column].isnull().sum() 
+print(f"Null count in {column}: {null_count}") 
+titanic_df.fillna({'Age': titanic_df['Age'].median(), 'Fare': titanic_df['Fare'].mean()}, inplace=True) 
+titanic_df.drop_duplicates(inplace=True)
+
+# Question #3
+titanic_df['FamilySize'] = titanic_df['SibSp'] + titanic_df['Parch'] 
+titanic_df = pd.get_dummies(titanic_df, columns=['Sex']) 
+titanic_df['IsAlone'] = titanic_df['FamilySize'].apply(lambda x: 0 if x > 0 else 1)
+
+# Question #4
+sns.countplot(x='Survived', data=titanic_df) 
+plt.title('Count of Survivors vs. Non-Survivors') 
+plt.show() 
+print() 
+ 
+titanic_df[['Age', 'Fare']].hist() 
+plt.show() 
+print() 
+ 
+correlation_matrix = titanic_df.corr() 
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f") 
+plt.title('Correlation Matrix') 
+plt.show() 
+print() 
+ 
+titanic_df.boxplot() 
+plt.title('Distribution of Numerical Features') 
+plt.xticks(rotation=45) 
+plt.show() 
+print() 
+ 
+sns.pairplot(titanic_df, vars=['Age', 'Fare', 'FamilySize'], diag_kind='kde') 
+plt.show() 
+print() 
+ 
+sns.pairplot(titanic_df, hue='Survived') 
+plt.show()
