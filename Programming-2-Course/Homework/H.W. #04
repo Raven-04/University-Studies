@@ -1,0 +1,134 @@
+======================================= Excerise #1 =======================================
+#include <iostream>
+using namespace std;
+
+class Money
+{
+public:
+	Money(int dollars, int cents);
+	Money(int dollars);
+	Money();
+	double get_value();
+	void input();
+	void output();
+	friend void outputFriend(Money m);
+	int get_all_cents() { return all_cents; }
+private:
+	int all_cents;
+};
+
+//-------------------------------------------------
+//Non-Member Function:
+
+void outputNonMember(Money m)
+{
+	int positive_cents, dollars, cents;
+	positive_cents = abs(m.get_all_cents()); //It requires a get function. Since, the attributes are private.
+	dollars = positive_cents / 100;
+	cents = positive_cents % 100;
+
+	if (m.get_all_cents() < 0)
+		cout << "-$" << dollars << '.';
+	else
+		cout << "$" << dollars << '.';
+
+	if (cents < 10)
+		cout << '0';
+	cout << cents;
+}
+
+//-------------------------------------------------
+//Friend Function:
+
+void outputFriend(Money m)
+{
+	int positive_cents, dollars, cents;
+	positive_cents = abs(m.all_cents); //Friend functions have direct access to the attributes.
+	dollars = positive_cents / 100;
+	cents = positive_cents % 100;
+
+	if (m.all_cents < 0)
+		cout << "-$" << dollars << '.';
+	else
+		cout << "$" << dollars << '.';
+
+	if (cents < 10)
+		cout << '0';
+	cout << cents;
+}
+
+//-------------------------------------------------
+
+int main()
+{
+	Money income;
+
+	income.input();
+	cout << "Income = ";
+	income.output();
+	cout << endl;
+
+	cout << "The output using a \"Non-Member\" function:" << endl;
+	cout << "Income = ";
+	outputNonMember(income);
+	cout << endl;
+
+	cout << "The output using a \"Friend\" function:" << endl;
+	cout << "Income = ";
+	outputFriend(income);
+	cout << endl;
+
+	system("pause");
+	return 0;
+}
+
+Money::Money(int dollars, int cents)
+{
+	if (dollars * cents < 0) //If one is negative and one is positive
+	{
+		cout << "Illegal values for dollars and cents.\n";
+		exit(1);
+	}
+	all_cents = dollars * 100 + cents;
+}
+
+Money::Money(int dollars) : all_cents(dollars * 100)
+{
+	//Body intentionally blank.
+}
+
+Money::Money() : all_cents(0)
+{
+	//Body intentionally blank.
+}
+
+double Money::get_value()
+{
+	return (all_cents * 0.01);
+}
+
+void Money::input()
+{
+	cout << "Please enter amount like: -123.99 or 0.14: ";
+	double amount;
+	cin >> amount;
+	all_cents = amount * 100;
+}
+
+void Money::output()
+{
+	int positive_cents, dollars, cents;
+	positive_cents = abs(all_cents);
+	dollars = positive_cents / 100;
+	cents = positive_cents % 100;
+
+	if (all_cents < 0)
+		cout << "-$" << dollars << '.';
+	else
+		cout << "$" << dollars << '.';
+
+	if (cents < 10)
+		cout << '0';
+	cout << cents;
+
+}
