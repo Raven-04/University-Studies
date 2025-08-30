@@ -1,0 +1,57 @@
+====================================== Excerise #1 ======================================
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+int main() {
+	vector<string> names;
+	string name;
+	cout << "Enter possible cat names: "<<endl;
+	getline(cin, name);
+	while (name != "end") {
+		names.push_back(name);
+		getline(cin, name);
+	}
+	cout << "\nThe names and their initials: " << endl;
+	for (int i = 0; i < names.size(); i++) {
+		cout << names.at(i) << " - " << names.at(i)[0];
+		for (int j = 1; j < names.at(i).length(); j++) {
+			if (names.at(i)[j - 1] == ' ') {
+				cout << "." << names.at(i)[j];
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}
+
+
+====================================== Excerise #2 ======================================
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+using namespace std;
+
+void mirror(vector<char>& myvec) {
+	int ogsize = myvec.size();
+	myvec.resize(myvec.size() * 2);
+	for(int i = 0; i<ogsize; i++){
+		myvec[ogsize * 2 - i - 1] = myvec[i];
+	}
+}
+int main() {
+	vector<char> chars;
+	char c;
+	ifstream fin("Text.txt");
+	while (fin >> c) {
+		chars.push_back(c);
+	}
+	mirror(chars);
+	for (int i = 0; i < chars.size(); i++) {
+		cout << chars.at(i) << " ";
+	}
+	cout << endl;
+	
+	return 0;
+}
