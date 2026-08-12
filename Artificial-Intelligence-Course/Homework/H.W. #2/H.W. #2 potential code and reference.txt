@@ -1,0 +1,193 @@
+import numpy as np
+
+# Created a transition probability 2d array for policy/action 1
+poli_a1 = np.array([
+    [0.0, 0.3, 0.7, 0.0, 0.0, 0.0],
+    [0.0, 0.3, 0.7, 0.0, 0.0, 0.0],
+    [0.4, 0.0, 0.0, 0.6, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.6, 0.4],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+])
+
+# Created a transition probability 2d array for policy/action 2
+poli_a2 = np.array([
+    [0.3, 0.0, 0.0, 0.7, 0.0, 0.0],
+    [0.3, 0.0, 0.0, 0.7, 0.0, 0.0],
+    [0.0, 0.4, 0.6, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+])
+
+# The rewards assigned to each state and the discount factor
+rewards = np.array([1, 1, 1, 1, 0, 0])
+gamma = 0.7
+
+epsilon = .01
+iterations = 5
+
+def compute_values(policy):
+  # Initializing all of the states to 0
+  value = np.zeros(6)
+
+  for i in range(iterations):
+    previous_value = np.copy(value)
+    for state in range(6):
+      if state < 4:
+        value[state] = rewards[state] + gamma * np.sum(policy[state] * previous_value)
+      else:
+        value[state] = rewards[state]
+    
+    # This part of the code serves as a convergence criterion. Basically, by exiting the loop, it prevents any unnecessary computation
+    if np.max(np.abs(value - previous_value)) < epsilon:
+      break
+
+  return value
+
+value_a1 = compute_values(poli_a1)
+print("Values for a1 V(s):", value_a1)
+value_a2 = compute_values(poli_a2)
+print("Values for a1 V(s):", value_a2)
+
+def compare_policies(value_a1, value_a2):
+  optimal_policy = None
+
+  # We're counting for the amount of values that are greater in each policy
+  count_a1 = np.sum(value_a1 > value_a2) # In this case, it would be s1 and s2
+  count_a2 = np.sum(value_a2 > value_a1) # In this case, it would be s3
+
+  if count_a1 > count_a2:
+    optimal_policy = "π(a1) is a more optimal policy."
+  elif count_a2 > count_a1:
+    optimal_policy = "π(a2) is a more optimal policy."
+  else:
+    optimal_policy = "Both policies are equivalent"
+
+  return optimal_policy
+
+rst = compare_policies(value_a1, value_a2)
+print("\n", rst)
+
+
+Now, instead of the example above, implement the same code using this example;
+An example of a Markov decision process (left). The blue hexagons represent the states, with their rewards indicated in blue boxes next to the state. Orange circles indicate the two actions that can be taken in each state. Subject to the action, the transition probabilities are indicated with green arrows and the value displayed next to the arrow. Transition probabilities following action 
+𝑎
+1
+ are shown in light green, while transition probabilities following action 
+𝑎
+2
+ are shown in dark green. The policies “choose action 
+𝑎
+1
+ in all states” (upper) and “choose action 
+𝑎
+2
+ in all states” (lower) are presented by their transition matrices (right).
+
+Here are the transition tables;
+(upper): pi(Si) = a1
+       s1    s2    s3    s4    s5    s6
+s1    0    0.3   0.7    0      0      0
+s2    0    0.3   0.7    0      0      0
+s3   0.4    0     0     0.6    0      0
+s4    0      0     0     0     0.6    0.4
+s5    0      0     0     0       0      0
+s6    0      0     0     0       0      0
+
+(lower): pi(Si) = a2
+       s1    s2    s3    s4    s5    s6
+s1   0.3    0     0     0.7    0      0
+s2   0.3    0     0     0.7    0      0
+s3    0     0.4  0.6    0      0      0
+s4    0      0     0     0       0      0
+s5    0      0     0     0       0      0
+s6    0      0     0     0       0      0
+
+s1, s2, s3, s4 have a reward of 1, and s5,s6 have a reward of 0.
+
+Find the optimal policy (pi) and the corresponding value V. Assume discount factor is 0.7. Write code to compute the final converged policy and value
+
+import numpy as np
+
+# Define MDP parameters
+states = ['s1', 's2', 's3', 's4', 's5', 's6']
+actions = ['a1', 'a2']
+n_states = len(states)
+n_actions = len(actions)
+
+# Transition probabilities for policy a1 (upper table)
+P_a1 = np.array([
+    [0.0, 0.3, 0.7, 0.0, 0.0, 0.0],
+    [0.0, 0.3, 0.7, 0.0, 0.0, 0.0],
+    [0.4, 0.0, 0.0, 0.6, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.6, 0.4],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+])
+
+# Transition probabilities for policy a2 (lower table)
+P_a2 = np.array([
+    [0.3, 0.0, 0.0, 0.7, 0.0, 0.0],
+    [0.3, 0.0, 0.0, 0.7, 0.0, 0.0],
+    [0.0, 0.4, 0.6, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+])
+
+# Rewards (values) for each state
+rewards = {'s1': 1, 's2': 1, 's3': 1, 's4': 1, 's5': 0, 's6': 0}
+
+# Discount factor
+gamma = 0.7
+
+# Function to calculate the value of a policy
+def calculate_policy_value(P, rewards, gamma):
+    n_states = len(rewards)
+    I = np.eye(n_states)
+    V = np.zeros(n_states)
+    R = np.array([rewards[state] for state in states])
+
+    # Solve the system of linear equations (P - gamma * I) * V = -R
+    V = np.linalg.solve(I - gamma * P, -R)
+    
+    return V
+
+# Function to improve policy based on current value function
+def improve_policy(Policies, V, gamma):
+    n_states = len(V)
+    new_policy = np.zeros(n_states, dtype=int)
+    
+    for s in range(n_states):
+        action_values = np.zeros(n_actions)
+        for a in range(n_actions):
+            action_values[a] = np.dot(Policies[a][s, :], V)
+        
+        new_policy[s] = np.argmax(action_values)
+    
+    return new_policy
+
+# Initialize policy arbitrarily
+current_policy = np.zeros(n_states, dtype=int)  # Starting with policy a1 for all states
+Policies = [P_a1, P_a2]  # List of all policies
+
+# Iterate until policy convergence
+while True:
+    # Calculate current policy value
+    current_policy_value = calculate_policy_value(Policies[current_policy[0]], rewards, gamma)
+
+    # Improve policy
+    new_policy = improve_policy(Policies, current_policy_value, gamma)
+
+    # Check convergence
+    if np.array_equal(new_policy, current_policy):
+        break
+    
+    current_policy = new_policy
+
+optimal_policy = current_policy
+optimal_policy_value = current_policy_value
+
+print("Optimal Policy:", actions[optimal_policy[0]])
+print("Optimal Policy Value (V):", optimal_policy_value)
