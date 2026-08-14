@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <title>Event Submission Page</title>
+        <link rel = "stylesheet" href = "styles_lab.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <nav>
+            <a href =Home_lab.html id = "navButton">Homepage</a> |
+            <a href =Event_lab.html id = "navButton">Event Submission Page</a>
+        </nav>
+    </header>
+    <body>
+        <center>
+            <h1>Event Submission Page</h1>
+        </center>
+        <form action = "Event_lab.html" method ="post">
+            <label for = "eventName"><b>Event Name</b></label>
+            <br>
+            <input type = "text" placeholder = "Enter..." name = "eventName" id = "eventName" required>
+            <br><br>
+            <label for = "date"><b>Date</b></label>
+            <br>
+            <input type = "date" name = "date" id = "date" required>
+            <br><br>
+            <label for = "time"><b>Time</b></label>
+            <br>
+            <input type = "time" name = "time" id = "time" required>
+            <br><br>
+            <label for = "location"><b>Location</b></label>
+            <br>
+            <input type = "text" placeholder="Enter..." name = "location" id = "location" required>
+            <br><br>
+            <label for = "description"><b>Brief Description</b></label>
+            <br>
+            <textarea cols = 50 rows = 3 placeholder="Please enter here..." name = "description" id = "description"></textarea>
+            <h2>Organizer's Contact Info</h2>
+            <label for = "contactName"><b>Name</b></label>
+            <br>
+            <input type = "text" placeholder="Enter..." name = "contactName" id = "contactName">
+            <br><br>
+            <label for = "email"><b>Email</b></label>
+            <br>
+            <input type = "text" placeholder="Enter..." name = "email" id = "email">
+            <br><br>
+            <h2>Additional Info</h2>
+            <label for="q01"><b>Is this event open to all students?</b></label>
+            <br>
+            <input type ="radio" name ="q0" id="q01"> Yes
+            <br>
+            <input type ="radio" name ="q0" id="q02"> No
+            <br><br>
+            <label for = "Q1"><b>Are you specializing in Cybersecurity?</b></labe>
+            <br>
+            <input type = "radio" name = "question1" id = "question1">Yes
+            <br>
+            <input type = "radio" name = "question1" id = "question1">No
+            <br>
+            <input type = "radio" name = "question1" id = "question1">Maybe
+            <br><br>
+            <section>
+                <label for = "q2Answer1"><b>What type of event is this?</b></label>
+                <br>
+                <input type = "checkbox" name = "q2Answer1" id = "q2Answer1">Workshop
+                <br>
+                <input type = "checkbox" name = "q2Answer2" id = "q2Answer2">Social
+                <br>
+                <input type = "checkbox" name = "q2Answer3" id = "q2Answer3">Sports
+                <br>
+                <input type = "checkbox" name = "q2Answer4" id = "q2Answer4">Academic
+                <br>
+                <input type = "checkbox" name = "q2Answer5" id = "q2Answer5">Other
+                <br><br>
+            </section>
+            <label for="dropdown"><b>Select the department hosting the event</b></label>
+            <br>
+            <select name = "dropdown" id = "dropdown">
+                <option value = "CEN">CEN</option>
+                <option value = "SBA">SBA</option>
+                <option value = "CAS">CAS</option>
+                <option value = "CAAD">CAAD</option>                    <option value = "OSA">OSA</option>
+                <option value = "Other">Other</option>
+            </select>
+            <br><br><br><br><br><br><br><br><br>
+            <center>
+                <button type = "submit" class = "subButton">Submit</button>
+            </center>
+            <br>
+            <center>
+                <button type = "reset" class = "resButton">Reset</button>
+            </center>
+        </form>
+        <br>
+    </body>
+</html>
