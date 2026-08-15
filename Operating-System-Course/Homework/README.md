@@ -160,25 +160,25 @@ Code - vowel_count.c
 
 How to run the code
 -------------------
-nano vowel_count.c  ->  Used to create and write the C language code for the program.
+nano vowel_count.c  --->  Used to create and write the C language code for the program.
 
-ctrl + o  ->  Once code is completed, you have to save it.
+ctrl + o  --->  Once code is completed, you have to save it.
 
-ctrl + x  ->  Exit the nano code area.
+ctrl + x  --->  Exit the nano code area.
 
-gcc vowel_count.c -o vowel_count  ->  Compile the code and create an output file to run.
+gcc vowel_count.c -o vowel_count  --->  Compile the code and create an output file to run.
 
-nano main.c  ->  Used to create and write the C language code for the program.
+nano main.c  --->  Used to create and write the C language code for the program.
 
-ctrl + o  ->  Once code is completed, you have to save it.
+ctrl + o  --->  Once code is completed, you have to save it.
 
-ctrl + x  ->  Exit the nano code area.
+ctrl + x  --->  Exit the nano code area.
 
-gcc main.c -o main  ->  Compile the code and create an output file to run.
+gcc main.c -o main  --->  Compile the code and create an output file to run.
 
 Sample Input
 ------------
-./main "Hello World"		  Run the output file with your chosen string (input).
+./main "Hello World"  --->  Run the output file with your chosen string (input).
 
 
 Expected Output
