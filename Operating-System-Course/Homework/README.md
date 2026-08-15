@@ -1,15 +1,11 @@
-===========================================================================================
-					Collatz Program
-===========================================================================================
-Description: -
---------------
+Collatz Program
+===
+Description
+-----------
 Generates the collatz sequence for a given positive integer. It does this by creating a child process using "fork()", and this child process will print out the sequence.
 
-Code: -
--------
-
-collatz.c: -
-
+Code - collatz.c
+----------------
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <sys/wait.h>
@@ -69,36 +65,34 @@ collatz.c: -
 	}
 
 
-How to run the code: -
-----------------------
+How to run the code
+-------------------
 nano collatz.c		   Used to create and write the C language code for the program.
 ctrl + o		   Once code is completed, you have to save it.
 ctrl + x		   Exit the nano code area.
 gcc collatz.c -o collatz   Compile the code and create an output file to run.
 
-Sample Input: -
----------------
+Sample Input
+------------
 ./collatz 12		   Run the output file with your chosen number (input).
 
 
-Expected Output: -
-------------------
+Expected Output
+---------------
 Collatz sequence (12):
 12, 6, 3, 10, 5, 16, 8, 4, 2, 1
 The operation is complete.
 
 ===========================================================================================
-					Vowel Count Program
-===========================================================================================
-Description: -
---------------
+
+Vowel Count Program
+===
+Description
+-----------
 The program will count the total number of vowels in a given string while using a separate process to do this. Furthermore, parent process forks a child to run the vowel_count.c using the execlp() command.
 
-Codes: -
--------
-
-main.c: -
-
+Code - main.c
+--------------
 	#include <stdio.h>
 	#include <sys/wait.h>
 	#include <unistd.h>
@@ -131,8 +125,8 @@ main.c: -
 	}
 
 
-vowel.c: -
-
+Code - vowel_count.c
+--------------------
 	#include <stdio.h>
 	#include <unistd.h>
 	#include <string.h>
