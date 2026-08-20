@@ -1,0 +1,2 @@
+# Operating-Systems-Course
+This course was interesting ig, but a bit boring at times. It focused on processes, threads, the types of OSs and how each operate, and using the Oracle VirtualBox and BASH scripting. However, the Professor was the best of the course, he made the course way easier to understand and engaging as well. Thank you Professor Shadi :)
