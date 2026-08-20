@@ -1,0 +1,12 @@
+# Creating and Writing to a File
+
+# The > redirection operator overwrites any existing content in the file.
+# The >> operator appends to an existing file (does not overwrite).
+
+#!/bin/bash
+echo "Enter file name:"
+read file_name
+echo "Creating file $file_name..."
+touch $file_name
+echo "Hello, this is a test file!" > $file_name
+echo "File $file_name created."

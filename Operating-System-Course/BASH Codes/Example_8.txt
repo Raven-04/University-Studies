@@ -1,0 +1,16 @@
+# Checks if the Entered User Name and Password are Correct
+
+# -s option enables silent mode, hiding the password as the user types it for better privacy and security.
+
+#!/bin/bash
+echo "Enter your username:"
+read username
+
+echo "Enter your password (input will be hidden):"
+read -s password
+
+if [ "$username" == "admin" ] && [ "$password" == "secure123" ]; then
+  echo "Access granted."
+else
+  echo "Access denied."
+fi

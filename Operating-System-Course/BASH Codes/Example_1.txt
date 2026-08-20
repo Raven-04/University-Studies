@@ -1,0 +1,6 @@
+# Displaying the System's information
+
+#!/bin/bash
+echo "System Information"
+echo "User: $(whoami)"
+echo "Date: $(date)"

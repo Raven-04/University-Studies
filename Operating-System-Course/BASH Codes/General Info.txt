@@ -1,0 +1,5 @@
+- Shebang: #!/bin/bash (indicates the interpreter)
+- Commands: Regular shell commands (e.g., ls, pwd, echo, nano)
+- Variables: Store and reuse data (e.g., name="Mark")
+- Flow Control: Decision-making and loops
+- Comments: Use # for comments

@@ -1,0 +1,9 @@
+# Looping through files
+
+# Save the file name into the variable $file.
+
+#!/bin/bash
+echo "Listing all .txt files in the directory:"
+for file in *.txt; do
+  echo $file
+done

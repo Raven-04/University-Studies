@@ -1,0 +1,16 @@
+# Printing the Size of the File
+
+# | is a pipe operator that passes the output of one command as the input to another.
+# Example: ls -l | awk '{print $1}'
+# {print $1} tells awk to print only the first field of each line (first column).
+
+#!/bin/bash
+echo "Enter file name:"
+read file_name
+
+if [ -f "$file_name" ]; then
+  size = $(ls -l "$file_name" | awk '{print $5}')
+  echo "The size of $file_name is $size."
+else
+  echo "File does not exist."
+fi

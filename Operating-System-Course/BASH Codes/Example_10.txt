@@ -1,0 +1,17 @@
+# Entering a Number between 1 and 10, then Checking the Entered Number if it is in the Range.
+
+# -ge greater or equal operator.
+# -le less than or equal operator.
+
+#!/bin/bash
+echo "Enter a number between 1 and 10:"
+read number
+if [ $number -ge 1 ]; then
+  if [ $number -le 10 ]; then
+    echo "Valid input."
+  else
+    echo "Number is too large."
+  fi
+else
+  echo "Number is too small."
+fi

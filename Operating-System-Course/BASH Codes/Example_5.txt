@@ -1,0 +1,12 @@
+# Error Checking
+
+# -d is a test operator in BASH that returns true if the specified path exists and is a directory.
+
+#!/bin/bash
+echo "Enter directory name:"
+read dir_name
+if [ -d "$dir_name" ]; then
+  echo "Directory exists."
+else
+  echo "Directory does not exist."
+fi
