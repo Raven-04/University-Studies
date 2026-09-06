@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntelliRide – Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-wrap" id="appWrap">
+
+<!-- ===== SPLASH / ROLE SELECT ===== -->
+<div class="screen active" id="s-home">
+  <div class="logo-block">
+    <div class="logo-icon">🚗</div>
+    <div class="logo-name">IntelliRide</div>
+    <div class="logo-sub">Heuristic-Based Carpool Matching</div>
+  </div>
+  <p class="section-title" style="text-align:center;margin-bottom:16px;">Select your role to continue</p>
+  <div class="role-grid">
+    <div class="role-card" onclick="go('s-passenger-portal')">
+      <div class="role-icon">🎒</div>
+      <div class="role-info"><div class="role-name">Passenger</div><div class="role-desc">Find and book rides to campus</div></div>
+      <div class="role-arrow">›</div>
+    </div>
+    <div class="role-card" onclick="go('s-driver-portal')">
+      <div class="role-icon">🚘</div>
+      <div class="role-info"><div class="role-name">Driver</div><div class="role-desc">Manage trips & ride requests</div></div>
+      <div class="role-arrow">›</div>
+    </div>
+    <div class="role-card" onclick="go('s-admin-login')">
+      <div class="role-icon">🛡️</div>
+      <div class="role-info"><div class="role-name">Administrator</div><div class="role-desc">Manage users, logs & platform</div></div>
+      <div class="role-arrow">›</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PASSENGER PORTAL (Login or Register) ===== -->
+<div class="screen" id="s-passenger-portal">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-home')">←</button>
+    <div><div class="topbar-title">Passenger Portal</div><div class="topbar-sub">🎒 Login or Register</div></div>
+  </div>
+  <div class="form-section" style="padding-top:16px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
+      <button class="btn" id="tab-pax-login" onclick="switchTab('login','passenger')" style="background:var(--accent);color:#fff;padding:10px;font-size:14px;">Login</button>
+      <button class="btn" id="tab-pax-reg" onclick="switchTab('register','passenger')" style="background:var(--surface2);color:var(--text2);padding:10px;font-size:14px;">Register</button>
+    </div>
+    <!-- LOGIN FORM -->
+    <div id="pax-login-form">
+      <div class="form-group"><label>University Email</label><input class="inp" id="pax-login-email" placeholder="your@aus.edu" value="sara.ali@aus.edu"></div>
+      <div class="form-group"><label>Password</label><input class="inp" type="password" id="pax-login-pw" placeholder="Password" value="password123"></div>
+      <div class="err-msg" id="pax-login-err"></div>
+    </div>
+    <!-- REGISTER FORM -->
+    <div id="pax-reg-form" style="display:none;">
+      <div class="form-group"><label>Full Name</label><input class="inp" id="pax-reg-name" placeholder="e.g. Ahmed Khalil"></div>
+      <div class="form-group"><label>University Email</label><input class="inp" id="pax-reg-email" placeholder="your@aus.edu"></div>
+      <div class="form-group"><label>Password</label><input class="inp" type="password" id="pax-reg-pw" placeholder="Min 6 characters"></div>
+      <div class="err-msg" id="pax-reg-err"></div>
+    </div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-primary" id="pax-submit-btn" onclick="handlePassengerAuth()">Login as Passenger →</button>
+  </div>
+</div>
+
+<!-- ===== DRIVER PORTAL (Login or Register) ===== -->
+<div class="screen" id="s-driver-portal">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-home')">←</button>
+    <div><div class="topbar-title">Driver Portal</div><div class="topbar-sub">🚘 Login or Register</div></div>
+  </div>
+  <div class="form-section" style="padding-top:16px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
+      <button class="btn" id="tab-drv-login" onclick="switchTab('login','driver')" style="background:var(--accent);color:#fff;padding:10px;font-size:14px;">Login</button>
+      <button class="btn" id="tab-drv-reg" onclick="switchTab('register','driver')" style="background:var(--surface2);color:var(--text2);padding:10px;font-size:14px;">Register</button>
+    </div>
+    <div id="drv-login-form">
+      <div class="form-group"><label>University Email</label><input class="inp" id="drv-login-email" placeholder="your@aus.edu" value="khalid.a@aus.edu"></div>
+      <div class="form-group"><label>Password</label><input class="inp" type="password" id="drv-login-pw" placeholder="Password" value="password123"></div>
+      <div class="err-msg" id="drv-login-err"></div>
+    </div>
+    <div id="drv-reg-form" style="display:none;">
+      <div class="form-group"><label>Full Name</label><input class="inp" id="drv-reg-name" placeholder="e.g. Omar Hassan"></div>
+      <div class="form-group"><label>University Email</label><input class="inp" id="drv-reg-email" placeholder="your@aus.edu"></div>
+      <div class="form-group"><label>Password</label><input class="inp" type="password" id="drv-reg-pw" placeholder="Min 6 characters"></div>
+      <div class="form-group"><label>Vehicle Info</label><input class="inp" id="drv-reg-vehicle" placeholder="e.g. Toyota Camry · White"></div>
+      <div class="err-msg" id="drv-reg-err"></div>
+    </div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-primary" id="drv-submit-btn" onclick="handleDriverAuth()">Login as Driver →</button>
+  </div>
+</div>
+
+<!-- ===== PASSENGER DASHBOARD ===== -->
+<div class="screen" id="s-passenger-dash">
+  <div class="topbar">
+    <button class="back-btn" onclick="logoutPassenger()">←</button>
+    <div style="flex:1"><div class="topbar-title" id="pax-dash-greeting">Good morning 👋</div><div class="topbar-sub">Passenger Dashboard</div></div>
+    <div style="position:relative"><div style="width:36px;height:36px;background:rgba(79,142,247,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;">🔔</div><div class="notif-dot" id="pax-notif-dot" style="display:none;"></div></div>
+  </div>
+  <div class="scroll-content">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:14px;">
+        <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Trust Score</div>
+        <div style="font-size:22px;font-weight:600;font-family:var(--font2);" id="pax-trust-display">0.0 ⭐</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:14px;">
+        <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Total Rides</div>
+        <div style="font-size:22px;font-weight:600;font-family:var(--font2);" id="pax-ride-count">0</div>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(79,142,247,0.3);">
+      <div style="font-size:13px;color:var(--accent);font-weight:600;margin-bottom:8px;">⚡ Quick Ride</div>
+      <div style="font-size:15px;font-weight:500;margin-bottom:4px;">Need a ride to campus?</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px;">Enter your details and find a match.</div>
+      <button class="btn btn-primary" style="padding:11px;" onclick="go('s-search-ride')">Search for a Ride →</button>
+    </div>
+    <!-- Active/Pending request status -->
+    <div id="pax-current-request" style="display:none;"></div>
+    <!-- Completed rides -->
+    <div id="pax-completed-rides" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ===== SEARCH RIDE ===== -->
+<div class="screen" id="s-search-ride">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-passenger-dash')">←</button>
+    <div><div class="topbar-title">Request a Ride</div><div class="topbar-sub">Set your pickup details</div></div>
+  </div>
+  <div class="form-section" style="padding-top:16px;">
+    <div class="form-group"><label>Pickup Location</label><input class="inp" id="origin" placeholder="e.g. Muwaileh, Sharjah"></div>
+    <div class="form-group"><label>Destination</label><input class="inp" id="dest" placeholder="e.g. AUS Main Gate"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="form-group"><label>Date</label><input class="inp" type="date" id="ride-date"></div>
+      <div class="form-group"><label>Departure Time</label><input class="inp" type="time" id="ride-time"></div>
+    </div>
+    <div class="form-group">
+      <label>Max Detour Tolerance</label>
+      <select class="inp" id="detour"><option>10 minutes</option><option selected>15 minutes</option><option>20 minutes</option></select>
+    </div>
+    <div class="err-msg" id="search-err"></div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-primary" onclick="searchRide()">Find Matching Drivers →</button>
+  </div>
+</div>
+
+<!-- ===== MATCH RESULTS ===== -->
+<div class="screen" id="s-matches">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-search-ride')">←</button>
+    <div><div class="topbar-title">Ranked Matches</div><div class="topbar-sub">Heuristic engine results</div></div>
+  </div>
+  <div class="scroll-content">
+    <div style="background:var(--surface2);border-radius:var(--r2);padding:10px 14px;margin-bottom:16px;font-size:13px;color:var(--text2);">
+      🤖 Matching on: <strong style="color:var(--text)">Route · Schedule · Trust · Time</strong>
+    </div>
+    <div id="match-cards-container"></div>
+  </div>
+</div>
+
+<!-- ===== PENDING ===== -->
+<div class="screen" id="s-pending">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-passenger-dash')">←</button>
+    <div><div class="topbar-title">Request Sent</div><div class="topbar-sub">Awaiting driver approval</div></div>
+  </div>
+  <div class="scroll-content">
+    <div style="text-align:center;padding:24px 0 16px;">
+      <div style="width:72px;height:72px;background:var(--amber-bg);border:2px solid var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;">⏳</div>
+      <div style="font-size:18px;font-weight:600;font-family:var(--font2);">Pending Approval</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:6px;" id="pending-driver-name">Driver has been notified</div>
+    </div>
+    <div class="card" id="pending-details"></div>
+    <div style="background:var(--surface2);border-radius:var(--r2);padding:12px 14px;font-size:13px;color:var(--text2);">
+      💡 Go back to dashboard to check status. Switch to Driver account to approve.
+    </div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-secondary" onclick="go('s-passenger-dash')">← Back to Dashboard</button>
+  </div>
+</div>
+
+<!-- ===== PASSENGER RATE DRIVER ===== -->
+<div class="screen" id="s-pax-rate">
+  <div class="topbar">
+    <div style="flex:1;text-align:center;padding-right:36px;">
+      <div class="topbar-title">Rate Your Driver</div>
+      <div class="topbar-sub">Trip completed</div>
+    </div>
+  </div>
+  <div class="scroll-content">
+    <div style="text-align:center;padding:16px 0 20px;">
+      <div class="success-icon" style="font-size:28px;">🏁</div>
+      <div style="font-size:17px;font-weight:600;">Trip Completed!</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:4px;" id="pax-rate-route">Route</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div class="avatar" style="background:rgba(79,142,247,0.2);color:var(--accent);" id="pax-rate-avatar">KA</div>
+        <div><div class="card-title" id="pax-rate-driver-name">Driver</div><div class="card-sub">Rate this driver</div></div>
+      </div>
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:12px;">How was your driver?</div>
+        <div class="stars" style="justify-content:center;" id="pax-stars">
+          <span class="star" onclick="rateStar(1,'pax-stars')">★</span>
+          <span class="star" onclick="rateStar(2,'pax-stars')">★</span>
+          <span class="star" onclick="rateStar(3,'pax-stars')">★</span>
+          <span class="star" onclick="rateStar(4,'pax-stars')">★</span>
+          <span class="star" onclick="rateStar(5,'pax-stars')">★</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-primary" onclick="submitPaxRating()">Submit Rating →</button>
+  </div>
+</div>
+
+<!-- ===== DRIVER DASHBOARD ===== -->
+<div class="screen" id="s-driver-dash">
+  <div class="topbar">
+    <button class="back-btn" onclick="logoutDriver()">←</button>
+    <div style="flex:1"><div class="topbar-title" id="drv-dash-greeting">Hello, Driver 👋</div><div class="topbar-sub">Driver Dashboard</div></div>
+    <div style="position:relative"><div style="width:36px;height:36px;background:rgba(79,142,247,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;">🔔</div><div class="notif-dot" id="drv-notif-dot" style="display:none;"></div></div>
+  </div>
+  <div class="scroll-content">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:14px;">
+        <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Trust Score</div>
+        <div style="font-size:22px;font-weight:600;font-family:var(--font2);" id="drv-trust-display">0.0 ⭐</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:14px;">
+        <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">Pending Requests</div>
+        <div style="font-size:22px;font-weight:600;font-family:var(--font2);" id="drv-pending-count">0</div>
+      </div>
+    </div>
+    <div id="drv-pending-notif" style="display:none;"></div>
+    <div id="drv-active-trip" style="display:none;"></div>
+    <div class="card" style="cursor:pointer;border-color:rgba(245,166,35,0.3);" onclick="go('s-driver-requests')">
+      <div class="card-header">
+        <div><div class="card-title">📋 Pending Requests</div><div class="card-sub" id="drv-req-subtitle">View & respond to requests</div></div>
+        <span style="color:var(--text3);font-size:20px;">›</span>
+      </div>
+    </div>
+    <div id="drv-completed-card" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ===== DRIVER: PENDING REQUESTS ===== -->
+<div class="screen" id="s-driver-requests">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-driver-dash')">←</button>
+    <div><div class="topbar-title">Pending Requests</div><div class="topbar-sub">Review & respond</div></div>
+  </div>
+  <div class="scroll-content" id="driver-requests-container">
+    <div style="text-align:center;padding:40px 0;color:var(--text2);">No pending requests.</div>
+  </div>
+</div>
+
+<!-- ===== DRIVER: APPROVED SCREEN ===== -->
+<div class="screen" id="s-approved">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-driver-dash')">←</button>
+    <div><div class="topbar-title">Request Approved!</div></div>
+  </div>
+  <div class="scroll-content">
+    <div style="text-align:center;padding:24px 0 20px;">
+      <div class="success-icon">✓</div>
+      <div style="font-size:18px;font-weight:600;font-family:var(--font2);">Ride Confirmed!</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:6px;" id="approved-pax-name">Passenger has been notified</div>
+    </div>
+    <div class="card" id="approved-trip-details"></div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-primary" onclick="markTripComplete()">Mark Trip as Completed →</button>
+  </div>
+</div>
+
+<!-- ===== DRIVER: REJECTED SCREEN ===== -->
+<div class="screen" id="s-rejected">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-driver-requests')">←</button>
+    <div><div class="topbar-title">Request Rejected</div></div>
+  </div>
+  <div class="scroll-content" style="text-align:center;padding-top:40px;">
+    <div style="width:72px;height:72px;background:var(--red-bg);border:2px solid var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px;">✗</div>
+    <div style="font-size:18px;font-weight:600;margin-bottom:8px;">Request Rejected</div>
+    <div style="font-size:13px;color:var(--text2);" id="rejected-msg">Passenger has been notified and can select another driver.</div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-secondary" onclick="go('s-driver-dash')">← Back to Dashboard</button>
+  </div>
+</div>
+
+<!-- ===== DRIVER: RATE PASSENGER ===== -->
+<div class="screen" id="s-drv-rate">
+  <div class="topbar">
+    <div style="flex:1;text-align:center;padding-right:36px;">
+      <div class="topbar-title">Rate Your Passenger</div>
+      <div class="topbar-sub">Trip completed successfully</div>
+    </div>
+  </div>
+  <div class="scroll-content">
+    <div style="text-align:center;padding:16px 0 20px;">
+      <div class="success-icon" style="font-size:28px;">🏁</div>
+      <div style="font-size:17px;font-weight:600;">Trip Completed!</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:4px;" id="drv-rate-route">Route</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div class="avatar" style="background:rgba(79,142,247,0.2);color:var(--accent);" id="drv-rate-avatar">SA</div>
+        <div><div class="card-title" id="drv-rate-pax-name">Passenger</div><div class="card-sub">Rate this passenger</div></div>
+      </div>
+      <div style="text-align:center;margin-bottom:16px;">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:12px;">How was this passenger?</div>
+        <div class="stars" style="justify-content:center;" id="drv-stars">
+          <span class="star" onclick="rateStar(1,'drv-stars')">★</span>
+          <span class="star" onclick="rateStar(2,'drv-stars')">★</span>
+          <span class="star" onclick="rateStar(3,'drv-stars')">★</span>
+          <span class="star" onclick="rateStar(4,'drv-stars')">★</span>
+          <span class="star" onclick="rateStar(5,'drv-stars')">★</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-primary" onclick="submitDrvRating()">Submit Rating →</button>
+  </div>
+</div>
+
+<!-- ===== BOTH RATED ===== -->
+<div class="screen" id="s-both-rated">
+  <div class="topbar">
+    <div style="flex:1;text-align:center;padding-right:36px;"><div class="topbar-title">Ratings Submitted</div></div>
+  </div>
+  <div class="scroll-content" style="text-align:center;padding-top:32px;">
+    <div class="success-icon">🌟</div>
+    <div style="font-size:18px;font-weight:600;font-family:var(--font2);margin-bottom:8px;">Ratings Submitted!</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:24px;">Trust scores have been updated.</div>
+    <div id="rated-cards" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;"></div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-secondary" onclick="go('s-home')">← Back to Role Select</button>
+  </div>
+</div>
+
+<!-- ===== ADMIN LOGIN ===== -->
+<div class="screen" id="s-admin-login">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-home')">←</button>
+    <div><div class="topbar-title">Admin Login</div><div class="topbar-sub">🛡️ Administrator Access</div></div>
+  </div>
+  <div class="form-section" style="padding-top:24px;">
+    <div class="form-group"><label>Admin Email</label><input class="inp" id="admin-email" value="admin@intelliride.ae" placeholder="admin email"></div>
+    <div class="form-group"><label>Password</label><input class="inp" type="password" id="admin-pw" value="admin123" placeholder="Password"></div>
+    <div class="err-msg" id="admin-login-err"></div>
+  </div>
+  <div class="bottom-actions">
+    <button class="btn btn-primary" onclick="handleAdminLogin()">Login as Admin →</button>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD ===== -->
+<div class="screen" id="s-admin-dash">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-home')">←</button>
+    <div style="flex:1"><div class="topbar-title">Admin Panel</div><div class="topbar-sub">🛡️ System Overview</div></div>
+  </div>
+  <div class="scroll-content">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;" id="admin-stats"></div>
+    <div class="card" style="cursor:pointer;border-color:rgba(167,139,250,0.3);" onclick="loadAdminLogs();go('s-admin-logs')">
+      <div class="card-header"><div><div class="card-title">📋 Audit Log History</div><div class="card-sub">View all user actions</div></div><span style="color:var(--text3);font-size:20px;">›</span></div>
+    </div>
+    <div class="card" style="cursor:pointer;border-color:rgba(79,142,247,0.3);" onclick="loadAdminRides();go('s-admin-rides')">
+      <div class="card-header"><div><div class="card-title">🚘 Active Rides</div><div class="card-sub">Monitor current trips</div></div><span style="color:var(--text3);font-size:20px;">›</span></div>
+    </div>
+    <div class="card" style="cursor:pointer;border-color:rgba(255,102,102,0.3);" onclick="loadAdminUsers();go('s-admin-users')">
+      <div class="card-header"><div><div class="card-title">👥 User Management</div><div class="card-sub">Suspend or manage accounts</div></div><span style="color:var(--text3);font-size:20px;">›</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADMIN: AUDIT LOGS ===== -->
+<div class="screen" id="s-admin-logs">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-admin-dash')">←</button>
+    <div><div class="topbar-title">Audit Log History</div><div class="topbar-sub">All system actions</div></div>
+  </div>
+  <div class="scroll-content">
+    <div class="card" id="admin-logs-container"><div style="text-align:center;color:var(--text2);padding:20px;">No logs yet.</div></div>
+  </div>
+</div>
+
+<!-- ===== ADMIN: ACTIVE RIDES ===== -->
+<div class="screen" id="s-admin-rides">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-admin-dash')">←</button>
+    <div><div class="topbar-title">Active Rides</div><div class="topbar-sub" id="admin-rides-sub">Monitoring</div></div>
+  </div>
+  <div class="scroll-content" id="admin-rides-container">
+    <div style="text-align:center;color:var(--text2);padding:40px;">No active rides.</div>
+  </div>
+</div>
+
+<!-- ===== ADMIN: USER MANAGEMENT ===== -->
+<div class="screen" id="s-admin-users">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-admin-dash')">←</button>
+    <div><div class="topbar-title">User Management</div><div class="topbar-sub">Manage accounts</div></div>
+  </div>
+  <div class="scroll-content" id="admin-users-container">
+    <div style="text-align:center;color:var(--text2);padding:40px;">Loading...</div>
+  </div>
+</div>
+
+<!-- ===== TEST RESULTS ===== -->
+<div class="screen" id="s-tests">
+  <div class="topbar">
+    <button class="back-btn" onclick="go('s-home')">←</button>
+    <div><div class="topbar-title">Test Cases</div><div class="topbar-sub">OOP System Verification</div></div>
+  </div>
+  <div class="scroll-content" id="test-results-container"></div>
+</div>
+
+</div><!-- end app-wrap -->
+
+<script src="app.js"></script>
+</body>
+</html>
