@@ -30,7 +30,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'Raven-04/University-Studies/Object-Oriented-Software-Engineering-Course'
+          path: './Object-Oriented-Software-Engineering-Course'
 
       - name: Deploy to GitHub Pages
         id: deployment
